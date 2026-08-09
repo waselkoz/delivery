@@ -1,10 +1,23 @@
 import { createClient as createSupabaseClient } from "@supabase/supabase-js";
 import Link from "next/link";
 import Image from "next/image";
+import dynamic from "next/dynamic";
 import { Image as ImageIcon } from "lucide-react";
-import DeliveryRequestForm from "./DeliveryRequestForm";
+
+// Dynamically import the heavy client-side form so it doesn't block initial page load
+const DeliveryRequestForm = dynamic(() => import('./DeliveryRequestForm'), {
+  loading: () => (
+    <div className="h-[500px] w-full flex items-center justify-center bg-white/5 border border-gray-100 rounded-sm">
+      <div className="animate-pulse flex flex-col items-center gap-4">
+        <div className="w-8 h-8 border-2 border-indigo-500 border-t-transparent rounded-full animate-spin"></div>
+        <p className="text-gray-400 text-sm">Loading request form...</p>
+      </div>
+    </div>
+  )
+});
 
 // Force static rendering for maximum speed. The cache will be cleared when admins update data.
+export const dynamicRoute = 'force-static';
 export const dynamic = 'force-static';
 
 type GalleryImage = {
@@ -21,15 +34,21 @@ export default async function Home() {
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
   );
   
-  const { data: config } = await supabase.from('LandingPageConfig').select('*').limit(1).maybeSingle();
-  const { data: galleryData } = await supabase.from('GalleryImage').select('*').order('displayOrder', { ascending: true });
+  const [
+    { data: config },
+    { data: galleryData }
+  ] = await Promise.all([
+    supabase.from('LandingPageConfig').select('*').limit(1).maybeSingle(),
+    supabase.from('GalleryImage').select('*').order('displayOrder', { ascending: true })
+  ]);
+  
   const gallery = galleryData || [];
 
   return (
     <div className="min-h-screen bg-white font-sans relative">
       {/* Admin Link Floating Top Right */}
       <div className="absolute top-6 right-6 z-50">
-        <Link href="/admin" className="text-gray-600 hover:text-gray-900 bg-gray-100 hover:bg-gray-200 shadow-sm px-4 py-2  text-sm font-medium transition-colors border border-gray-200">
+        <Link href="/admin" className="text-gray-600 hover:text-gray-900 bg-gray-100 hover:bg-gray-200 shadow-sm px-4 py-2  text-sm font-medium transition-colors border border-gray-200 prefetch={false}">
           Admin Portal
         </Link>
       </div>
@@ -53,6 +72,7 @@ export default async function Home() {
                 sizes="(max-width: 1280px) 100vw, 1280px"
                 style={{ width: '100%', height: 'auto' }}
                 priority={index === 0}
+                fetchPriority={index === 0 ? 'high' : 'auto'}
                 quality={90}
                 className="block" 
               />
