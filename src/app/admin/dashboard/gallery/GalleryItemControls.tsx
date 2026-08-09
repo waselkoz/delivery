@@ -58,7 +58,7 @@ export default function GalleryItemControls({
       <button
         onClick={handleMoveUp}
         disabled={isFirst || isMovingUp}
-        className="p-3 bg-white/5 hover:bg-white/10 text-slate-300 hover:text-white border border-white/10  disabled:opacity-30 disabled:hover:bg-white/5 transition-all shadow-[0_4px_14px_0_rgba(0,0,0,0.1)] hover:shadow-[0_4px_14px_0_rgba(255,255,255,0.05)] backdrop-blur-sm"
+        className="p-3 bg-white hover:bg-slate-50 text-slate-500 hover:text-slate-900 border border-gray-200 disabled:opacity-30 disabled:hover:bg-white transition-all shadow-sm rounded-none"
         title="Move Up"
       >
         <ArrowUp className="w-5 h-5" strokeWidth={1.5} />
@@ -67,13 +67,13 @@ export default function GalleryItemControls({
       <button
         onClick={handleMoveDown}
         disabled={isLast || isMovingDown}
-        className="p-3 bg-white/5 hover:bg-white/10 text-slate-300 hover:text-white border border-white/10  disabled:opacity-30 disabled:hover:bg-white/5 transition-all shadow-[0_4px_14px_0_rgba(0,0,0,0.1)] hover:shadow-[0_4px_14px_0_rgba(255,255,255,0.05)] backdrop-blur-sm"
+        className="p-3 bg-white hover:bg-slate-50 text-slate-500 hover:text-slate-900 border border-gray-200 disabled:opacity-30 disabled:hover:bg-white transition-all shadow-sm rounded-none"
         title="Move Down"
       >
         <ArrowDown className="w-5 h-5" strokeWidth={2} />
       </button>
 
-      <div className="w-px h-8 bg-white/10 mx-3"></div>
+      <div className="w-px h-8 bg-gray-200 mx-3"></div>
 
       <input 
         type="file" 
@@ -85,19 +85,19 @@ export default function GalleryItemControls({
       <button
         onClick={() => fileInputRef.current?.click()}
         disabled={isReplacing}
-        className="flex items-center px-4 py-3 bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 hover:bg-indigo-500/30 hover:text-indigo-200 transition-all  disabled:opacity-30 backdrop-blur-sm"
+        className="flex items-center px-4 py-3 bg-indigo-50 text-indigo-700 border border-indigo-200 hover:bg-indigo-100 transition-all disabled:opacity-30 rounded-none shadow-sm uppercase"
         title="Replace Photo"
       >
         <Upload className="w-4 h-4 mr-2" strokeWidth={2} />
-        <span className="text-sm font-medium tracking-wide">{isReplacing ? "Uploading..." : "Replace"}</span>
+        <span className="text-xs font-bold tracking-widest">{isReplacing ? "Uploading..." : "Replace"}</span>
       </button>
 
-      <div className="w-px h-8 bg-white/10 mx-3"></div>
+      <div className="w-px h-8 bg-gray-200 mx-3"></div>
 
       <button
         onClick={handleDelete}
         disabled={isDeleting}
-        className="p-3 bg-red-500/10 text-red-400 hover:bg-red-500/20 hover:text-red-300 border border-red-500/20  transition-all disabled:opacity-30 backdrop-blur-sm"
+        className="p-3 bg-red-50 text-red-600 hover:bg-red-100 border border-red-200 transition-all disabled:opacity-30 shadow-sm rounded-none"
         title="Delete Photo"
       >
         <Trash2 className="w-5 h-5" strokeWidth={2} />

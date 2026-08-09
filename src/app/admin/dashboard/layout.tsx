@@ -17,27 +17,27 @@ export default async function AdminDashboardLayout({
   }
 
   return (
-    <div className="flex h-screen bg-slate-900 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,119,198,0.3),rgba(255,255,255,0))] text-slate-100 font-sans selection:bg-indigo-500/30 relative overflow-hidden">
+    <div className="flex h-screen bg-slate-50 text-slate-900 font-sans selection:bg-indigo-500/30 relative overflow-hidden">
       
       {/* Sidebar */}
-      <aside className="w-64 bg-slate-900/40 backdrop-blur-2xl border-r border-white/10 hidden md:flex flex-col z-20 shadow-2xl">
-        <div className="p-6 border-b border-white/10 flex items-center justify-between">
-          <span className="text-white font-medium tracking-widest uppercase">Admin</span>
+      <aside className="w-64 bg-white border-r border-gray-200 hidden md:flex flex-col z-20 shadow-sm">
+        <div className="p-6 border-b border-gray-200 flex items-center justify-between">
+          <span className="text-slate-900 font-bold tracking-widest uppercase">Admin</span>
         </div>
         <nav className="flex-1 p-4 space-y-2 font-medium text-sm">
-          <Link href="/admin/dashboard" className="flex items-center space-x-3 px-4 py-3 text-slate-300 hover:text-white hover:bg-white/5  transition-all border border-transparent hover:border-white/10">
+          <Link href="/admin/dashboard" className="flex items-center space-x-3 px-4 py-3 text-slate-600 hover:text-indigo-600 hover:bg-slate-50 transition-all border border-transparent hover:border-gray-200 rounded-none">
             <LayoutDashboard size={20} strokeWidth={1.5} />
             <span>Dashboard</span>
           </Link>
-          <Link href="/admin/dashboard/deliveries" className="flex items-center space-x-3 px-4 py-3 text-slate-300 hover:text-white hover:bg-white/5  transition-all border border-transparent hover:border-white/10">
+          <Link href="/admin/dashboard/deliveries" className="flex items-center space-x-3 px-4 py-3 text-slate-600 hover:text-indigo-600 hover:bg-slate-50 transition-all border border-transparent hover:border-gray-200 rounded-none">
             <Truck size={20} strokeWidth={1.5} />
             <span>Deliveries</span>
           </Link>
-          <Link href="/admin/dashboard/gallery" className="flex items-center space-x-3 px-4 py-3 text-slate-300 hover:text-white hover:bg-white/5  transition-all border border-transparent hover:border-white/10">
+          <Link href="/admin/dashboard/gallery" className="flex items-center space-x-3 px-4 py-3 text-slate-600 hover:text-indigo-600 hover:bg-slate-50 transition-all border border-transparent hover:border-gray-200 rounded-none">
             <ImageIcon size={20} strokeWidth={1.5} />
             <span>Gallery</span>
           </Link>
-          <Link href="/admin/dashboard/settings" className="flex items-center space-x-3 px-4 py-3 text-slate-300 hover:text-white hover:bg-white/5  transition-all border border-transparent hover:border-white/10">
+          <Link href="/admin/dashboard/settings" className="flex items-center space-x-3 px-4 py-3 text-slate-600 hover:text-indigo-600 hover:bg-slate-50 transition-all border border-transparent hover:border-gray-200 rounded-none">
             <Settings size={20} strokeWidth={1.5} />
             <span>Settings</span>
           </Link>
@@ -50,8 +50,8 @@ export default async function AdminDashboardLayout({
       {/* Main Content */}
       <main className="flex-1 flex flex-col overflow-hidden">
         {/* Mobile Header */}
-        <div className="h-16 border-b border-white/10 bg-slate-900/50 backdrop-blur-xl flex items-center justify-between px-4 z-20 sticky top-0 md:hidden">
-          <span className="text-white font-medium tracking-widest uppercase">Admin</span>
+        <div className="h-16 border-b border-gray-200 bg-white flex items-center justify-between px-4 z-20 sticky top-0 md:hidden shadow-sm">
+          <span className="text-slate-900 font-bold tracking-widest uppercase">Admin</span>
           <LogoutButton compact />
         </div>
         

@@ -16,12 +16,12 @@ export default async function GalleryPage() {
 
   return (
     <div>
-      <h1 className="text-3xl font-light tracking-wide text-white mb-10">Posters</h1>
+      <h1 className="text-3xl font-light tracking-wide text-slate-900 mb-10">Posters</h1>
       
-      <div className="bg-white/5 backdrop-blur-xl border border-white/10 shadow-2xl  mb-12 overflow-hidden">
-        <div className="px-8 py-6 bg-white/5 border-b border-white/10 flex justify-between items-center">
-          <h3 className="text-lg font-light tracking-wide text-white">Sequence</h3>
-          <span className="bg-indigo-500/20 text-indigo-300 text-xs font-semibold px-3 py-1  border border-indigo-500/30">
+      <div className="bg-white border border-gray-200 shadow-sm rounded-none mb-12 overflow-hidden">
+        <div className="px-8 py-6 bg-slate-50 border-b border-gray-200 flex justify-between items-center">
+          <h3 className="text-lg font-bold tracking-wide text-slate-900">Sequence</h3>
+          <span className="bg-indigo-100 text-indigo-700 text-xs font-bold px-3 py-1 border border-indigo-200">
             {images.length} PHOTOS
           </span>
         </div>
@@ -32,18 +32,18 @@ export default async function GalleryPage() {
             <p className="text-sm">Add your first photo using the form below to start building your poster sequence.</p>
           </div>
         ) : (
-          <ul className="space-y-4 p-4">
+          <ul className="space-y-4 p-4 bg-slate-50">
             {images.map((image: GalleryImage, index: number) => (
-              <li key={image.id} className="p-6 bg-white/5 backdrop-blur-sm border border-white/10  flex flex-col md:flex-row items-start md:items-center gap-8 hover:bg-white/10 transition-all hover:border-white/20 hover:shadow-[0_0_20px_rgba(255,255,255,0.05)]">
+              <li key={image.id} className="p-6 bg-white border border-gray-200 rounded-none flex flex-col md:flex-row items-start md:items-center gap-8 hover:bg-slate-50 transition-all shadow-sm">
                 
                 {/* Number Badge */}
-                <div className="flex-shrink-0 w-14 h-14  bg-white/10 backdrop-blur flex items-center justify-center text-white font-light text-2xl border border-white/20 shadow-inner">
+                <div className="flex-shrink-0 w-14 h-14 bg-gray-100 flex items-center justify-center text-slate-600 font-medium text-2xl border border-gray-200">
                   {index + 1}
                 </div>
 
                 {/* Thumbnail */}
-                <div className="flex-shrink-0 w-48 h-32 bg-black/20 border border-white/10 shadow-lg overflow-hidden relative group flex justify-center items-center">
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity z-10 pointer-events-none"></div>
+                <div className="flex-shrink-0 w-48 h-32 bg-gray-100 border border-gray-200 shadow-sm overflow-hidden relative group flex justify-center items-center">
+                  <div className="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity z-10 pointer-events-none"></div>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img 
                     src={image.imageUrl} 
@@ -54,13 +54,13 @@ export default async function GalleryPage() {
 
                 {/* Info */}
                 <div className="flex-grow min-w-0">
-                  <p className="text-xs font-medium tracking-widest text-slate-400 mb-2 uppercase">
+                  <p className="text-xs font-bold tracking-widest text-slate-500 mb-2 uppercase">
                     System Order: {image.displayOrder}
                   </p>
                   {image.caption ? (
-                    <p className="text-xl font-light text-white truncate mt-1">{image.caption}</p>
+                    <p className="text-xl font-medium text-slate-900 truncate mt-1">{image.caption}</p>
                   ) : (
-                    <p className="text-lg font-light text-white/40 italic mt-1">No caption provided</p>
+                    <p className="text-lg font-medium text-slate-400 italic mt-1">No caption provided</p>
                   )}
                 </div>
 
@@ -78,9 +78,9 @@ export default async function GalleryPage() {
         )}
       </div>
 
-      <div className="bg-white/5 backdrop-blur-xl border border-white/10 shadow-2xl  overflow-hidden">
-        <div className="px-8 py-6 bg-white/5 border-b border-white/10">
-          <h3 className="text-lg font-light tracking-wide text-white">Upload New Poster</h3>
+      <div className="bg-white border border-gray-200 shadow-sm rounded-none overflow-hidden">
+        <div className="px-8 py-6 bg-slate-50 border-b border-gray-200">
+          <h3 className="text-lg font-bold tracking-wide text-slate-900">Upload New Poster</h3>
         </div>
         <div className="p-6">
           <GalleryForm />
