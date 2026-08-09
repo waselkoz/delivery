@@ -34,6 +34,7 @@ export async function addGalleryImage(formData: FormData) {
     const supabase = await createClient();
     const { error } = await supabase.from('GalleryImage').insert([
       {
+        id: crypto.randomUUID(),
         imageUrl,
         caption,
         displayOrder,

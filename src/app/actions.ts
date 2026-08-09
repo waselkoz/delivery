@@ -16,6 +16,7 @@ export async function submitDeliveryRequest(formData: FormData) {
         .from('DeliveryRequest')
         .insert([
           {
+            id: crypto.randomUUID(),
             firstName,
             lastName,
             phone,
