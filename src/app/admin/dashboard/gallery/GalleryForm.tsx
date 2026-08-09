@@ -16,14 +16,11 @@ export default function GalleryForm() {
   }
 
   return (
-    <div className="bg-white border border-gray-200 p-8 mb-8 max-w-2xl shadow-sm rounded-none">
-      <h3 className="text-lg font-bold tracking-wide text-slate-900 mb-6 flex items-center gap-2">
-        Add Gallery Photo
-      </h3>
+    <div className="max-w-2xl">
       <form ref={formRef} action={handleAction} className="space-y-4">
         <div>
           <label htmlFor="imageFile" className="block text-sm font-bold tracking-wide text-slate-700">Image File</label>
-          <input required type="file" accept="image/*" name="imageFile" id="imageFile" className="mt-2 block w-full text-sm text-slate-700 border border-gray-200 cursor-pointer bg-slate-50 focus:outline-none file:mr-4 file:py-2 file:px-4 file:border-0 file:text-sm file:font-bold file:bg-indigo-100 file:text-indigo-700 hover:file:bg-indigo-200 file:transition-all rounded-none" />
+          <input required type="file" accept="image/*" name="imageFile" id="imageFile" className="mt-2 block w-full text-sm text-slate-700 border border-gray-200 cursor-pointer bg-slate-50 focus:outline-none file:mr-4 file:py-2 file:px-4 file:border-0 file:text-sm file:font-bold file:bg-gray-200 file:text-slate-900 hover:file:bg-gray-300 file:transition-all rounded-none" />
         </div>
         
         <div className="grid grid-cols-2 gap-6">

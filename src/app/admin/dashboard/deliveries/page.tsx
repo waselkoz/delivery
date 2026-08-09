@@ -55,7 +55,7 @@ export default async function DeliveriesPage() {
               </thead>
               <tbody className="bg-white">
                 {deliveries.map((delivery: DeliveryRequest) => (
-                  <tr key={delivery.id} className="hover:bg-indigo-50/50 transition-colors border-b border-gray-100 last:border-0">
+                  <tr key={delivery.id} className="hover:bg-slate-50 transition-colors border-b border-gray-100 last:border-0">
                     <td className="px-6 py-5 text-sm text-slate-600 font-medium">
                       {new Intl.DateTimeFormat('en-US', { dateStyle: 'medium', timeStyle: 'short' }).format(new Date(delivery.createdAt))}
                     </td>

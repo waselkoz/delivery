@@ -17,7 +17,7 @@ export default async function AdminDashboardLayout({
   }
 
   return (
-    <div className="flex h-screen bg-slate-50 text-slate-900 font-sans selection:bg-indigo-500/30 relative overflow-hidden">
+    <div className="flex h-screen bg-slate-50 text-slate-900 font-sans selection:bg-slate-300 relative overflow-hidden">
       
       {/* Sidebar */}
       <aside className="w-64 bg-white border-r border-gray-200 hidden md:flex flex-col z-20 shadow-sm">
