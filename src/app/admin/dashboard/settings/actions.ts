@@ -12,6 +12,9 @@ export async function updateLandingPageConfig(formData: FormData) {
   const formTextColor = formData.get("formTextColor") as string;
 
   const supabase = await createClient();
+  const { data: { session } } = await supabase.auth.getSession();
+  if (!session) throw new Error("Unauthorized");
+
   const { data: existingConfig } = await supabase
     .from('LandingPageConfig')
     .select('id')

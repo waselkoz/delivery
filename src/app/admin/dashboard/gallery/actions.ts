@@ -6,6 +6,10 @@ import fs from "fs";
 import path from "path";
 
 export async function addGalleryImage(formData: FormData) {
+  const supabase = await createClient();
+  const { data: { session } } = await supabase.auth.getSession();
+  if (!session) throw new Error("Unauthorized");
+
   const file = formData.get("imageFile") as File | null;
   const caption = formData.get("caption") as string | null;
   const displayOrder = parseInt(formData.get("displayOrder") as string) || 0;
@@ -31,7 +35,7 @@ export async function addGalleryImage(formData: FormData) {
 
     const imageUrl = `/uploads/${encodeURIComponent(filename)}`;
 
-    const supabase = await createClient();
+
     const now = new Date().toISOString();
     const { error } = await supabase.from('GalleryImage').insert([
       {
@@ -56,6 +60,9 @@ export async function addGalleryImage(formData: FormData) {
 
 export async function deleteGalleryImage(id: string) {
   const supabase = await createClient();
+  const { data: { session } } = await supabase.auth.getSession();
+  if (!session) throw new Error("Unauthorized");
+
   const { data: image } = await supabase.from('GalleryImage').select('*').eq('id', id).single();
   
   if (image) {
@@ -80,6 +87,9 @@ export async function deleteGalleryImage(id: string) {
 
 export async function moveImageUp(id: string) {
   const supabase = await createClient();
+  const { data: { session } } = await supabase.auth.getSession();
+  if (!session) throw new Error("Unauthorized");
+
   const { data: image } = await supabase.from('GalleryImage').select('*').eq('id', id).single();
   if (!image) return;
 
@@ -103,6 +113,9 @@ export async function moveImageUp(id: string) {
 
 export async function moveImageDown(id: string) {
   const supabase = await createClient();
+  const { data: { session } } = await supabase.auth.getSession();
+  if (!session) throw new Error("Unauthorized");
+
   const { data: image } = await supabase.from('GalleryImage').select('*').eq('id', id).single();
   if (!image) return;
 
@@ -129,6 +142,9 @@ export async function replaceGalleryImage(id: string, formData: FormData) {
   if (!file || file.size === 0) return { success: false };
 
   const supabase = await createClient();
+  const { data: { session } } = await supabase.auth.getSession();
+  if (!session) throw new Error("Unauthorized");
+
   const { data: image } = await supabase.from('GalleryImage').select('*').eq('id', id).single();
   if (!image) return { success: false };
 
