@@ -21,7 +21,7 @@ export default async function GalleryPage() {
       <div className="bg-white border border-gray-200 shadow-sm rounded-none mb-12 overflow-hidden">
         <div className="px-8 py-6 bg-slate-50 border-b border-gray-200 flex justify-between items-center">
           <h3 className="text-lg font-bold tracking-wide text-slate-900">Sequence</h3>
-          <span className="bg-indigo-100 text-indigo-700 text-xs font-bold px-3 py-1 border border-indigo-200">
+          <span className="bg-white text-slate-900 text-xs font-bold px-3 py-1 border border-gray-300">
             {images.length} PHOTOS
           </span>
         </div>
@@ -37,7 +37,7 @@ export default async function GalleryPage() {
               <li key={image.id} className="p-6 bg-white border border-gray-200 rounded-none flex flex-col md:flex-row items-start md:items-center gap-8 hover:bg-slate-50 transition-all shadow-sm">
                 
                 {/* Number Badge */}
-                <div className="flex-shrink-0 w-14 h-14 bg-indigo-50 flex items-center justify-center text-indigo-700 font-bold text-2xl border border-indigo-100">
+                <div className="flex-shrink-0 w-14 h-14 bg-white flex items-center justify-center text-slate-900 font-bold text-2xl border-2 border-gray-200 shadow-sm">
                   {index + 1}
                 </div>
 
@@ -54,13 +54,13 @@ export default async function GalleryPage() {
 
                 {/* Info */}
                 <div className="flex-grow min-w-0">
-                  <p className="text-xs font-bold tracking-widest text-slate-500 mb-2 uppercase">
+                  <p className="text-xs font-bold tracking-widest text-slate-600 mb-2 uppercase">
                     System Order: {image.displayOrder}
                   </p>
                   {image.caption ? (
-                    <p className="text-xl font-medium text-slate-900 truncate mt-1">{image.caption}</p>
+                    <p className="text-xl font-bold text-slate-900 truncate mt-1">{image.caption}</p>
                   ) : (
-                    <p className="text-lg font-medium text-slate-400 italic mt-1">No caption provided</p>
+                    <p className="text-lg font-medium text-slate-500 italic mt-1">No caption provided</p>
                   )}
                 </div>
 

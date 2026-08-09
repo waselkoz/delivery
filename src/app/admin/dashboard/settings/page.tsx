@@ -13,12 +13,11 @@ export default async function SettingsPage() {
       <div className="bg-white border border-gray-200 shadow-sm p-10 max-w-2xl rounded-none">
         <form action={updateLandingPageConfig} className="space-y-8">
           <h2 className="text-xl font-bold tracking-wide text-slate-900 border-b border-gray-200 pb-4 mb-6 flex items-center gap-2">
-            <span className="w-1.5 h-1.5 bg-indigo-500"></span>
             Form Text
           </h2>
           
           <div>
-            <label htmlFor="formTitle" className="block text-sm font-bold tracking-wide text-slate-700">
+            <label htmlFor="formTitle" className="block text-sm font-bold tracking-wide text-slate-800">
               Form Title
             </label>
             <input
@@ -26,12 +25,12 @@ export default async function SettingsPage() {
               name="formTitle"
               id="formTitle"
               defaultValue={config?.formTitle || "Ready to Deliver?"}
-              className="mt-2 block w-full bg-white border-2 border-gray-200 text-slate-900 font-bold focus:outline-none focus:ring-0 focus:border-indigo-500 px-4 py-3 shadow-sm hover:border-gray-300 transition-colors rounded-none"
+              className="mt-2 block w-full bg-white border-2 border-gray-300 text-slate-900 font-bold focus:outline-none focus:ring-0 focus:border-slate-900 px-4 py-3 shadow-sm hover:border-gray-400 transition-colors rounded-none"
             />
           </div>
 
           <div>
-            <label htmlFor="formSubtitle" className="block text-sm font-bold tracking-wide text-slate-700">
+            <label htmlFor="formSubtitle" className="block text-sm font-bold tracking-wide text-slate-800">
               Form Subtitle
             </label>
             <textarea
@@ -39,12 +38,12 @@ export default async function SettingsPage() {
               id="formSubtitle"
               rows={2}
               defaultValue={config?.formSubtitle || "Fill out the form below and we'll handle the rest."}
-              className="mt-2 block w-full bg-white border-2 border-gray-200 text-slate-900 font-medium focus:outline-none focus:ring-0 focus:border-indigo-500 px-4 py-3 shadow-sm hover:border-gray-300 transition-colors rounded-none"
+              className="mt-2 block w-full bg-white border-2 border-gray-300 text-slate-900 font-medium focus:outline-none focus:ring-0 focus:border-slate-900 px-4 py-3 shadow-sm hover:border-gray-400 transition-colors rounded-none"
             />
           </div>
 
           <div>
-            <label htmlFor="formButtonText" className="block text-sm font-bold tracking-wide text-slate-700">
+            <label htmlFor="formButtonText" className="block text-sm font-bold tracking-wide text-slate-800">
               Button Text
             </label>
             <input
@@ -52,12 +51,11 @@ export default async function SettingsPage() {
               name="formButtonText"
               id="formButtonText"
               defaultValue={config?.formButtonText || "Submit Request"}
-              className="mt-2 block w-full bg-white border-2 border-gray-200 text-slate-900 font-bold focus:outline-none focus:ring-0 focus:border-indigo-500 px-4 py-3 shadow-sm hover:border-gray-300 transition-colors rounded-none"
+              className="mt-2 block w-full bg-white border-2 border-gray-300 text-slate-900 font-bold focus:outline-none focus:ring-0 focus:border-slate-900 px-4 py-3 shadow-sm hover:border-gray-400 transition-colors rounded-none"
             />
           </div>
 
           <h2 className="text-xl font-bold tracking-wide text-slate-900 border-b border-gray-200 pb-4 mt-12 mb-6 flex items-center gap-2">
-            <span className="w-1.5 h-1.5 bg-fuchsia-500"></span>
             Form Colors
           </h2>
           <div>
@@ -111,7 +109,7 @@ export default async function SettingsPage() {
           <div className="pt-6 flex justify-end">
             <button
               type="submit"
-              className="inline-flex items-center px-8 py-4 font-bold tracking-wide text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none transition-all shadow-sm hover:shadow-md rounded-none uppercase"
+              className="inline-flex items-center px-8 py-4 font-bold tracking-wide text-white bg-slate-900 hover:bg-black focus:outline-none transition-all shadow-sm hover:shadow-md rounded-none uppercase border-2 border-transparent hover:border-slate-800"
             >
               <Save className="-ml-1 mr-3 h-5 w-5" strokeWidth={2} />
               Save Configuration

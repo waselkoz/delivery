@@ -18,7 +18,6 @@ export default function GalleryForm() {
   return (
     <div className="bg-white border border-gray-200 p-8 mb-8 max-w-2xl shadow-sm rounded-none">
       <h3 className="text-lg font-bold tracking-wide text-slate-900 mb-6 flex items-center gap-2">
-        <span className="w-1.5 h-1.5 bg-indigo-500"></span>
         Add Gallery Photo
       </h3>
       <form ref={formRef} action={handleAction} className="space-y-4">
@@ -29,17 +28,17 @@ export default function GalleryForm() {
         
         <div className="grid grid-cols-2 gap-6">
           <div>
-            <label htmlFor="caption" className="block text-sm font-bold tracking-wide text-slate-700">Caption (Optional)</label>
-            <input type="text" name="caption" id="caption" className="mt-2 block w-full bg-white border-2 border-gray-200 text-slate-900 font-bold focus:outline-none focus:ring-0 focus:border-indigo-500 px-4 py-3 shadow-sm hover:border-gray-300 transition-colors rounded-none" />
+            <label htmlFor="caption" className="block text-sm font-bold tracking-wide text-slate-800">Caption (Optional)</label>
+            <input type="text" name="caption" id="caption" className="mt-2 block w-full bg-white border-2 border-gray-300 text-slate-900 font-bold focus:outline-none focus:ring-0 focus:border-slate-900 px-4 py-3 shadow-sm hover:border-gray-400 transition-colors rounded-none" />
           </div>
           <div>
-            <label htmlFor="displayOrder" className="block text-sm font-bold tracking-wide text-slate-700">Display Order</label>
-            <input type="number" name="displayOrder" id="displayOrder" defaultValue={0} className="mt-2 block w-full bg-white border-2 border-gray-200 text-slate-900 font-bold focus:outline-none focus:ring-0 focus:border-indigo-500 px-4 py-3 shadow-sm hover:border-gray-300 transition-colors rounded-none" />
+            <label htmlFor="displayOrder" className="block text-sm font-bold tracking-wide text-slate-800">Display Order</label>
+            <input type="number" name="displayOrder" id="displayOrder" defaultValue={0} className="mt-2 block w-full bg-white border-2 border-gray-300 text-slate-900 font-bold focus:outline-none focus:ring-0 focus:border-slate-900 px-4 py-3 shadow-sm hover:border-gray-400 transition-colors rounded-none" />
           </div>
         </div>
 
         <div className="pt-4 flex justify-end">
-          <button type="submit" disabled={loading} className="inline-flex items-center px-6 py-3 font-bold tracking-wide text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none transition-all shadow-sm hover:shadow-md disabled:opacity-50 rounded-none uppercase">
+          <button type="submit" disabled={loading} className="inline-flex items-center px-6 py-3 font-bold tracking-wide text-white bg-slate-900 hover:bg-black focus:outline-none transition-all shadow-sm hover:shadow-md disabled:opacity-50 rounded-none uppercase">
             <Plus className="-ml-1 mr-2 h-5 w-5" strokeWidth={2} />
             {loading ? "Adding..." : "Add Photo"}
           </button>

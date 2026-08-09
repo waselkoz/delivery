@@ -85,7 +85,7 @@ export default function GalleryItemControls({
       <button
         onClick={() => fileInputRef.current?.click()}
         disabled={isReplacing}
-        className="flex items-center px-4 py-3 bg-indigo-50 text-indigo-700 border border-indigo-200 hover:bg-indigo-100 transition-all disabled:opacity-30 rounded-none shadow-sm uppercase"
+        className="flex items-center px-4 py-3 bg-white text-slate-900 border border-gray-300 hover:bg-gray-50 transition-all disabled:opacity-30 rounded-none shadow-sm uppercase"
         title="Replace Photo"
       >
         <Upload className="w-4 h-4 mr-2" strokeWidth={2} />
