@@ -1,34 +1,39 @@
 "use server";
 
-import { prisma } from "@/lib/prisma";
+import { createClient } from "@/lib/supabase/server";
 import { revalidatePath } from "next/cache";
 
 export async function updateDeliveryStatus(id: string, status: string) {
-  const delivery = await prisma.deliveryRequest.findUnique({ where: { id } });
+  const supabase = await createClient();
+  const { data: delivery } = await supabase
+    .from('DeliveryRequest')
+    .select('*')
+    .eq('id', id)
+    .single();
   
   if (delivery) {
     if (status === "Completed") {
-      await prisma.completedDelivery.create({
-        data: {
+      await supabase.from('CompletedDelivery').insert([
+        {
           firstName: delivery.firstName,
           lastName: delivery.lastName,
           phone: delivery.phone,
           destination: delivery.destination,
           createdAt: delivery.createdAt,
         },
-      });
-      await prisma.deliveryRequest.delete({ where: { id } });
+      ]);
+      await supabase.from('DeliveryRequest').delete().eq('id', id);
     } else if (status === "Cancelled") {
-      await prisma.cancelledDelivery.create({
-        data: {
+      await supabase.from('CancelledDelivery').insert([
+        {
           firstName: delivery.firstName,
           lastName: delivery.lastName,
           phone: delivery.phone,
           destination: delivery.destination,
           createdAt: delivery.createdAt,
         },
-      });
-      await prisma.deliveryRequest.delete({ where: { id } });
+      ]);
+      await supabase.from('DeliveryRequest').delete().eq('id', id);
     }
   }
   
@@ -36,9 +41,8 @@ export async function updateDeliveryStatus(id: string, status: string) {
 }
 
 export async function deleteDeliveryRequest(id: string) {
-  await prisma.deliveryRequest.delete({
-    where: { id },
-  });
+  const supabase = await createClient();
+  await supabase.from('DeliveryRequest').delete().eq('id', id);
   
   revalidatePath("/admin/dashboard/deliveries");
 }

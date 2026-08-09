@@ -1,6 +1,6 @@
 "use server";
 
-import { prisma } from "@/lib/prisma";
+import { createClient } from "@/lib/supabase/server";
 import { revalidatePath } from "next/cache";
 
 export async function submitDeliveryRequest(formData: FormData) {
@@ -11,21 +11,26 @@ export async function submitDeliveryRequest(formData: FormData) {
 
   if (firstName && lastName && phone && destination) {
     try {
-      await prisma.deliveryRequest.create({
-        data: {
-          firstName,
-          lastName,
-          phone,
-          destination,
-        },
-      });
+      const supabase = await createClient();
+      const { error } = await supabase
+        .from('DeliveryRequest')
+        .insert([
+          {
+            firstName,
+            lastName,
+            phone,
+            destination,
+          }
+        ]);
+        
+      if (error) throw error;
       
       // Revalidate the admin page so they see it
       revalidatePath("/admin/dashboard/deliveries");
       return { success: true };
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error("Failed to create delivery request:", error);
-      return { success: false, error: error.message };
+      return { success: false, error: error instanceof Error ? error.message : "Unknown error" };
     }
   }
   

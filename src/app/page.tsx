@@ -1,16 +1,20 @@
-import { prisma } from "@/lib/prisma";
-import type { GalleryImage } from "@/generated/prisma/client";
+import { createClient } from "@/lib/supabase/server";
 import Link from "next/link";
-import { Truck, Image as ImageIcon } from "lucide-react";
+import { Image as ImageIcon } from "lucide-react";
 import DeliveryRequestForm from "./DeliveryRequestForm";
 
-export default async function Home() {
-  const config = await prisma.landingPageConfig.findFirst();
-  const gallery = await prisma.galleryImage.findMany({
-    orderBy: { displayOrder: "asc" },
-  });
+type GalleryImage = {
+  id: string;
+  imageUrl: string;
+  caption: string | null;
+  displayOrder: number;
+};
 
-  const primaryColor = config?.primaryColor || "#f97316"; // Default orange for delivery
+export default async function Home() {
+  const supabase = await createClient();
+  const { data: config } = await supabase.from('LandingPageConfig').select('*').limit(1).maybeSingle();
+  const { data: galleryData } = await supabase.from('GalleryImage').select('*').order('displayOrder', { ascending: true });
+  const gallery = galleryData || [];
 
   return (
     <div className="min-h-screen bg-white font-sans relative">

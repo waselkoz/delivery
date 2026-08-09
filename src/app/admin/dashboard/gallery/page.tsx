@@ -1,12 +1,18 @@
-import { prisma } from "@/lib/prisma";
-import type { GalleryImage } from "@/generated/prisma/client";
+import { createClient } from "@/lib/supabase/server";
 import GalleryForm from "./GalleryForm";
 import GalleryItemControls from "./GalleryItemControls";
 
+type GalleryImage = {
+  id: string;
+  imageUrl: string;
+  caption: string | null;
+  displayOrder: number;
+};
+
 export default async function GalleryPage() {
-  const images = await prisma.galleryImage.findMany({
-    orderBy: { displayOrder: "asc" },
-  });
+  const supabase = await createClient();
+  const { data: imagesData } = await supabase.from('GalleryImage').select('*').order('displayOrder', { ascending: true });
+  const images = imagesData || [];
 
   return (
     <div>

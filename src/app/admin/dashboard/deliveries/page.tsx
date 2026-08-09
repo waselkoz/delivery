@@ -1,19 +1,26 @@
-import { prisma } from "@/lib/prisma";
-import type { DeliveryRequest } from "@/generated/prisma/client";
+import { createClient } from "@/lib/supabase/server";
 import DeliveryStatusSelect from "./DeliveryStatusSelect";
 
-export default async function DeliveriesPage() {
-  const deliveries = await prisma.deliveryRequest.findMany({
-    orderBy: { createdAt: "desc" },
-  });
-  
-  const completedDeliveries = await prisma.completedDelivery.findMany({
-    orderBy: { completedAt: "desc" },
-  });
+type DeliveryRequest = {
+  id: string;
+  firstName: string;
+  lastName: string;
+  phone: string;
+  destination: string;
+  createdAt: string;
+  updatedAt: string;
+};
 
-  const cancelledDeliveries = await prisma.cancelledDelivery.findMany({
-    orderBy: { cancelledAt: "desc" },
-  });
+export default async function DeliveriesPage() {
+  const supabase = await createClient();
+  const { data: deliveriesData } = await supabase.from('DeliveryRequest').select('*').order('createdAt', { ascending: false });
+  const deliveries = deliveriesData || [];
+  
+  const { data: completedDeliveriesData } = await supabase.from('CompletedDelivery').select('*').order('completedAt', { ascending: false });
+  const completedDeliveries = completedDeliveriesData || [];
+
+  const { data: cancelledDeliveriesData } = await supabase.from('CancelledDelivery').select('*').order('cancelledAt', { ascending: false });
+  const cancelledDeliveries = cancelledDeliveriesData || [];
 
   return (
     <div>

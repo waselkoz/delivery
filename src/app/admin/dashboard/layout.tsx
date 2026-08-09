@@ -1,8 +1,7 @@
-import { getServerSession } from "next-auth/next";
-import { authOptions } from "@/lib/auth";
+import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import Link from "next/link";
-import { Settings, Truck, Image as ImageIcon, LayoutDashboard, LogOut } from "lucide-react";
+import { Settings, Truck, Image as ImageIcon, LayoutDashboard } from "lucide-react";
 import LogoutButton from "./LogoutButton";
 
 export default async function AdminDashboardLayout({
@@ -10,7 +9,8 @@ export default async function AdminDashboardLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const session = await getServerSession(authOptions);
+  const supabase = await createClient();
+  const { data: { session } } = await supabase.auth.getSession();
 
   if (!session) {
     redirect("/admin");

@@ -1,6 +1,6 @@
 "use server";
 
-import { prisma } from "@/lib/prisma";
+import { createClient } from "@/lib/supabase/server";
 import { revalidatePath } from "next/cache";
 import fs from "fs";
 import path from "path";
@@ -14,23 +14,31 @@ export async function addGalleryImage(formData: FormData) {
     const arrayBuffer = await file.arrayBuffer();
     const buffer = new Uint8Array(arrayBuffer);
     
-    // Generate a unique filename
-    const filename = `${Date.now()}-${file.name.replace(/\s+/g, '_')}`;
+    // Generate a unique, url-safe filename
+    const sanitizedName = file.name.replace(/[^a-zA-Z0-9.\-_]/g, '_');
+    const filename = `${Date.now()}-${sanitizedName}`;
     const uploadDir = path.join(process.cwd(), "public", "uploads");
+    
+    // Ensure the uploads directory exists
+    if (!fs.existsSync(uploadDir)) {
+      fs.mkdirSync(uploadDir, { recursive: true });
+    }
+
     const filepath = path.join(uploadDir, filename);
 
     // Write file to public/uploads
     fs.writeFileSync(filepath, buffer);
 
-    const imageUrl = `/uploads/${filename}`;
+    const imageUrl = `/uploads/${encodeURIComponent(filename)}`;
 
-    await prisma.galleryImage.create({
-      data: {
+    const supabase = await createClient();
+    await supabase.from('GalleryImage').insert([
+      {
         imageUrl,
         caption,
         displayOrder,
       },
-    });
+    ]);
   }
 
   revalidatePath("/admin/dashboard/gallery");
@@ -38,7 +46,8 @@ export async function addGalleryImage(formData: FormData) {
 }
 
 export async function deleteGalleryImage(id: string) {
-  const image = await prisma.galleryImage.findUnique({ where: { id } });
+  const supabase = await createClient();
+  const { data: image } = await supabase.from('GalleryImage').select('*').eq('id', id).single();
   
   if (image) {
     // Attempt to delete the file if it's local
@@ -53,9 +62,7 @@ export async function deleteGalleryImage(id: string) {
       }
     }
 
-    await prisma.galleryImage.delete({
-      where: { id },
-    });
+    await supabase.from('GalleryImage').delete().eq('id', id);
   }
   
   revalidatePath("/admin/dashboard/gallery");
@@ -63,18 +70,21 @@ export async function deleteGalleryImage(id: string) {
 }
 
 export async function moveImageUp(id: string) {
-  const image = await prisma.galleryImage.findUnique({ where: { id } });
+  const supabase = await createClient();
+  const { data: image } = await supabase.from('GalleryImage').select('*').eq('id', id).single();
   if (!image) return;
 
-  const previousImage = await prisma.galleryImage.findFirst({
-    where: { displayOrder: { lt: image.displayOrder } },
-    orderBy: { displayOrder: "desc" }
-  });
+  const { data: previousImage } = await supabase.from('GalleryImage')
+    .select('*')
+    .lt('displayOrder', image.displayOrder)
+    .order('displayOrder', { ascending: false })
+    .limit(1)
+    .maybeSingle();
 
   if (previousImage) {
-    await prisma.$transaction([
-      prisma.galleryImage.update({ where: { id: image.id }, data: { displayOrder: previousImage.displayOrder } }),
-      prisma.galleryImage.update({ where: { id: previousImage.id }, data: { displayOrder: image.displayOrder } })
+    await Promise.all([
+      supabase.from('GalleryImage').update({ displayOrder: previousImage.displayOrder }).eq('id', image.id),
+      supabase.from('GalleryImage').update({ displayOrder: image.displayOrder }).eq('id', previousImage.id)
     ]);
   }
   
@@ -83,18 +93,21 @@ export async function moveImageUp(id: string) {
 }
 
 export async function moveImageDown(id: string) {
-  const image = await prisma.galleryImage.findUnique({ where: { id } });
+  const supabase = await createClient();
+  const { data: image } = await supabase.from('GalleryImage').select('*').eq('id', id).single();
   if (!image) return;
 
-  const nextImage = await prisma.galleryImage.findFirst({
-    where: { displayOrder: { gt: image.displayOrder } },
-    orderBy: { displayOrder: "asc" }
-  });
+  const { data: nextImage } = await supabase.from('GalleryImage')
+    .select('*')
+    .gt('displayOrder', image.displayOrder)
+    .order('displayOrder', { ascending: true })
+    .limit(1)
+    .maybeSingle();
 
   if (nextImage) {
-    await prisma.$transaction([
-      prisma.galleryImage.update({ where: { id: image.id }, data: { displayOrder: nextImage.displayOrder } }),
-      prisma.galleryImage.update({ where: { id: nextImage.id }, data: { displayOrder: image.displayOrder } })
+    await Promise.all([
+      supabase.from('GalleryImage').update({ displayOrder: nextImage.displayOrder }).eq('id', image.id),
+      supabase.from('GalleryImage').update({ displayOrder: image.displayOrder }).eq('id', nextImage.id)
     ]);
   }
   
@@ -106,7 +119,8 @@ export async function replaceGalleryImage(id: string, formData: FormData) {
   const file = formData.get("imageFile") as File | null;
   if (!file || file.size === 0) return { success: false };
 
-  const image = await prisma.galleryImage.findUnique({ where: { id } });
+  const supabase = await createClient();
+  const { data: image } = await supabase.from('GalleryImage').select('*').eq('id', id).single();
   if (!image) return { success: false };
 
   // Delete old file if it exists locally
@@ -125,17 +139,20 @@ export async function replaceGalleryImage(id: string, formData: FormData) {
   const arrayBuffer = await file.arrayBuffer();
   const buffer = new Uint8Array(arrayBuffer);
   
-  const filename = `${Date.now()}-${file.name.replace(/\s+/g, '_')}`;
+  const sanitizedName = file.name.replace(/[^a-zA-Z0-9.\-_]/g, '_');
+  const filename = `${Date.now()}-${sanitizedName}`;
   const uploadDir = path.join(process.cwd(), "public", "uploads");
+  
+  if (!fs.existsSync(uploadDir)) {
+    fs.mkdirSync(uploadDir, { recursive: true });
+  }
+
   const filepath = path.join(uploadDir, filename);
 
   fs.writeFileSync(filepath, buffer);
-  const newImageUrl = `/uploads/${filename}`;
+  const newImageUrl = `/uploads/${encodeURIComponent(filename)}`;
 
-  await prisma.galleryImage.update({
-    where: { id },
-    data: { imageUrl: newImageUrl }
-  });
+  await supabase.from('GalleryImage').update({ imageUrl: newImageUrl }).eq('id', id);
 
   revalidatePath("/admin/dashboard/gallery");
   revalidatePath("/");

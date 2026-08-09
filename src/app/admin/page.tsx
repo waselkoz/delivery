@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { signIn } from "next-auth/react";
+import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
 import { Lock } from "lucide-react";
 
@@ -17,13 +17,13 @@ export default function AdminLogin() {
     setLoading(true);
     setError("");
 
-    const res = await signIn("credentials", {
+    const supabase = createClient();
+    const { error: signInError } = await supabase.auth.signInWithPassword({
       email,
       password,
-      redirect: false,
     });
 
-    if (res?.error) {
+    if (signInError) {
       setError("Invalid email or password");
       setLoading(false);
     } else {

@@ -1,9 +1,10 @@
-import { prisma } from "@/lib/prisma";
+import { createClient } from "@/lib/supabase/server";
 import { updateLandingPageConfig } from "./actions";
 import { Save } from "lucide-react";
 
 export default async function SettingsPage() {
-  const config = await prisma.landingPageConfig.findFirst();
+  const supabase = await createClient();
+  const { data: config } = await supabase.from('LandingPageConfig').select('*').limit(1).maybeSingle();
 
   return (
     <div>

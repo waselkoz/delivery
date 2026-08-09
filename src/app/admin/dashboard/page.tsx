@@ -1,8 +1,9 @@
-import { prisma } from "@/lib/prisma";
+import { createClient } from "@/lib/supabase/server";
 
 export default async function DashboardOverview() {
-  const deliveryCount = await prisma.deliveryRequest.count();
-  const imageCount = await prisma.galleryImage.count();
+  const supabase = await createClient();
+  const { count: deliveryCount } = await supabase.from('DeliveryRequest').select('*', { count: 'exact', head: true });
+  const { count: imageCount } = await supabase.from('GalleryImage').select('*', { count: 'exact', head: true });
 
   return (
     <div>

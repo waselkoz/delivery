@@ -1,6 +1,6 @@
 "use server";
 
-import { prisma } from "@/lib/prisma";
+import { createClient } from "@/lib/supabase/server";
 import { revalidatePath } from "next/cache";
 
 export async function updateLandingPageConfig(formData: FormData) {
@@ -11,31 +11,38 @@ export async function updateLandingPageConfig(formData: FormData) {
   const formBackgroundColor = formData.get("formBackgroundColor") as string;
   const formTextColor = formData.get("formTextColor") as string;
 
-  const existingConfig = await prisma.landingPageConfig.findFirst();
+  const supabase = await createClient();
+  const { data: existingConfig } = await supabase
+    .from('LandingPageConfig')
+    .select('id')
+    .limit(1)
+    .maybeSingle();
 
   if (existingConfig) {
-    await prisma.landingPageConfig.update({
-      where: { id: existingConfig.id },
-      data: {
+    await supabase
+      .from('LandingPageConfig')
+      .update({
         formTitle,
         formSubtitle,
         formButtonText,
         primaryColor,
         formBackgroundColor,
         formTextColor,
-      },
-    });
+      })
+      .eq('id', existingConfig.id);
   } else {
-    await prisma.landingPageConfig.create({
-      data: {
-        formTitle,
-        formSubtitle,
-        formButtonText,
-        primaryColor,
-        formBackgroundColor,
-        formTextColor,
-      },
-    });
+    await supabase
+      .from('LandingPageConfig')
+      .insert([
+        {
+          formTitle,
+          formSubtitle,
+          formButtonText,
+          primaryColor,
+          formBackgroundColor,
+          formTextColor,
+        },
+      ]);
   }
 
   revalidatePath("/");
