@@ -35,12 +35,12 @@ export default async function Home() {
           </div>
         ) : (
           gallery.map((image: GalleryImage) => (
-            <div key={image.id} className="w-full relative flex justify-center bg-gray-50/50">
+            <div key={image.id} className="w-full relative flex justify-center bg-white">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img 
                 src={image.imageUrl} 
                 alt={image.caption || "Delivery Poster"} 
-                className="w-full max-h-[85vh] object-contain block" 
+                className="w-full h-auto block" 
               />
               {image.caption && (
                 <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/80 to-transparent p-6 md:p-12">
