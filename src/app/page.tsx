@@ -1,7 +1,11 @@
-import { createClient } from "@/lib/supabase/server";
+import { createClient as createSupabaseClient } from "@supabase/supabase-js";
 import Link from "next/link";
+import Image from "next/image";
 import { Image as ImageIcon } from "lucide-react";
 import DeliveryRequestForm from "./DeliveryRequestForm";
+
+// Force static rendering for maximum speed. The cache will be cleared when admins update data.
+export const dynamic = 'force-static';
 
 type GalleryImage = {
   id: string;
@@ -11,7 +15,12 @@ type GalleryImage = {
 };
 
 export default async function Home() {
-  const supabase = await createClient();
+  // Use a public client that doesn't read cookies so Next.js can generate this page statically
+  const supabase = createSupabaseClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  );
+  
   const { data: config } = await supabase.from('LandingPageConfig').select('*').limit(1).maybeSingle();
   const { data: galleryData } = await supabase.from('GalleryImage').select('*').order('displayOrder', { ascending: true });
   const gallery = galleryData || [];
@@ -34,13 +43,18 @@ export default async function Home() {
             <p className="text-sm mt-2 text-white/30">Go to the admin portal to upload your poster images.</p>
           </div>
         ) : (
-          gallery.map((image: GalleryImage) => (
+          gallery.map((image: GalleryImage, index: number) => (
             <div key={image.id} className="w-full relative flex justify-center bg-white">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img 
+              <Image 
                 src={image.imageUrl} 
-                alt={image.caption || "Delivery Poster"} 
-                className="w-full h-auto block" 
+                alt={image.caption || "Delivery Poster"}
+                width={1920}
+                height={1080}
+                sizes="(max-width: 1280px) 100vw, 1280px"
+                style={{ width: '100%', height: 'auto' }}
+                priority={index === 0}
+                quality={90}
+                className="block" 
               />
               {image.caption && (
                 <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/80 to-transparent p-6 md:p-12">
