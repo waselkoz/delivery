@@ -1,11 +1,11 @@
 import { createClient as createSupabaseClient } from "@supabase/supabase-js";
 import Link from "next/link";
 import Image from "next/image";
-import dynamic from "next/dynamic";
+import nextDynamic from "next/dynamic";
 import { Image as ImageIcon } from "lucide-react";
 
 // Dynamically import the heavy client-side form so it doesn't block initial page load
-const DeliveryRequestForm = dynamic(() => import('./DeliveryRequestForm'), {
+const DeliveryRequestForm = nextDynamic(() => import('./DeliveryRequestForm'), {
   loading: () => (
     <div className="h-[500px] w-full flex items-center justify-center bg-white/5 border border-gray-100 rounded-sm">
       <div className="animate-pulse flex flex-col items-center gap-4">
@@ -17,7 +17,6 @@ const DeliveryRequestForm = dynamic(() => import('./DeliveryRequestForm'), {
 });
 
 // Force static rendering for maximum speed. The cache will be cleared when admins update data.
-export const dynamicRoute = 'force-static';
 export const dynamic = 'force-static';
 
 type GalleryImage = {
