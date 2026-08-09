@@ -26,7 +26,7 @@ export default async function SettingsPage() {
               name="formTitle"
               id="formTitle"
               defaultValue={config?.formTitle || "Ready to Deliver?"}
-              className="mt-2 block w-full bg-slate-50 border border-gray-200 text-slate-900 font-medium focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500/50 px-4 py-3 shadow-inner transition-all rounded-none"
+              className="mt-2 block w-full bg-white border-2 border-gray-200 text-slate-900 font-bold focus:outline-none focus:ring-0 focus:border-indigo-500 px-4 py-3 shadow-sm hover:border-gray-300 transition-colors rounded-none"
             />
           </div>
 
@@ -39,7 +39,7 @@ export default async function SettingsPage() {
               id="formSubtitle"
               rows={2}
               defaultValue={config?.formSubtitle || "Fill out the form below and we'll handle the rest."}
-              className="mt-2 block w-full bg-slate-50 border border-gray-200 text-slate-900 font-medium focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500/50 px-4 py-3 shadow-inner transition-all rounded-none"
+              className="mt-2 block w-full bg-white border-2 border-gray-200 text-slate-900 font-medium focus:outline-none focus:ring-0 focus:border-indigo-500 px-4 py-3 shadow-sm hover:border-gray-300 transition-colors rounded-none"
             />
           </div>
 
@@ -52,7 +52,7 @@ export default async function SettingsPage() {
               name="formButtonText"
               id="formButtonText"
               defaultValue={config?.formButtonText || "Submit Request"}
-              className="mt-2 block w-full bg-slate-50 border border-gray-200 text-slate-900 font-medium focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500/50 px-4 py-3 shadow-inner transition-all rounded-none"
+              className="mt-2 block w-full bg-white border-2 border-gray-200 text-slate-900 font-bold focus:outline-none focus:ring-0 focus:border-indigo-500 px-4 py-3 shadow-sm hover:border-gray-300 transition-colors rounded-none"
             />
           </div>
 

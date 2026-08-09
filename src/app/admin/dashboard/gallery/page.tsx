@@ -37,12 +37,12 @@ export default async function GalleryPage() {
               <li key={image.id} className="p-6 bg-white border border-gray-200 rounded-none flex flex-col md:flex-row items-start md:items-center gap-8 hover:bg-slate-50 transition-all shadow-sm">
                 
                 {/* Number Badge */}
-                <div className="flex-shrink-0 w-14 h-14 bg-gray-100 flex items-center justify-center text-slate-600 font-medium text-2xl border border-gray-200">
+                <div className="flex-shrink-0 w-14 h-14 bg-indigo-50 flex items-center justify-center text-indigo-700 font-bold text-2xl border border-indigo-100">
                   {index + 1}
                 </div>
 
                 {/* Thumbnail */}
-                <div className="flex-shrink-0 w-48 h-32 bg-gray-100 border border-gray-200 shadow-sm overflow-hidden relative group flex justify-center items-center">
+                <div className="flex-shrink-0 w-48 h-32 bg-slate-100 border border-gray-200 shadow-sm overflow-hidden relative group flex justify-center items-center">
                   <div className="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity z-10 pointer-events-none"></div>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img 

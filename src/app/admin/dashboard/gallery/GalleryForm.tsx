@@ -30,11 +30,11 @@ export default function GalleryForm() {
         <div className="grid grid-cols-2 gap-6">
           <div>
             <label htmlFor="caption" className="block text-sm font-bold tracking-wide text-slate-700">Caption (Optional)</label>
-            <input type="text" name="caption" id="caption" className="mt-2 block w-full bg-slate-50 border border-gray-200 text-slate-900 font-medium focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500/50 px-4 py-3 shadow-inner transition-all rounded-none" />
+            <input type="text" name="caption" id="caption" className="mt-2 block w-full bg-white border-2 border-gray-200 text-slate-900 font-bold focus:outline-none focus:ring-0 focus:border-indigo-500 px-4 py-3 shadow-sm hover:border-gray-300 transition-colors rounded-none" />
           </div>
           <div>
             <label htmlFor="displayOrder" className="block text-sm font-bold tracking-wide text-slate-700">Display Order</label>
-            <input type="number" name="displayOrder" id="displayOrder" defaultValue={0} className="mt-2 block w-full bg-slate-50 border border-gray-200 text-slate-900 font-medium focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500/50 px-4 py-3 shadow-inner transition-all rounded-none" />
+            <input type="number" name="displayOrder" id="displayOrder" defaultValue={0} className="mt-2 block w-full bg-white border-2 border-gray-200 text-slate-900 font-bold focus:outline-none focus:ring-0 focus:border-indigo-500 px-4 py-3 shadow-sm hover:border-gray-300 transition-colors rounded-none" />
           </div>
         </div>
 

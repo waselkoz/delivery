@@ -43,29 +43,29 @@ export default async function DeliveriesPage() {
         ) : (
           <div className="overflow-x-auto">
             <table className="min-w-full border-separate border-spacing-y-3 px-4">
-              <thead className="bg-white border-b border-gray-200">
+              <thead className="bg-slate-100/50 border-b border-gray-200">
                 <tr>
-                  <th className="px-6 py-4 text-left font-bold text-slate-500 uppercase tracking-widest text-xs">Date</th>
-                  <th className="px-6 py-4 text-left font-bold text-slate-500 uppercase tracking-widest text-xs">Client Name</th>
-                  <th className="px-6 py-4 text-left font-bold text-slate-500 uppercase tracking-widest text-xs">Phone</th>
-                  <th className="px-6 py-4 text-left font-bold text-slate-500 uppercase tracking-widest text-xs">Destination</th>
-                  <th className="px-6 py-4 text-left font-bold text-slate-500 uppercase tracking-widest text-xs">Status</th>
-                  <th className="px-6 py-4 text-right font-bold text-slate-500 uppercase tracking-widest text-xs">Actions</th>
+                  <th className="px-6 py-5 text-left font-bold text-slate-700 uppercase tracking-widest text-xs">Date</th>
+                  <th className="px-6 py-5 text-left font-bold text-slate-700 uppercase tracking-widest text-xs">Client Name</th>
+                  <th className="px-6 py-5 text-left font-bold text-slate-700 uppercase tracking-widest text-xs">Phone</th>
+                  <th className="px-6 py-5 text-left font-bold text-slate-700 uppercase tracking-widest text-xs">Destination</th>
+                  <th className="px-6 py-5 text-left font-bold text-slate-700 uppercase tracking-widest text-xs">Status</th>
+                  <th className="px-6 py-5 text-right font-bold text-slate-700 uppercase tracking-widest text-xs">Actions</th>
                 </tr>
               </thead>
-              <tbody className="bg-transparent">
+              <tbody className="bg-white">
                 {deliveries.map((delivery: DeliveryRequest) => (
-                  <tr key={delivery.id} className="bg-white hover:bg-slate-50 transition-all border border-gray-200 shadow-sm">
-                    <td className="px-6 py-5 text-sm text-slate-500">
+                  <tr key={delivery.id} className="hover:bg-indigo-50/50 transition-colors border-b border-gray-100 last:border-0">
+                    <td className="px-6 py-5 text-sm text-slate-600 font-medium">
                       {new Intl.DateTimeFormat('en-US', { dateStyle: 'medium', timeStyle: 'short' }).format(new Date(delivery.createdAt))}
                     </td>
-                    <td className="px-6 py-5 text-base font-medium text-slate-900">
+                    <td className="px-6 py-5 text-base font-bold text-slate-900">
                       {delivery.firstName} {delivery.lastName}
                     </td>
-                    <td className="px-6 py-5 text-sm text-slate-500">
+                    <td className="px-6 py-5 text-sm text-slate-600">
                       {delivery.phone}
                     </td>
-                    <td className="px-6 py-5 text-sm text-slate-500 max-w-xs truncate" title={delivery.destination}>
+                    <td className="px-6 py-5 text-sm text-slate-600 max-w-xs truncate" title={delivery.destination}>
                       {delivery.destination}
                     </td>
                     <td className="px-6 py-5">
@@ -96,27 +96,27 @@ export default async function DeliveriesPage() {
         ) : (
           <div className="overflow-x-auto">
             <table className="min-w-full border-separate border-spacing-y-3 px-4">
-              <thead className="bg-white border-b border-gray-200">
+              <thead className="bg-slate-100/50 border-b border-gray-200">
                 <tr>
-                  <th className="px-6 py-4 text-left font-bold text-slate-500 uppercase tracking-widest text-xs">Completed On</th>
-                  <th className="px-6 py-4 text-left font-bold text-slate-500 uppercase tracking-widest text-xs">Client Name</th>
-                  <th className="px-6 py-4 text-left font-bold text-slate-500 uppercase tracking-widest text-xs">Phone</th>
-                  <th className="px-6 py-4 text-left font-bold text-slate-500 uppercase tracking-widest text-xs">Destination</th>
+                  <th className="px-6 py-5 text-left font-bold text-slate-700 uppercase tracking-widest text-xs">Completed On</th>
+                  <th className="px-6 py-5 text-left font-bold text-slate-700 uppercase tracking-widest text-xs">Client Name</th>
+                  <th className="px-6 py-5 text-left font-bold text-slate-700 uppercase tracking-widest text-xs">Phone</th>
+                  <th className="px-6 py-5 text-left font-bold text-slate-700 uppercase tracking-widest text-xs">Destination</th>
                 </tr>
               </thead>
-              <tbody className="bg-transparent">
+              <tbody className="bg-white">
                 {completedDeliveries.map((delivery) => (
-                  <tr key={delivery.id} className="bg-white hover:bg-slate-50 transition-all border border-gray-200 shadow-sm">
-                    <td className="px-6 py-5 text-sm text-emerald-600 font-medium">
+                  <tr key={delivery.id} className="hover:bg-slate-50 transition-colors border-b border-gray-100 last:border-0">
+                    <td className="px-6 py-5 text-sm text-emerald-600 font-bold">
                       {new Intl.DateTimeFormat('en-US', { dateStyle: 'medium', timeStyle: 'short' }).format(new Date(delivery.completedAt))}
                     </td>
-                    <td className="px-6 py-5 text-base font-medium text-slate-900">
+                    <td className="px-6 py-5 text-base font-bold text-slate-900">
                       {delivery.firstName} {delivery.lastName}
                     </td>
-                    <td className="px-6 py-5 text-sm text-slate-500">
+                    <td className="px-6 py-5 text-sm text-slate-600">
                       {delivery.phone}
                     </td>
-                    <td className="px-6 py-5 text-sm text-slate-500 max-w-xs truncate" title={delivery.destination}>
+                    <td className="px-6 py-5 text-sm text-slate-600 max-w-xs truncate" title={delivery.destination}>
                       {delivery.destination}
                     </td>
                   </tr>
@@ -140,27 +140,27 @@ export default async function DeliveriesPage() {
         ) : (
           <div className="overflow-x-auto">
             <table className="min-w-full border-separate border-spacing-y-3 px-4">
-              <thead className="bg-white border-b border-gray-200">
+              <thead className="bg-slate-100/50 border-b border-gray-200">
                 <tr>
-                  <th className="px-6 py-4 text-left font-bold text-slate-500 uppercase tracking-widest text-xs">Cancelled On</th>
-                  <th className="px-6 py-4 text-left font-bold text-slate-500 uppercase tracking-widest text-xs">Client Name</th>
-                  <th className="px-6 py-4 text-left font-bold text-slate-500 uppercase tracking-widest text-xs">Phone</th>
-                  <th className="px-6 py-4 text-left font-bold text-slate-500 uppercase tracking-widest text-xs">Destination</th>
+                  <th className="px-6 py-5 text-left font-bold text-slate-700 uppercase tracking-widest text-xs">Cancelled On</th>
+                  <th className="px-6 py-5 text-left font-bold text-slate-700 uppercase tracking-widest text-xs">Client Name</th>
+                  <th className="px-6 py-5 text-left font-bold text-slate-700 uppercase tracking-widest text-xs">Phone</th>
+                  <th className="px-6 py-5 text-left font-bold text-slate-700 uppercase tracking-widest text-xs">Destination</th>
                 </tr>
               </thead>
-              <tbody className="bg-transparent">
+              <tbody className="bg-white">
                 {cancelledDeliveries.map((delivery) => (
-                  <tr key={delivery.id} className="bg-white hover:bg-slate-50 transition-all border border-gray-200 shadow-sm">
-                    <td className="px-6 py-5 text-sm text-red-600 font-medium">
+                  <tr key={delivery.id} className="hover:bg-slate-50 transition-colors border-b border-gray-100 last:border-0">
+                    <td className="px-6 py-5 text-sm text-red-600 font-bold">
                       {new Intl.DateTimeFormat('en-US', { dateStyle: 'medium', timeStyle: 'short' }).format(new Date(delivery.cancelledAt))}
                     </td>
-                    <td className="px-6 py-5 text-base font-medium text-slate-900">
+                    <td className="px-6 py-5 text-base font-bold text-slate-900">
                       {delivery.firstName} {delivery.lastName}
                     </td>
-                    <td className="px-6 py-5 text-sm text-slate-500">
+                    <td className="px-6 py-5 text-sm text-slate-600">
                       {delivery.phone}
                     </td>
-                    <td className="px-6 py-5 text-sm text-slate-500 max-w-xs truncate" title={delivery.destination}>
+                    <td className="px-6 py-5 text-sm text-slate-600 max-w-xs truncate" title={delivery.destination}>
                       {delivery.destination}
                     </td>
                   </tr>

@@ -25,21 +25,21 @@ export default async function AdminDashboardLayout({
           <span className="text-slate-900 font-bold tracking-widest uppercase">Admin</span>
         </div>
         <nav className="flex-1 p-4 space-y-2 font-medium text-sm">
-          <Link href="/admin/dashboard" className="flex items-center space-x-3 px-4 py-3 text-slate-600 hover:text-indigo-600 hover:bg-slate-50 transition-all border border-transparent hover:border-gray-200 rounded-none">
-            <LayoutDashboard size={20} strokeWidth={1.5} />
-            <span>Dashboard</span>
+          <Link href="/admin/dashboard" className="flex items-center space-x-3 px-4 py-3 text-slate-700 hover:text-indigo-700 hover:bg-indigo-50 transition-all border border-transparent hover:border-indigo-100 rounded-none">
+            <LayoutDashboard size={20} strokeWidth={2} />
+            <span className="font-bold tracking-wide">Dashboard</span>
           </Link>
-          <Link href="/admin/dashboard/deliveries" className="flex items-center space-x-3 px-4 py-3 text-slate-600 hover:text-indigo-600 hover:bg-slate-50 transition-all border border-transparent hover:border-gray-200 rounded-none">
-            <Truck size={20} strokeWidth={1.5} />
-            <span>Deliveries</span>
+          <Link href="/admin/dashboard/deliveries" className="flex items-center space-x-3 px-4 py-3 text-slate-700 hover:text-indigo-700 hover:bg-indigo-50 transition-all border border-transparent hover:border-indigo-100 rounded-none">
+            <Truck size={20} strokeWidth={2} />
+            <span className="font-bold tracking-wide">Deliveries</span>
           </Link>
-          <Link href="/admin/dashboard/gallery" className="flex items-center space-x-3 px-4 py-3 text-slate-600 hover:text-indigo-600 hover:bg-slate-50 transition-all border border-transparent hover:border-gray-200 rounded-none">
-            <ImageIcon size={20} strokeWidth={1.5} />
-            <span>Gallery</span>
+          <Link href="/admin/dashboard/gallery" className="flex items-center space-x-3 px-4 py-3 text-slate-700 hover:text-indigo-700 hover:bg-indigo-50 transition-all border border-transparent hover:border-indigo-100 rounded-none">
+            <ImageIcon size={20} strokeWidth={2} />
+            <span className="font-bold tracking-wide">Gallery</span>
           </Link>
-          <Link href="/admin/dashboard/settings" className="flex items-center space-x-3 px-4 py-3 text-slate-600 hover:text-indigo-600 hover:bg-slate-50 transition-all border border-transparent hover:border-gray-200 rounded-none">
-            <Settings size={20} strokeWidth={1.5} />
-            <span>Settings</span>
+          <Link href="/admin/dashboard/settings" className="flex items-center space-x-3 px-4 py-3 text-slate-700 hover:text-indigo-700 hover:bg-indigo-50 transition-all border border-transparent hover:border-indigo-100 rounded-none">
+            <Settings size={20} strokeWidth={2} />
+            <span className="font-bold tracking-wide">Settings</span>
           </Link>
         </nav>
         <div className="p-6 pt-4">
