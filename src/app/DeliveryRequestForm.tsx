@@ -42,77 +42,85 @@ export default function DeliveryRequestForm({ config }: { config: LandingPageCon
 
   return (
     <div 
-      className="p-8 md:p-12 max-w-xl mx-auto rounded-none border-[6px] border-black dark:border-white shadow-[16px_16px_0px_0px_rgba(0,0,0,1)] dark:shadow-[16px_16px_0px_0px_rgba(255,255,255,1)] relative overflow-hidden group transition-all duration-300 bg-white dark:bg-gray-900"
+      className="p-8 md:p-10 max-w-lg mx-auto rounded-none backdrop-blur-xl shadow-2xl border-2 transition-all duration-500 hover:shadow-3xl relative overflow-hidden group"
+      style={{ 
+        backgroundColor: config?.formBackgroundColor ? `${config.formBackgroundColor}FA` : "rgba(255, 255, 255, 0.95)",
+        borderColor: config?.primaryColor ? `${config.primaryColor}` : "rgba(255, 255, 255, 0.5)"
+      }}
     >
-      {/* Bold Top Banner */}
+      {/* Subtle background glow effect */}
       <div 
-        className="absolute top-0 left-0 w-full h-4 border-b-[6px] border-black dark:border-white"
+        className="absolute -top-24 -right-24 w-48 h-48 rounded-none blur-3xl opacity-40 transition-opacity duration-500 group-hover:opacity-60"
+        style={{ backgroundColor: config?.primaryColor || "#3b82f6" }}
+      />
+      <div 
+        className="absolute -bottom-24 -left-24 w-48 h-48 rounded-none blur-3xl opacity-40 transition-opacity duration-500 group-hover:opacity-60"
         style={{ backgroundColor: config?.primaryColor || "#3b82f6" }}
       />
 
-      <div className="relative z-10 mt-6">
+      <div className="relative z-10">
         {success ? (
-          <div className="flex flex-col items-center justify-center py-16 text-center">
+          <div className="flex flex-col items-center justify-center py-12 text-center animate-in fade-in zoom-in duration-500">
             <div 
-              className="w-24 h-24 rounded-none flex items-center justify-center mb-8 border-[6px] border-black dark:border-white shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] dark:shadow-[8px_8px_0px_0px_rgba(255,255,255,1)] transition-transform hover:-translate-y-2 hover:-translate-x-2 hover:shadow-[16px_16px_0px_0px_rgba(0,0,0,1)] dark:hover:shadow-[16px_16px_0px_0px_rgba(255,255,255,1)]"
-              style={{ backgroundColor: config?.primaryColor || "#10b981", color: "#000" }}
+              className="w-20 h-20 rounded-none flex items-center justify-center mb-6 shadow-lg transform transition-transform hover:scale-110 duration-300 border-2"
+              style={{ borderColor: config?.primaryColor || "#10b981", backgroundColor: `${config?.primaryColor || "#10b981"}20`, color: config?.primaryColor || "#10b981" }}
             >
-              <CheckCircle className="w-12 h-12 stroke-[3]" />
+              <CheckCircle className="w-10 h-10" />
             </div>
-            <h4 className="text-4xl font-black tracking-tight mb-4 uppercase" style={{ color: config?.formTextColor || "#111827" }}>Request Sent!</h4>
-            <p className="text-xl font-bold" style={{ color: config?.formTextColor || "#4b5563" }}>We will get back to you shortly.</p>
+            <h4 className="text-2xl font-bold tracking-tight mb-2" style={{ color: config?.formTextColor || "#111827" }}>Request Sent!</h4>
+            <p className="text-base font-medium" style={{ color: config?.formTextColor || "#4b5563", opacity: 0.9 }}>We will get back to you shortly.</p>
           </div>
         ) : (
-          <form ref={formRef} onSubmit={handleAction} className="space-y-8">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <div className="flex flex-col">
-                <label htmlFor="firstName" className="block text-sm font-black uppercase tracking-widest mb-3" style={{ color: config?.formTextColor || "#111827" }}>First Name</label>
+          <form ref={formRef} onSubmit={handleAction} className="space-y-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="group/input">
+                <label htmlFor="firstName" className="block text-sm font-bold uppercase tracking-wider mb-2 transition-colors duration-200" style={{ color: config?.formTextColor || "#374151" }}>First Name</label>
                 <input 
                   required 
                   type="text" 
                   name="firstName" 
                   id="firstName" 
-                  className="block w-full bg-white dark:bg-gray-800 border-4 border-black dark:border-white rounded-none px-5 py-4 font-bold text-lg placeholder-gray-400 focus:outline-none focus:translate-x-1 focus:-translate-y-1 focus:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] dark:focus:shadow-[8px_8px_0px_0px_rgba(255,255,255,1)] transition-all duration-200" 
-                  style={{ color: config?.formTextColor || "#111827" }}
+                  className="block w-full bg-black/5 dark:bg-white/5 border border-transparent rounded-none focus:bg-transparent transition-all duration-300 px-4 py-3 shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:border-transparent" 
+                  style={{ '--tw-ring-color': config?.primaryColor || "#3b82f6", color: config?.formTextColor || "#111827" } as React.CSSProperties} 
                   placeholder="John"
                 />
               </div>
-              <div className="flex flex-col">
-                <label htmlFor="lastName" className="block text-sm font-black uppercase tracking-widest mb-3" style={{ color: config?.formTextColor || "#111827" }}>Last Name</label>
+              <div className="group/input">
+                <label htmlFor="lastName" className="block text-sm font-bold uppercase tracking-wider mb-2 transition-colors duration-200" style={{ color: config?.formTextColor || "#374151" }}>Last Name</label>
                 <input 
                   required 
                   type="text" 
                   name="lastName" 
                   id="lastName" 
-                  className="block w-full bg-white dark:bg-gray-800 border-4 border-black dark:border-white rounded-none px-5 py-4 font-bold text-lg placeholder-gray-400 focus:outline-none focus:translate-x-1 focus:-translate-y-1 focus:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] dark:focus:shadow-[8px_8px_0px_0px_rgba(255,255,255,1)] transition-all duration-200" 
-                  style={{ color: config?.formTextColor || "#111827" }}
+                  className="block w-full bg-black/5 dark:bg-white/5 border border-transparent rounded-none focus:bg-transparent transition-all duration-300 px-4 py-3 shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:border-transparent" 
+                  style={{ '--tw-ring-color': config?.primaryColor || "#3b82f6", color: config?.formTextColor || "#111827" } as React.CSSProperties} 
                   placeholder="Doe"
                 />
               </div>
             </div>
             
-            <div className="flex flex-col">
-              <label htmlFor="phone" className="block text-sm font-black uppercase tracking-widest mb-3" style={{ color: config?.formTextColor || "#111827" }}>Phone Number</label>
+            <div className="group/input">
+              <label htmlFor="phone" className="block text-sm font-bold uppercase tracking-wider mb-2 transition-colors duration-200" style={{ color: config?.formTextColor || "#374151" }}>Phone Number</label>
               <input 
                 required 
                 type="tel" 
                 name="phone" 
                 id="phone" 
-                className="block w-full bg-white dark:bg-gray-800 border-4 border-black dark:border-white rounded-none px-5 py-4 font-bold text-lg placeholder-gray-400 focus:outline-none focus:translate-x-1 focus:-translate-y-1 focus:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] dark:focus:shadow-[8px_8px_0px_0px_rgba(255,255,255,1)] transition-all duration-200" 
-                style={{ color: config?.formTextColor || "#111827" }}
+                className="block w-full bg-black/5 dark:bg-white/5 border border-transparent rounded-none focus:bg-transparent transition-all duration-300 px-4 py-3 shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:border-transparent" 
+                style={{ '--tw-ring-color': config?.primaryColor || "#3b82f6", color: config?.formTextColor || "#111827" } as React.CSSProperties} 
                 placeholder="+1 (555) 000-0000" 
               />
             </div>
             
-            <div className="flex flex-col">
-              <label htmlFor="destination" className="block text-sm font-black uppercase tracking-widest mb-3" style={{ color: config?.formTextColor || "#111827" }}>Destination Address</label>
+            <div className="group/input">
+              <label htmlFor="destination" className="block text-sm font-bold uppercase tracking-wider mb-2 transition-colors duration-200" style={{ color: config?.formTextColor || "#374151" }}>Destination Address</label>
               <textarea 
                 required 
                 name="destination" 
                 id="destination" 
-                rows={4} 
-                className="block w-full bg-white dark:bg-gray-800 border-4 border-black dark:border-white rounded-none px-5 py-4 font-bold text-lg placeholder-gray-400 focus:outline-none focus:translate-x-1 focus:-translate-y-1 focus:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] dark:focus:shadow-[8px_8px_0px_0px_rgba(255,255,255,1)] transition-all duration-200 resize-none" 
-                style={{ color: config?.formTextColor || "#111827" }}
+                rows={3} 
+                className="block w-full bg-black/5 dark:bg-white/5 border border-transparent rounded-none focus:bg-transparent transition-all duration-300 px-4 py-3 shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:border-transparent resize-none" 
+                style={{ '--tw-ring-color': config?.primaryColor || "#3b82f6", color: config?.formTextColor || "#111827" } as React.CSSProperties} 
                 placeholder="Where should we deliver?" 
               />
             </div>
@@ -120,12 +128,13 @@ export default function DeliveryRequestForm({ config }: { config: LandingPageCon
             <button 
               type="submit" 
               disabled={loading} 
-              className="w-full flex justify-center items-center py-5 px-8 rounded-none border-[6px] border-black dark:border-white text-2xl font-black uppercase tracking-widest text-black dark:text-gray-900 transition-all duration-200 shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] dark:shadow-[12px_12px_0px_0px_rgba(255,255,255,1)] active:shadow-none active:translate-x-3 active:translate-y-3 disabled:opacity-50 disabled:cursor-not-allowed mt-10 hover:-translate-y-1 hover:-translate-x-1 hover:shadow-[16px_16px_0px_0px_rgba(0,0,0,1)] dark:hover:shadow-[16px_16px_0px_0px_rgba(255,255,255,1)]"
+              className="w-full flex justify-center items-center py-4 px-6 rounded-none text-lg font-bold uppercase tracking-widest text-white transition-all duration-300 transform hover:-translate-y-1 hover:shadow-xl active:scale-[0.98] disabled:opacity-70 disabled:hover:translate-y-0 disabled:active:scale-100 disabled:cursor-not-allowed mt-8 relative overflow-hidden"
               style={{ backgroundColor: config?.primaryColor || "#3b82f6" }}
             >
-              <span className="flex items-center">
+              <div className="absolute inset-0 bg-white/20 hover:bg-transparent transition-colors duration-300 mix-blend-overlay rounded-none"></div>
+              <span className="relative z-10 flex items-center">
                 {loading ? "Sending..." : (config?.formButtonText || "Submit Request")}
-                {!loading && <Send className="ml-4 h-7 w-7 stroke-[3]" />}
+                {!loading && <Send className="ml-3 h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />}
               </span>
             </button>
           </form>

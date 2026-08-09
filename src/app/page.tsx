@@ -36,6 +36,7 @@ export default async function Home() {
         ) : (
           gallery.map((image: GalleryImage) => (
             <div key={image.id} className="w-full relative">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img 
                 src={image.imageUrl} 
                 alt={image.caption || "Delivery Poster"} 
