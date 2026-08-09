@@ -32,13 +32,18 @@ export async function addGalleryImage(formData: FormData) {
     const imageUrl = `/uploads/${encodeURIComponent(filename)}`;
 
     const supabase = await createClient();
-    await supabase.from('GalleryImage').insert([
+    const { error } = await supabase.from('GalleryImage').insert([
       {
         imageUrl,
         caption,
         displayOrder,
       },
     ]);
+
+    if (error) {
+      console.error("Supabase Error:", error);
+      throw new Error(`Failed to save image to database: ${error.message}`);
+    }
   }
 
   revalidatePath("/admin/dashboard/gallery");
