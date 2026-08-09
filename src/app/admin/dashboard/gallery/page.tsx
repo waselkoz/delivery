@@ -42,13 +42,13 @@ export default async function GalleryPage() {
                 </div>
 
                 {/* Thumbnail */}
-                <div className="flex-shrink-0 w-48 h-32  border border-white/10 shadow-lg overflow-hidden relative group">
+                <div className="flex-shrink-0 w-48 h-32 bg-black/20 border border-white/10 shadow-lg overflow-hidden relative group flex justify-center items-center">
                   <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity z-10 pointer-events-none"></div>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img 
                     src={image.imageUrl} 
                     alt={image.caption || `Poster ${index + 1}`} 
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" 
+                    className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-110" 
                   />
                 </div>
 
