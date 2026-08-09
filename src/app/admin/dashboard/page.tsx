@@ -2,8 +2,13 @@ import { createClient } from "@/lib/supabase/server";
 
 export default async function DashboardOverview() {
   const supabase = await createClient();
-  const { count: deliveryCount } = await supabase.from('DeliveryRequest').select('*', { count: 'exact', head: true });
-  const { count: imageCount } = await supabase.from('GalleryImage').select('*', { count: 'exact', head: true });
+  const [
+    { count: deliveryCount },
+    { count: imageCount }
+  ] = await Promise.all([
+    supabase.from('DeliveryRequest').select('*', { count: 'exact', head: true }),
+    supabase.from('GalleryImage').select('*', { count: 'exact', head: true })
+  ]);
 
   return (
     <div>

@@ -13,13 +13,18 @@ type DeliveryRequest = {
 
 export default async function DeliveriesPage() {
   const supabase = await createClient();
-  const { data: deliveriesData } = await supabase.from('DeliveryRequest').select('*').order('createdAt', { ascending: false });
-  const deliveries = deliveriesData || [];
-  
-  const { data: completedDeliveriesData } = await supabase.from('CompletedDelivery').select('*').order('completedAt', { ascending: false });
-  const completedDeliveries = completedDeliveriesData || [];
+  const [
+    { data: deliveriesData },
+    { data: completedDeliveriesData },
+    { data: cancelledDeliveriesData }
+  ] = await Promise.all([
+    supabase.from('DeliveryRequest').select('*').order('createdAt', { ascending: false }),
+    supabase.from('CompletedDelivery').select('*').order('completedAt', { ascending: false }),
+    supabase.from('CancelledDelivery').select('*').order('cancelledAt', { ascending: false })
+  ]);
 
-  const { data: cancelledDeliveriesData } = await supabase.from('CancelledDelivery').select('*').order('cancelledAt', { ascending: false });
+  const deliveries = deliveriesData || [];
+  const completedDeliveries = completedDeliveriesData || [];
   const cancelledDeliveries = cancelledDeliveriesData || [];
 
   return (
