@@ -42,99 +42,102 @@ export default function DeliveryRequestForm({ config }: { config: LandingPageCon
 
   return (
     <div 
-      className="p-8 md:p-10 max-w-lg mx-auto rounded-3xl backdrop-blur-xl shadow-2xl border transition-all duration-500 hover:shadow-3xl relative overflow-hidden group"
+      className="p-8 md:p-10 max-w-lg mx-auto rounded-none shadow-[16px_16px_30px_-10px_rgba(0,0,0,0.5)] border-4 transition-all duration-300 relative overflow-hidden group"
       style={{ 
-        backgroundColor: config?.formBackgroundColor ? `${config.formBackgroundColor}dd` : "rgba(255, 255, 255, 0.85)",
-        borderColor: config?.primaryColor ? `${config.primaryColor}20` : "rgba(255, 255, 255, 0.2)"
+        backgroundColor: config?.formBackgroundColor ? `${config.formBackgroundColor}FA` : "rgba(255, 255, 255, 0.98)",
+        borderColor: config?.primaryColor || "#000000"
       }}
     >
-      {/* Subtle background glow effect */}
+      {/* Sharp Accent Line */}
       <div 
-        className="absolute -top-24 -right-24 w-48 h-48 rounded-full blur-3xl opacity-20 transition-opacity duration-500 group-hover:opacity-40"
-        style={{ backgroundColor: config?.primaryColor || "#3b82f6" }}
-      />
-      <div 
-        className="absolute -bottom-24 -left-24 w-48 h-48 rounded-full blur-3xl opacity-20 transition-opacity duration-500 group-hover:opacity-40"
+        className="absolute top-0 left-0 w-full h-2"
         style={{ backgroundColor: config?.primaryColor || "#3b82f6" }}
       />
 
-      <div className="relative z-10">
+      <div className="relative z-10 mt-2">
         {success ? (
-          <div className="flex flex-col items-center justify-center py-12 text-center animate-in fade-in zoom-in duration-500">
+          <div className="flex flex-col items-center justify-center py-12 text-center animate-in fade-in duration-500">
             <div 
-              className="w-20 h-20 rounded-full flex items-center justify-center mb-6 shadow-lg transform transition-transform hover:scale-110 duration-300"
-              style={{ backgroundColor: `${config?.primaryColor || "#10b981"}20`, color: config?.primaryColor || "#10b981" }}
+              className="w-20 h-20 rounded-none flex items-center justify-center mb-6 border-4"
+              style={{ borderColor: config?.primaryColor || "#10b981", backgroundColor: `${config?.primaryColor || "#10b981"}10`, color: config?.primaryColor || "#10b981" }}
             >
               <CheckCircle className="w-10 h-10" />
             </div>
-            <h4 className="text-2xl font-bold tracking-tight mb-2" style={{ color: config?.formTextColor || "#111827" }}>Request Sent!</h4>
-            <p className="text-base" style={{ color: config?.formTextColor || "#4b5563", opacity: 0.85 }}>We will get back to you shortly.</p>
+            <h4 className="text-2xl font-bold tracking-tight mb-2 uppercase" style={{ color: config?.formTextColor || "#111827" }}>Request Sent!</h4>
+            <p className="text-base font-medium" style={{ color: config?.formTextColor || "#4b5563", opacity: 0.9 }}>We will get back to you shortly.</p>
           </div>
         ) : (
           <form ref={formRef} onSubmit={handleAction} className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="group/input">
-                <label htmlFor="firstName" className="block text-sm font-medium mb-2 transition-colors duration-200" style={{ color: config?.formTextColor || "#374151" }}>First Name</label>
+                <label htmlFor="firstName" className="block text-xs font-bold uppercase tracking-widest mb-2" style={{ color: config?.formTextColor || "#111827" }}>First Name</label>
                 <input 
                   required 
                   type="text" 
                   name="firstName" 
                   id="firstName" 
-                  className="block w-full bg-black/5 dark:bg-white/5 border border-transparent rounded-xl focus:bg-transparent transition-all duration-300 px-4 py-3 shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:border-transparent" 
-                  style={{ '--tw-ring-color': config?.primaryColor || "#3b82f6", color: config?.formTextColor || "#111827" } as React.CSSProperties} 
+                  className="block w-full bg-white dark:bg-gray-900 border-2 rounded-none transition-all duration-200 px-4 py-3 placeholder-gray-400 focus:outline-none focus:ring-0" 
+                  style={{ borderColor: "rgba(156, 163, 175, 0.5)", color: config?.formTextColor || "#111827", borderBottomColor: config?.primaryColor || "#000" } as React.CSSProperties} 
                   placeholder="John"
+                  onFocus={(e) => e.target.style.borderColor = config?.primaryColor || "#000"}
+                  onBlur={(e) => { e.target.style.borderColor = "rgba(156, 163, 175, 0.5)"; e.target.style.borderBottomColor = config?.primaryColor || "#000"; }}
                 />
               </div>
               <div className="group/input">
-                <label htmlFor="lastName" className="block text-sm font-medium mb-2 transition-colors duration-200" style={{ color: config?.formTextColor || "#374151" }}>Last Name</label>
+                <label htmlFor="lastName" className="block text-xs font-bold uppercase tracking-widest mb-2" style={{ color: config?.formTextColor || "#111827" }}>Last Name</label>
                 <input 
                   required 
                   type="text" 
                   name="lastName" 
                   id="lastName" 
-                  className="block w-full bg-black/5 dark:bg-white/5 border border-transparent rounded-xl focus:bg-transparent transition-all duration-300 px-4 py-3 shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:border-transparent" 
-                  style={{ '--tw-ring-color': config?.primaryColor || "#3b82f6", color: config?.formTextColor || "#111827" } as React.CSSProperties} 
+                  className="block w-full bg-white dark:bg-gray-900 border-2 rounded-none transition-all duration-200 px-4 py-3 placeholder-gray-400 focus:outline-none focus:ring-0" 
+                  style={{ borderColor: "rgba(156, 163, 175, 0.5)", color: config?.formTextColor || "#111827", borderBottomColor: config?.primaryColor || "#000" } as React.CSSProperties} 
                   placeholder="Doe"
+                  onFocus={(e) => e.target.style.borderColor = config?.primaryColor || "#000"}
+                  onBlur={(e) => { e.target.style.borderColor = "rgba(156, 163, 175, 0.5)"; e.target.style.borderBottomColor = config?.primaryColor || "#000"; }}
                 />
               </div>
             </div>
             
             <div className="group/input">
-              <label htmlFor="phone" className="block text-sm font-medium mb-2 transition-colors duration-200" style={{ color: config?.formTextColor || "#374151" }}>Phone Number</label>
+              <label htmlFor="phone" className="block text-xs font-bold uppercase tracking-widest mb-2" style={{ color: config?.formTextColor || "#111827" }}>Phone Number</label>
               <input 
                 required 
                 type="tel" 
                 name="phone" 
                 id="phone" 
-                className="block w-full bg-black/5 dark:bg-white/5 border border-transparent rounded-xl focus:bg-transparent transition-all duration-300 px-4 py-3 shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:border-transparent" 
-                style={{ '--tw-ring-color': config?.primaryColor || "#3b82f6", color: config?.formTextColor || "#111827" } as React.CSSProperties} 
+                className="block w-full bg-white dark:bg-gray-900 border-2 rounded-none transition-all duration-200 px-4 py-3 placeholder-gray-400 focus:outline-none focus:ring-0" 
+                style={{ borderColor: "rgba(156, 163, 175, 0.5)", color: config?.formTextColor || "#111827", borderBottomColor: config?.primaryColor || "#000" } as React.CSSProperties} 
                 placeholder="+1 (555) 000-0000" 
+                onFocus={(e) => e.target.style.borderColor = config?.primaryColor || "#000"}
+                onBlur={(e) => { e.target.style.borderColor = "rgba(156, 163, 175, 0.5)"; e.target.style.borderBottomColor = config?.primaryColor || "#000"; }}
               />
             </div>
             
             <div className="group/input">
-              <label htmlFor="destination" className="block text-sm font-medium mb-2 transition-colors duration-200" style={{ color: config?.formTextColor || "#374151" }}>Destination Address</label>
+              <label htmlFor="destination" className="block text-xs font-bold uppercase tracking-widest mb-2" style={{ color: config?.formTextColor || "#111827" }}>Destination Address</label>
               <textarea 
                 required 
                 name="destination" 
                 id="destination" 
                 rows={3} 
-                className="block w-full bg-black/5 dark:bg-white/5 border border-transparent rounded-xl focus:bg-transparent transition-all duration-300 px-4 py-3 shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:border-transparent resize-none" 
-                style={{ '--tw-ring-color': config?.primaryColor || "#3b82f6", color: config?.formTextColor || "#111827" } as React.CSSProperties} 
+                className="block w-full bg-white dark:bg-gray-900 border-2 rounded-none transition-all duration-200 px-4 py-3 placeholder-gray-400 focus:outline-none focus:ring-0 resize-none" 
+                style={{ borderColor: "rgba(156, 163, 175, 0.5)", color: config?.formTextColor || "#111827", borderBottomColor: config?.primaryColor || "#000" } as React.CSSProperties} 
                 placeholder="Where should we deliver?" 
+                onFocus={(e) => e.target.style.borderColor = config?.primaryColor || "#000"}
+                onBlur={(e) => { e.target.style.borderColor = "rgba(156, 163, 175, 0.5)"; e.target.style.borderBottomColor = config?.primaryColor || "#000"; }}
               />
             </div>
 
             <button 
               type="submit" 
               disabled={loading} 
-              className="w-full flex justify-center items-center py-4 px-6 rounded-xl text-lg font-semibold text-white transition-all duration-300 transform hover:-translate-y-1 hover:shadow-xl active:scale-[0.98] disabled:opacity-70 disabled:hover:translate-y-0 disabled:active:scale-100 disabled:cursor-not-allowed mt-8 relative overflow-hidden"
-              style={{ backgroundColor: config?.primaryColor || "#3b82f6" }}
+              className="w-full flex justify-center items-center py-4 px-6 rounded-none border-4 text-lg font-black uppercase tracking-widest text-white transition-all duration-200 transform hover:-translate-y-1 hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] active:translate-y-1 active:shadow-none disabled:opacity-70 disabled:hover:translate-y-0 disabled:cursor-not-allowed mt-8 relative overflow-hidden"
+              style={{ backgroundColor: config?.primaryColor || "#000", borderColor: "#000" }}
             >
-              <div className="absolute inset-0 bg-white/20 hover:bg-transparent transition-colors duration-300 mix-blend-overlay rounded-xl"></div>
               <span className="relative z-10 flex items-center">
                 {loading ? "Sending..." : (config?.formButtonText || "Submit Request")}
-                {!loading && <Send className="ml-2 h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />}
+                {!loading && <Send className="ml-3 h-6 w-6 transition-transform duration-200 group-hover:translate-x-1" />}
               </span>
             </button>
           </form>
