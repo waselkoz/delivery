@@ -12,6 +12,7 @@ export async function submitDeliveryRequest(formData: FormData) {
   if (firstName && lastName && phone && destination) {
     try {
       const supabase = await createClient();
+      const now = new Date().toISOString();
       const { error } = await supabase
         .from('DeliveryRequest')
         .insert([
@@ -21,6 +22,8 @@ export async function submitDeliveryRequest(formData: FormData) {
             lastName,
             phone,
             destination,
+            createdAt: now,
+            updatedAt: now,
           }
         ]);
         
