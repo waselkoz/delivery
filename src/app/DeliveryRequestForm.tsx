@@ -135,16 +135,17 @@ export default function DeliveryRequestForm({ page }: { page?: LandingPage }) {
                       name={`field_${field.label}`} 
                       id={field.id} 
                       rows={3}
-                      className="block w-full bg-white border border-gray-300 rounded-md focus:bg-white transition-all duration-300 px-4 py-3 shadow-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent" 
+                      className="block w-full bg-white border border-gray-300 rounded-md focus:bg-white transition-all duration-300 px-4 py-3 shadow-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent text-right" 
                       placeholder={field.label} 
+                      dir="rtl"
                     />
-                  ) : field.type === "select" ? (
                     <select 
                       required={field.required}
                       name={`field_${field.label}`} 
                       id={field.id} 
                       defaultValue=""
-                      className="block w-full bg-white border border-gray-300 rounded-md focus:bg-white transition-all duration-300 px-4 py-3 shadow-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent appearance-none" 
+                      className="block w-full bg-white border border-gray-300 rounded-md focus:bg-white transition-all duration-300 px-4 py-3 shadow-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent appearance-none text-right" 
+                      dir="rtl"
                     >
                       <option value="" disabled>{field.label}</option>
                       {Array.isArray(field.options) ? field.options.map((opt, i) => (
@@ -159,8 +160,9 @@ export default function DeliveryRequestForm({ page }: { page?: LandingPage }) {
                       type="text" 
                       name={`field_${field.label}`} 
                       id={field.id} 
-                      className="block w-full bg-white border border-gray-300 rounded-md focus:bg-white transition-all duration-300 px-4 py-3 shadow-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent" 
+                      className="block w-full bg-white border border-gray-300 rounded-md focus:bg-white transition-all duration-300 px-4 py-3 shadow-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent text-right" 
                       placeholder={field.label} 
+                      dir="rtl"
                     />
                   )}
                 </div>
