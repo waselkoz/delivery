@@ -18,9 +18,13 @@ export default function DeliveryRequestForm({ config }: { config: LandingPageCon
   const formRef = useRef<HTMLFormElement>(null);
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
+  const isSubmitting = useRef(false);
 
   async function handleAction(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    if (isSubmitting.current) return;
+    
+    isSubmitting.current = true;
     const formData = new FormData(e.currentTarget);
     setLoading(true);
     try {
@@ -36,6 +40,7 @@ export default function DeliveryRequestForm({ config }: { config: LandingPageCon
       console.error(error);
       alert("Error: " + (error instanceof Error ? error.message : "Unknown error"));
     } finally {
+      isSubmitting.current = false;
       setLoading(false);
     }
   }
@@ -71,6 +76,10 @@ export default function DeliveryRequestForm({ config }: { config: LandingPageCon
           </div>
         ) : (
           <form ref={formRef} onSubmit={handleAction} className="space-y-6">
+            <div style={{ display: "none" }} aria-hidden="true">
+              <label htmlFor="company_website">Website</label>
+              <input type="text" name="company_website" id="company_website" tabIndex={-1} autoComplete="off" />
+            </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="group/input">
                 <label htmlFor="firstName" className="block text-sm font-bold uppercase tracking-wider mb-2 transition-colors duration-200" style={{ color: config?.formTextColor || "#374151" }}>First Name</label>

@@ -13,6 +13,12 @@ export async function submitDeliveryRequest(formData: FormData) {
   const cookieStore = await cookies();
   const lastSubmit = cookieStore.get("last_delivery_submit")?.value;
   
+  const honeypot = formData.get("company_website");
+  if (honeypot) {
+    // Bot detected: Silently pretend it succeeded
+    return { success: true };
+  }
+  
   if (lastSubmit) {
     const timeSinceLastSubmit = Date.now() - parseInt(lastSubmit);
     if (timeSinceLastSubmit < 30000) {

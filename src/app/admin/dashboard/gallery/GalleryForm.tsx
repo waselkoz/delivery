@@ -8,8 +8,11 @@ import imageCompression from 'browser-image-compression';
 export default function GalleryForm() {
   const formRef = useRef<HTMLFormElement>(null);
   const [loading, setLoading] = useState(false);
+  const isSubmitting = useRef(false);
 
   async function handleAction(formData: FormData) {
+    if (isSubmitting.current) return;
+    isSubmitting.current = true;
     setLoading(true);
     try {
       let file = formData.get("imageFile") as File;
@@ -31,8 +34,10 @@ export default function GalleryForm() {
       }
     } catch (err: any) {
       alert("Network or unknown error occurred: " + err.message);
+    } finally {
+      isSubmitting.current = false;
+      setLoading(false);
     }
-    setLoading(false);
   }
 
   return (
