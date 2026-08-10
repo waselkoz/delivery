@@ -29,7 +29,6 @@ export async function submitDeliveryRequest(formData: FormData) {
         
       if (error) throw error;
       
-      // Revalidate the admin page so they see it
       revalidatePath("/admin/dashboard/deliveries");
       return { success: true };
     } catch (error: unknown) {

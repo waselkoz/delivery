@@ -16,25 +16,21 @@ export async function addGalleryImage(formData: FormData) {
     const arrayBuffer = await file.arrayBuffer();
     const buffer = new Uint8Array(arrayBuffer);
     
-    // Generate a unique, url-safe filename
     const sanitizedName = file.name.replace(/[^a-zA-Z0-9.\-_]/g, '_');
     const filename = `${Date.now()}-${sanitizedName}`;
     const uploadDir = path.join(process.cwd(), "public", "uploads");
     
-    // Ensure the uploads directory exists
     if (!fs.existsSync(uploadDir)) {
       fs.mkdirSync(uploadDir, { recursive: true });
     }
 
     const filepath = path.join(uploadDir, filename);
 
-    // Write file to public/uploads
     fs.writeFileSync(filepath, buffer);
 
     const imageUrl = `/uploads/${encodeURIComponent(filename)}`;
 
 
-    // Calculate highest display order
     const { data: maxOrderData } = await supabase.from('GalleryImage').select('displayOrder').order('displayOrder', { ascending: false }).limit(1).maybeSingle();
     const displayOrder = maxOrderData ? (maxOrderData.displayOrder + 1) : 0;
 
@@ -68,7 +64,6 @@ export async function deleteGalleryImage(id: string) {
   const { data: image } = await supabase.from('GalleryImage').select('*').eq('id', id).single();
   
   if (image) {
-    // Attempt to delete the file if it's local
     if (image.imageUrl.startsWith("/uploads/")) {
       const filepath = path.join(process.cwd(), "public", image.imageUrl);
       try {
@@ -150,7 +145,6 @@ export async function replaceGalleryImage(id: string, formData: FormData) {
   const { data: image } = await supabase.from('GalleryImage').select('*').eq('id', id).single();
   if (!image) return { success: false };
 
-  // Delete old file if it exists locally
   if (image.imageUrl.startsWith("/uploads/")) {
     const oldFilepath = path.join(process.cwd(), "public", image.imageUrl);
     try {
@@ -162,7 +156,6 @@ export async function replaceGalleryImage(id: string, formData: FormData) {
     }
   }
 
-  // Save new file
   const arrayBuffer = await file.arrayBuffer();
   const buffer = new Uint8Array(arrayBuffer);
   

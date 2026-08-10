@@ -19,7 +19,6 @@ export default async function AdminDashboardLayout({
   return (
     <div className="flex h-screen bg-slate-50 text-slate-900 font-sans selection:bg-slate-300 relative overflow-hidden">
       
-      {/* Sidebar */}
       <aside className="w-64 bg-white border-r border-gray-200 hidden md:flex flex-col z-20 shadow-sm">
         <div className="p-6 border-b border-gray-200 flex items-center justify-between">
           <span className="text-slate-900 font-bold tracking-widest uppercase">Admin</span>
@@ -47,15 +46,12 @@ export default async function AdminDashboardLayout({
         </div>
       </aside>
 
-      {/* Main Content */}
       <main className="flex-1 flex flex-col overflow-hidden">
-        {/* Mobile Header */}
         <div className="h-16 border-b border-gray-200 bg-white flex items-center justify-between px-4 z-20 sticky top-0 md:hidden shadow-sm">
           <span className="text-slate-900 font-bold tracking-widest uppercase">Admin</span>
           <LogoutButton compact />
         </div>
         
-        {/* Content Area */}
         <div className="flex-1 overflow-auto p-6 md:p-8">
           <div className="max-w-6xl mx-auto">
             {children}

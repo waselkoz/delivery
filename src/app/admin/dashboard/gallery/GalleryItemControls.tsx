@@ -35,7 +35,6 @@ export default function GalleryItemControls({
     if (confirm("Are you sure you want to delete this photo?")) {
       setIsDeleting(true);
       await deleteGalleryImage(id);
-      // Let it stay loading until unmounted
     }
   }
 

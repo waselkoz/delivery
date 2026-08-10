@@ -4,7 +4,6 @@ import Image from "next/image";
 import nextDynamic from "next/dynamic";
 import { Image as ImageIcon } from "lucide-react";
 
-// Dynamically import the heavy client-side form so it doesn't block initial page load
 const DeliveryRequestForm = nextDynamic(() => import('./DeliveryRequestForm'), {
   loading: () => (
     <div className="h-[500px] w-full flex items-center justify-center bg-white/5 border border-gray-100 rounded-sm">
@@ -16,7 +15,6 @@ const DeliveryRequestForm = nextDynamic(() => import('./DeliveryRequestForm'), {
   )
 });
 
-// Force static rendering for maximum speed. The cache will be cleared when admins update data.
 export const dynamic = 'force-static';
 
 type GalleryImage = {
@@ -27,7 +25,6 @@ type GalleryImage = {
 };
 
 export default async function Home() {
-  // Use a public client that doesn't read cookies so Next.js can generate this page statically
   const supabase = createSupabaseClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
@@ -47,7 +44,6 @@ export default async function Home() {
     <div className="min-h-screen bg-white font-sans relative">
 
 
-      {/* Image Stack */}
       <div className="flex flex-col w-full max-w-7xl mx-auto px-6 md:px-24">
         {gallery.length === 0 ? (
           <div className="h-screen flex flex-col items-center justify-center text-white/50 bg-gray-900">
@@ -80,7 +76,6 @@ export default async function Home() {
         )}
       </div>
 
-      {/* Delivery Request Form Section */}
       <section className="py-20 md:py-32 bg-gray-50 border-t border-gray-100 relative">
         <div className="max-w-4xl mx-auto px-6">
           <div className="text-center mb-12">
@@ -97,7 +92,6 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* Footer */}
       <footer className="bg-white py-12 border-t border-gray-100">
         <div className="max-w-7xl mx-auto px-6 flex flex-col items-center">
           <p className="text-gray-500 text-sm">

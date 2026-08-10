@@ -48,7 +48,6 @@ export default function DeliveryRequestForm({ config }: { config: LandingPageCon
         borderColor: config?.primaryColor ? `${config.primaryColor}` : "rgba(255, 255, 255, 0.5)"
       }}
     >
-      {/* Subtle background glow effect */}
       <div 
         className="absolute -top-24 -right-24 w-48 h-48 rounded-none blur-3xl opacity-40 transition-opacity duration-500 group-hover:opacity-60"
         style={{ backgroundColor: config?.primaryColor || "#3b82f6" }}
