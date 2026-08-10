@@ -28,47 +28,52 @@ export default async function DeliveriesPage({ searchParams }: { searchParams: P
 
   let deliveriesQuery = supabase.from('DeliveryRequest').select('*, LandingPage(slug, title)').order('createdAt', { ascending: false });
   let completedQuery = supabase.from('CompletedDelivery').select('*, LandingPage(slug, title)').order('completedAt', { ascending: false });
+  let cancelledQuery = supabase.from('CancelledDelivery').select('*, LandingPage(slug, title)').order('cancelledAt', { ascending: false });
 
   if (pageId) {
     deliveriesQuery = deliveriesQuery.eq('landingPageId', pageId);
     completedQuery = completedQuery.eq('landingPageId', pageId);
+    cancelledQuery = cancelledQuery.eq('landingPageId', pageId);
   }
 
   const [
     { data: deliveriesData },
     { data: completedDeliveriesData },
+    { data: cancelledDeliveriesData },
     { data: pagesData }
   ] = await Promise.all([
     deliveriesQuery,
     completedQuery,
+    cancelledQuery,
     supabase.from('LandingPage').select('id, title, slug').order('createdAt', { ascending: false })
   ]);
 
   const deliveries = deliveriesData || [];
   const completedDeliveries = completedDeliveriesData || [];
+  const cancelledDeliveries = cancelledDeliveriesData || [];
   const pages = pagesData || [];
 
   return (
     <div>
-      <div className="flex justify-between items-center mb-10" dir="rtl">
-        <h1 className="text-3xl font-light tracking-wide text-slate-900">الطلبيات</h1>
+      <div className="flex justify-between items-center mb-10" dir="ltr">
+        <h1 className="text-3xl font-light tracking-wide text-slate-900">Commandes</h1>
       </div>
 
-      <div className="bg-white border border-gray-200 shadow-sm p-4 mb-8 flex flex-row-reverse items-center gap-4 overflow-x-auto" dir="rtl">
+      <div className="bg-white border border-gray-200 shadow-sm p-4 mb-8 flex items-center gap-4 overflow-x-auto" dir="ltr">
         <Filter className="text-slate-400 shrink-0" size={20} />
-        <span className="font-bold text-slate-700 shrink-0">تصفية حسب المصدر:</span>
-        <div className="flex flex-nowrap gap-2 min-w-max flex-row-reverse">
+        <span className="font-bold text-slate-700 shrink-0">Filtrer par source:</span>
+        <div className="flex flex-nowrap gap-2 min-w-max">
           <Link 
             href="/admin/dashboard/deliveries"
             className={`px-4 py-2 text-sm font-medium border ${!pageId ? 'bg-slate-900 text-white border-slate-900' : 'bg-white text-slate-600 border-gray-200 hover:bg-slate-50'}`}
           >
-            جميع المصادر
+            Toutes les sources
           </Link>
           <Link 
             href="?pageId=null"
             className={`px-4 py-2 text-sm font-medium border ${pageId === 'null' ? 'bg-slate-900 text-white border-slate-900' : 'bg-white text-slate-600 border-gray-200 hover:bg-slate-50'}`}
           >
-            الافتراضي (الصفحة الرئيسية)
+            Par défaut (Page d'accueil)
           </Link>
           {pages.map(p => (
             <Link 
@@ -82,28 +87,28 @@ export default async function DeliveriesPage({ searchParams }: { searchParams: P
         </div>
       </div>
 
-      <div className="bg-white border border-gray-200 shadow-sm rounded-none mb-12 overflow-hidden" dir="rtl">
+      <div className="bg-white border border-gray-200 shadow-sm rounded-none mb-12 overflow-hidden" dir="ltr">
         <div className="px-8 py-6 bg-slate-50 border-b border-gray-200">
-          <h3 className="text-lg font-bold tracking-wide text-slate-900">قائمة الانتظار</h3>
+          <h3 className="text-lg font-bold tracking-wide text-slate-900">File d'attente</h3>
         </div>
         
         {deliveries.length === 0 ? (
           <div className="p-6 text-center text-gray-500 dark:text-gray-400">
-            لم يتم العثور على أي طلبات توصيل.
+            Aucune commande trouvée.
           </div>
         ) : (
           <div className="overflow-x-auto">
-            <table className="min-w-full border-separate border-spacing-y-3 px-4 text-right">
+            <table className="min-w-full border-separate border-spacing-y-3 px-4 text-left">
               <thead className="bg-slate-100/50 border-b border-gray-200">
                 <tr>
-                  <th className="px-6 py-5 font-bold text-slate-700 uppercase tracking-widest text-xs">التاريخ</th>
-                  <th className="px-6 py-5 font-bold text-slate-700 uppercase tracking-widest text-xs">اسم العميل</th>
-                  <th className="px-6 py-5 font-bold text-slate-700 uppercase tracking-widest text-xs">رقم الهاتف</th>
-                  <th className="px-6 py-5 font-bold text-slate-700 uppercase tracking-widest text-xs">الوجهة</th>
-                  <th className="px-6 py-5 font-bold text-slate-700 uppercase tracking-widest text-xs">إضافات</th>
-                  <th className="px-6 py-5 font-bold text-slate-700 uppercase tracking-widest text-xs">المصدر</th>
-                  <th className="px-6 py-5 font-bold text-slate-700 uppercase tracking-widest text-xs">الحالة</th>
-                  <th className="px-6 py-5 text-right font-bold text-slate-700 uppercase tracking-widest text-xs">الإجراءات</th>
+                  <th className="px-6 py-5 font-bold text-slate-700 uppercase tracking-widest text-xs">Date</th>
+                  <th className="px-6 py-5 font-bold text-slate-700 uppercase tracking-widest text-xs">Nom du Client</th>
+                  <th className="px-6 py-5 font-bold text-slate-700 uppercase tracking-widest text-xs">Téléphone</th>
+                  <th className="px-6 py-5 font-bold text-slate-700 uppercase tracking-widest text-xs">Destination</th>
+                  <th className="px-6 py-5 font-bold text-slate-700 uppercase tracking-widest text-xs">Extras</th>
+                  <th className="px-6 py-5 font-bold text-slate-700 uppercase tracking-widest text-xs">Source</th>
+                  <th className="px-6 py-5 font-bold text-slate-700 uppercase tracking-widest text-xs">Statut</th>
+                  <th className="px-6 py-5 text-right font-bold text-slate-700 uppercase tracking-widest text-xs">Actions</th>
                 </tr>
               </thead>
               <tbody className="bg-white">
@@ -146,12 +151,12 @@ export default async function DeliveriesPage({ searchParams }: { searchParams: P
                           </a>
                         </div>
                       ) : (
-                        <span className="text-gray-400 text-xs italic">افتراضي</span>
+                        <span className="text-gray-400 text-xs italic">Par défaut</span>
                       )}
                     </td>
                     <td className="px-6 py-5">
                       <span className="inline-block px-3 py-1 text-xs font-semibold uppercase tracking-widest border text-yellow-400 bg-yellow-500/10 border-yellow-500/20">
-                        قيد الانتظار
+                        En attente
                       </span>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
@@ -164,27 +169,27 @@ export default async function DeliveriesPage({ searchParams }: { searchParams: P
           </div>
         )}
       </div>
-      <div className="bg-white border border-gray-200 shadow-sm rounded-none mb-12 overflow-hidden" dir="rtl">
-        <div className="px-8 py-6 bg-slate-50 border-b border-gray-200 flex items-center justify-between flex-row-reverse">
-          <h3 className="text-lg font-bold tracking-wide text-slate-900">الطلبيات المكتملة</h3>
-          <span className="text-emerald-700 bg-emerald-100 border border-emerald-200 px-3 py-1 text-xs font-bold uppercase tracking-widest">{completedDeliveries.length} سجلات</span>
+      <div className="bg-white border border-gray-200 shadow-sm rounded-none mb-12 overflow-hidden" dir="ltr">
+        <div className="px-8 py-6 bg-slate-50 border-b border-gray-200 flex items-center justify-between">
+          <h3 className="text-lg font-bold tracking-wide text-slate-900">Commandes Terminées</h3>
+          <span className="text-emerald-700 bg-emerald-100 border border-emerald-200 px-3 py-1 text-xs font-bold uppercase tracking-widest">{completedDeliveries.length} Enregistrements</span>
         </div>
         
         {completedDeliveries.length === 0 ? (
           <div className="p-6 text-center text-gray-500 dark:text-gray-400">
-            لا توجد طلبيات مكتملة بعد.
+            Aucune commande terminée pour le moment.
           </div>
         ) : (
           <div className="overflow-x-auto">
-            <table className="min-w-full border-separate border-spacing-y-3 px-4 text-right">
+            <table className="min-w-full border-separate border-spacing-y-3 px-4 text-left">
               <thead className="bg-slate-100/50 border-b border-gray-200">
                 <tr>
-                  <th className="px-6 py-5 font-bold text-slate-700 uppercase tracking-widest text-xs">تاريخ الانتهاء</th>
-                  <th className="px-6 py-5 font-bold text-slate-700 uppercase tracking-widest text-xs">اسم العميل</th>
-                  <th className="px-6 py-5 font-bold text-slate-700 uppercase tracking-widest text-xs">رقم الهاتف</th>
-                  <th className="px-6 py-5 font-bold text-slate-700 uppercase tracking-widest text-xs">الوجهة</th>
-                  <th className="px-6 py-5 font-bold text-slate-700 uppercase tracking-widest text-xs">إضافات</th>
-                  <th className="px-6 py-5 font-bold text-slate-700 uppercase tracking-widest text-xs">المصدر</th>
+                  <th className="px-6 py-5 font-bold text-slate-700 uppercase tracking-widest text-xs">Date de fin</th>
+                  <th className="px-6 py-5 font-bold text-slate-700 uppercase tracking-widest text-xs">Nom du Client</th>
+                  <th className="px-6 py-5 font-bold text-slate-700 uppercase tracking-widest text-xs">Téléphone</th>
+                  <th className="px-6 py-5 font-bold text-slate-700 uppercase tracking-widest text-xs">Destination</th>
+                  <th className="px-6 py-5 font-bold text-slate-700 uppercase tracking-widest text-xs">Extras</th>
+                  <th className="px-6 py-5 font-bold text-slate-700 uppercase tracking-widest text-xs">Source</th>
                 </tr>
               </thead>
               <tbody className="bg-white">
@@ -223,6 +228,74 @@ export default async function DeliveriesPage({ searchParams }: { searchParams: P
                         </span>
                       ) : (
                         <span className="text-gray-400 text-xs italic">Default</span>
+                      )}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </div>
+      <div className="bg-white border border-gray-200 shadow-sm rounded-none mb-12 overflow-hidden" dir="ltr">
+        <div className="px-8 py-6 bg-slate-50 border-b border-gray-200 flex items-center justify-between">
+          <h3 className="text-lg font-bold tracking-wide text-slate-900">Commandes Annulées</h3>
+          <span className="text-red-700 bg-red-100 border border-red-200 px-3 py-1 text-xs font-bold uppercase tracking-widest">{cancelledDeliveries.length} Enregistrements</span>
+        </div>
+        
+        {cancelledDeliveries.length === 0 ? (
+          <div className="p-6 text-center text-gray-500 dark:text-gray-400">
+            Aucune commande annulée.
+          </div>
+        ) : (
+          <div className="overflow-x-auto">
+            <table className="min-w-full border-separate border-spacing-y-3 px-4 text-left">
+              <thead className="bg-slate-100/50 border-b border-gray-200">
+                <tr>
+                  <th className="px-6 py-5 font-bold text-slate-700 uppercase tracking-widest text-xs">Date d'Annulation</th>
+                  <th className="px-6 py-5 font-bold text-slate-700 uppercase tracking-widest text-xs">Nom du Client</th>
+                  <th className="px-6 py-5 font-bold text-slate-700 uppercase tracking-widest text-xs">Téléphone</th>
+                  <th className="px-6 py-5 font-bold text-slate-700 uppercase tracking-widest text-xs">Destination</th>
+                  <th className="px-6 py-5 font-bold text-slate-700 uppercase tracking-widest text-xs">Extras</th>
+                  <th className="px-6 py-5 font-bold text-slate-700 uppercase tracking-widest text-xs">Source</th>
+                </tr>
+              </thead>
+              <tbody className="bg-white">
+                {cancelledDeliveries.map((delivery) => (
+                  <tr key={delivery.id} className="hover:bg-slate-50 transition-colors border-b border-gray-100 last:border-0 opacity-75">
+                    <td className="px-6 py-5 text-sm text-red-600 font-bold">
+                      {new Intl.DateTimeFormat('en-US', { dateStyle: 'medium', timeStyle: 'short' }).format(new Date(delivery.cancelledAt))}
+                    </td>
+                    <td className="px-6 py-5 text-base font-bold text-slate-900 line-through">
+                      {delivery.firstName} {delivery.lastName}
+                    </td>
+                    <td className="px-6 py-5 text-sm text-slate-600">
+                      {delivery.phone}
+                    </td>
+                    <td className="px-6 py-5 text-sm text-slate-600 max-w-xs truncate" title={delivery.destination}>
+                      {delivery.destination}
+                    </td>
+                    <td className="px-6 py-5 text-sm text-slate-600 min-w-[150px]">
+                      {delivery.customData && Object.keys(delivery.customData).length > 0 ? (
+                        <div className="space-y-1">
+                          {Object.entries(delivery.customData).map(([key, val]) => (
+                            <div key={key} className="text-xs text-slate-500 bg-slate-50 px-2 py-1 rounded border border-gray-200">
+                              <span className="font-bold mr-1">{key}:</span>
+                              {String(val)}
+                            </div>
+                          ))}
+                        </div>
+                      ) : (
+                        <span className="text-gray-400 text-xs italic">Aucun</span>
+                      )}
+                    </td>
+                    <td className="px-6 py-5 text-sm text-slate-600">
+                      {delivery.LandingPage ? (
+                        <span className="bg-blue-50 text-blue-700 border border-blue-200 px-2 py-1 text-xs rounded-sm font-medium line-through">
+                          {delivery.LandingPage.title}
+                        </span>
+                      ) : (
+                        <span className="text-gray-400 text-xs italic line-through">Par défaut</span>
                       )}
                     </td>
                   </tr>

@@ -12,8 +12,8 @@ import {
 
 type ChartData = {
   name: string;
-  Requests: number;
-  Completed: number;
+  Demandes: number;
+  Terminées: number;
 };
 
 export default function DashboardChart({ data }: { data: ChartData[] }) {
@@ -47,7 +47,7 @@ export default function DashboardChart({ data }: { data: ChartData[] }) {
           />
           <Area
             type="monotone"
-            dataKey="Requests"
+            dataKey="Demandes"
             stroke="#3b82f6"
             fillOpacity={1}
             fill="url(#colorSales)"
@@ -55,7 +55,7 @@ export default function DashboardChart({ data }: { data: ChartData[] }) {
           />
           <Area
             type="monotone"
-            dataKey="Completed"
+            dataKey="Terminées"
             stroke="#10b981"
             fillOpacity={1}
             fill="url(#colorOrders)"

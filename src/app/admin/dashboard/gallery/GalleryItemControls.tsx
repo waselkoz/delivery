@@ -31,7 +31,7 @@ export default function GalleryItemControls({
   }
 
   async function handleDelete() {
-    if (confirm("هل أنت متأكد أنك تريد حذف هذه الصورة؟")) {
+    if (confirm("Êtes-vous sûr de vouloir supprimer cette image ?")) {
       setIsDeleting(true);
       onOptimisticUpdate?.('delete');
       await deleteGalleryImage(id);
@@ -68,12 +68,12 @@ export default function GalleryItemControls({
   }
 
   return (
-    <div className="flex items-center space-x-2 space-x-reverse flex-row-reverse" dir="rtl">
+    <div className="flex items-center space-x-2">
       <button
         onClick={handleMoveUp}
         disabled={isFirst}
         className="p-3 bg-white hover:bg-slate-50 text-slate-500 hover:text-slate-900 border border-gray-200 disabled:opacity-30 disabled:hover:bg-white transition-all shadow-sm rounded-none"
-        title="تحريك لأعلى"
+        title="Déplacer vers le haut"
       >
         <ArrowUp className="w-5 h-5" strokeWidth={1.5} />
       </button>
@@ -82,7 +82,7 @@ export default function GalleryItemControls({
         onClick={handleMoveDown}
         disabled={isLast}
         className="p-3 bg-white hover:bg-slate-50 text-slate-500 hover:text-slate-900 border border-gray-200 disabled:opacity-30 disabled:hover:bg-white transition-all shadow-sm rounded-none"
-        title="تحريك لأسفل"
+        title="Déplacer vers le bas"
       >
         <ArrowDown className="w-5 h-5" strokeWidth={2} />
       </button>
@@ -99,11 +99,11 @@ export default function GalleryItemControls({
       <button
         onClick={() => fileInputRef.current?.click()}
         disabled={isReplacing}
-        className="flex items-center px-4 py-3 bg-white text-slate-900 border border-gray-300 hover:bg-gray-50 transition-all disabled:opacity-30 rounded-none shadow-sm uppercase flex-row-reverse gap-2"
-        title="استبدال الصورة"
+        className="flex items-center px-4 py-3 bg-white text-slate-900 border border-gray-300 hover:bg-gray-50 transition-all disabled:opacity-30 rounded-none shadow-sm uppercase gap-2"
+        title="Remplacer l'image"
       >
         <Upload className="w-4 h-4" strokeWidth={2} />
-        <span className="text-xs font-bold tracking-widest">{isReplacing ? "جاري الرفع..." : "استبدال"}</span>
+        <span className="text-xs font-bold tracking-widest">{isReplacing ? "Téléchargement..." : "Remplacer"}</span>
       </button>
 
       <div className="w-px h-8 bg-gray-200 mx-3"></div>
@@ -112,7 +112,7 @@ export default function GalleryItemControls({
         onClick={handleDelete}
         disabled={isDeleting}
         className="p-3 bg-red-50 text-red-600 hover:bg-red-100 border border-red-200 transition-all disabled:opacity-30 shadow-sm rounded-none"
-        title="حذف الصورة"
+        title="Supprimer l'image"
       >
         <Trash2 className="w-5 h-5" strokeWidth={2} />
       </button>
