@@ -90,7 +90,7 @@ export default function DeliveryRequestForm({ config }: { config: LandingPageCon
                   id="firstName" 
                   className="block w-full bg-black/5 dark:bg-white/5 border border-transparent rounded-none focus:bg-transparent transition-all duration-300 px-4 py-3 shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:border-transparent" 
                   style={{ '--tw-ring-color': config?.primaryColor || "#3b82f6", color: config?.formTextColor || "#111827" } as React.CSSProperties} 
-                  placeholder="John"
+                  placeholder=""
                 />
               </div>
               <div className="group/input">
@@ -102,7 +102,7 @@ export default function DeliveryRequestForm({ config }: { config: LandingPageCon
                   id="lastName" 
                   className="block w-full bg-black/5 dark:bg-white/5 border border-transparent rounded-none focus:bg-transparent transition-all duration-300 px-4 py-3 shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:border-transparent" 
                   style={{ '--tw-ring-color': config?.primaryColor || "#3b82f6", color: config?.formTextColor || "#111827" } as React.CSSProperties} 
-                  placeholder="Doe"
+                  placeholder=""
                 />
               </div>
             </div>
@@ -116,7 +116,7 @@ export default function DeliveryRequestForm({ config }: { config: LandingPageCon
                 id="phone" 
                 className="block w-full bg-black/5 dark:bg-white/5 border border-transparent rounded-none focus:bg-transparent transition-all duration-300 px-4 py-3 shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:border-transparent" 
                 style={{ '--tw-ring-color': config?.primaryColor || "#3b82f6", color: config?.formTextColor || "#111827" } as React.CSSProperties} 
-                placeholder="+1 (555) 000-0000" 
+                placeholder="+213778568698" 
               />
             </div>
             
