@@ -4,10 +4,10 @@ import { createClient } from "@/lib/supabase/server";
 import { revalidatePath } from "next/cache";
 
 export async function submitDeliveryRequest(formData: FormData) {
-  const firstName = formData.get("firstName") as string;
-  const lastName = formData.get("lastName") as string;
-  const phone = formData.get("phone") as string;
-  const destination = formData.get("destination") as string;
+  const firstName = (formData.get("firstName") as string || "").trim().slice(0, 100);
+  const lastName = (formData.get("lastName") as string || "").trim().slice(0, 100);
+  const phone = (formData.get("phone") as string || "").trim().slice(0, 20);
+  const destination = (formData.get("destination") as string || "").trim().slice(0, 500);
 
   if (firstName && lastName && phone && destination) {
     try {
