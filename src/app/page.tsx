@@ -45,12 +45,7 @@ export default async function Home() {
 
   return (
     <div className="min-h-screen bg-white font-sans relative">
-      {/* Admin Link Floating Top Right */}
-      <div className="absolute top-6 right-6 z-50">
-        <Link href="/admin" className="text-gray-600 hover:text-gray-900 bg-gray-100 hover:bg-gray-200 shadow-sm px-4 py-2  text-sm font-medium transition-colors border border-gray-200 prefetch={false}">
-          Admin Portal
-        </Link>
-      </div>
+
 
       {/* Image Stack */}
       <div className="flex flex-col w-full max-w-7xl mx-auto px-6 md:px-24">
