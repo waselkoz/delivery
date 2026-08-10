@@ -165,7 +165,7 @@ export async function replaceGalleryImage(id: string, formData: FormData) {
 
   if (uploadError) {
     console.error("Failed to upload new image during replace:", uploadError);
-    return { success: false };
+    return { success: false, error: uploadError.message };
   }
 
   const { data: { publicUrl } } = supabase.storage.from('gallery').getPublicUrl(filename);

@@ -3,48 +3,60 @@
 import { useState, useRef } from "react";
 import { ArrowUp, ArrowDown, Trash2, Upload } from "lucide-react";
 import { moveImageUp, moveImageDown, deleteGalleryImage, replaceGalleryImage } from "./actions";
+import imageCompression from 'browser-image-compression';
 
 export default function GalleryItemControls({ 
   id, 
   isFirst, 
-  isLast 
+  isLast,
+  onOptimisticUpdate
 }: { 
   id: string, 
   isFirst: boolean, 
-  isLast: boolean 
+  isLast: boolean,
+  onOptimisticUpdate?: (type: 'moveUp' | 'moveDown' | 'delete') => void
 }) {
   const [isDeleting, setIsDeleting] = useState(false);
-  const [isMovingUp, setIsMovingUp] = useState(false);
-  const [isMovingDown, setIsMovingDown] = useState(false);
   const [isReplacing, setIsReplacing] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   async function handleMoveUp() {
-    setIsMovingUp(true);
+    onOptimisticUpdate?.('moveUp');
     await moveImageUp(id);
-    setIsMovingUp(false);
   }
 
   async function handleMoveDown() {
-    setIsMovingDown(true);
+    onOptimisticUpdate?.('moveDown');
     await moveImageDown(id);
-    setIsMovingDown(false);
   }
 
   async function handleDelete() {
     if (confirm("Are you sure you want to delete this photo?")) {
       setIsDeleting(true);
+      onOptimisticUpdate?.('delete');
       await deleteGalleryImage(id);
     }
   }
 
   async function handleReplace(e: React.ChangeEvent<HTMLInputElement>) {
-    const file = e.target.files?.[0];
+    let file = e.target.files?.[0];
     if (file) {
       setIsReplacing(true);
+      
+      try {
+        const options = { maxSizeMB: 1, maxWidthOrHeight: 1920, useWebWorker: true };
+        file = await imageCompression(file, options);
+      } catch (error) {
+        console.error("Image compression error:", error);
+      }
+
       const formData = new FormData();
       formData.append("imageFile", file);
-      await replaceGalleryImage(id, formData);
+      
+      const result = await replaceGalleryImage(id, formData);
+      if (result && result.error) {
+        alert(result.error);
+      }
       setIsReplacing(false);
       if (fileInputRef.current) {
         fileInputRef.current.value = '';
@@ -56,7 +68,7 @@ export default function GalleryItemControls({
     <div className="flex items-center space-x-2">
       <button
         onClick={handleMoveUp}
-        disabled={isFirst || isMovingUp}
+        disabled={isFirst}
         className="p-3 bg-white hover:bg-slate-50 text-slate-500 hover:text-slate-900 border border-gray-200 disabled:opacity-30 disabled:hover:bg-white transition-all shadow-sm rounded-none"
         title="Move Up"
       >
@@ -65,7 +77,7 @@ export default function GalleryItemControls({
 
       <button
         onClick={handleMoveDown}
-        disabled={isLast || isMovingDown}
+        disabled={isLast}
         className="p-3 bg-white hover:bg-slate-50 text-slate-500 hover:text-slate-900 border border-gray-200 disabled:opacity-30 disabled:hover:bg-white transition-all shadow-sm rounded-none"
         title="Move Down"
       >
