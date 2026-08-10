@@ -234,6 +234,5 @@ export default async function DeliveriesPage({ searchParams }: { searchParams: P
       </div>
 
     </div>
-    </div>
   );
 }

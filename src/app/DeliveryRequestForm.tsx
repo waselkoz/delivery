@@ -157,6 +157,7 @@ export default function DeliveryRequestForm({ page }: { page?: LandingPage }) {
                       placeholder={field.label} 
                       dir="rtl"
                     />
+                  ) : field.type === "select" ? (
                     <select 
                       required={field.required}
                       name={`field_${field.label}`} 
