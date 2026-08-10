@@ -1,32 +1,31 @@
-import { createClient as createSupabaseClient } from "@supabase/supabase-js";
-import { redirect } from "next/navigation";
+import DeliveryRequestForm from "./DeliveryRequestForm";
 
-export const revalidate = 60;
-
-export default async function Home() {
-  const supabase = createSupabaseClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-  );
-  
-  const { data: landingPage } = await supabase
-    .from('LandingPage')
-    .select('slug')
-    .order('createdAt', { ascending: false })
-    .limit(1)
-    .maybeSingle();
-
-  if (landingPage) {
-    redirect(`/${landingPage.slug}`);
-  }
-
+export default function Home() {
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-center font-sans text-center px-4">
-      <h1 className="text-3xl font-bold text-gray-900 mb-4">لا توجد صفحات نشطة</h1>
-      <p className="text-gray-500 mb-8 max-w-md">يرجى تسجيل الدخول إلى لوحة القيادة لإنشاء صفحتك الأولى.</p>
-      <a href="/admin" className="bg-slate-900 text-white px-6 py-3 rounded-md font-bold hover:bg-slate-800 transition-colors" dir="rtl">
-        الذهاب إلى لوحة الإدارة
-      </a>
+    <div className="min-h-screen bg-white font-sans relative">
+      <section className="py-20 md:py-32 bg-gray-50 relative">
+        <div className="max-w-4xl mx-auto px-6">
+          <div className="text-center mb-12" dir="rtl">
+            <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-4 text-gray-900">
+              توصيل سريع وموثوق
+            </h2>
+            <p className="text-lg text-gray-600">
+              املأ النموذج أدناه وسنقوم بتوصيل طلبك في أسرع وقت.
+            </p>
+          </div>
+          <div className="animate-fade-in-up">
+            <DeliveryRequestForm />
+          </div>
+        </div>
+      </section>
+
+      <footer className="bg-white py-12 border-t border-gray-100" dir="rtl">
+        <div className="max-w-7xl mx-auto px-6 flex flex-col items-center">
+          <p className="text-gray-500 text-sm">
+            © {new Date().getFullYear()} جميع الحقوق محفوظة.
+          </p>
+        </div>
+      </footer>
     </div>
   );
 }
