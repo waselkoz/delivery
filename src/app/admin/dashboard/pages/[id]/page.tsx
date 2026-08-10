@@ -37,11 +37,11 @@ export default function EditPage({ params }: { params: Promise<{ id: string }> }
         setError(result.error);
         setLoading(false);
       } else {
-        toast.success("Saved successfully");
+        toast.success("تم الحفظ بنجاح");
         setLoading(false);
       }
     } catch (err) {
-      setError("An unexpected error occurred");
+      setError("حدث خطأ غير متوقع");
       setLoading(false);
     }
   }
@@ -50,19 +50,19 @@ export default function EditPage({ params }: { params: Promise<{ id: string }> }
 
   return (
     <div className="max-w-2xl mx-auto">
-      <div className="flex items-center justify-between mb-8">
-        <div className="flex items-center gap-4">
+      <div className="flex items-center justify-between mb-8" dir="rtl">
+        <div className="flex items-center gap-4 flex-row-reverse">
           <Link href="/admin/dashboard/pages" className="text-slate-400 hover:text-slate-900 transition-colors p-2 rounded-full hover:bg-gray-100">
-            <ArrowRight size={24} className="transform rotate-180" />
+            <ArrowRight size={24} className="transform" />
           </Link>
-          <h1 className="text-3xl font-light tracking-wide text-slate-900">Edit Page Settings</h1>
+          <h1 className="text-3xl font-light tracking-wide text-slate-900">تعديل إعدادات الصفحة</h1>
         </div>
         <a 
           href={`/${initialData.slug}`} 
           target="_blank" 
           className="flex items-center gap-2 text-sm text-slate-500 hover:text-slate-900 transition-colors"
         >
-          View page <ExternalLink size={16} />
+          عرض الصفحة <ExternalLink size={16} />
         </a>
       </div>
 
@@ -74,13 +74,13 @@ export default function EditPage({ params }: { params: Promise<{ id: string }> }
             </div>
           )}
 
-          <div className="space-y-2">
+          <div className="space-y-2" dir="rtl">
             <label className="text-sm font-bold text-slate-700 flex items-center gap-2">
               <LinkIcon size={16} className="text-slate-400" />
-              Page URL (Slug)
+              رابط الصفحة (Slug)
             </label>
-            <div className="flex items-center">
-              <span className="bg-slate-50 border border-gray-300 border-r-0 px-4 py-2.5 text-slate-500 rounded-l-md font-mono text-sm">
+            <div className="flex items-center flex-row-reverse">
+              <span className="bg-slate-50 border border-gray-300 border-l-0 px-4 py-2.5 text-slate-500 rounded-r-md font-mono text-sm">
                 /
               </span>
               <input 
@@ -88,16 +88,17 @@ export default function EditPage({ params }: { params: Promise<{ id: string }> }
                 type="text"
                 name="slug"
                 defaultValue={initialData.slug}
-                className="flex-1 bg-white border border-gray-300 px-4 py-2.5 rounded-r-md focus:outline-none focus:ring-2 focus:ring-slate-900 font-mono text-sm"
+                className="flex-1 bg-white border border-gray-300 px-4 py-2.5 rounded-l-md focus:outline-none focus:ring-2 focus:ring-slate-900 font-mono text-sm text-left"
+                dir="ltr"
               />
             </div>
-            <p className="text-xs text-slate-500">Must be lowercase english letters without spaces</p>
+            <p className="text-xs text-slate-500">يجب أن يكون بأحرف إنجليزية صغيرة بدون مسافات</p>
           </div>
 
-          <div className="space-y-2">
+          <div className="space-y-2" dir="rtl">
             <label className="text-sm font-bold text-slate-700 flex items-center gap-2">
               <Type size={16} className="text-slate-400" />
-              Main Title
+              العنوان الرئيسي
             </label>
             <input 
               required
@@ -108,10 +109,10 @@ export default function EditPage({ params }: { params: Promise<{ id: string }> }
             />
           </div>
 
-          <div className="space-y-2">
+          <div className="space-y-2" dir="rtl">
             <label className="text-sm font-bold text-slate-700 flex items-center gap-2">
               <AlignLeft size={16} className="text-slate-400" />
-              Subtitle
+              العنوان الفرعي
             </label>
             <input 
               required
@@ -122,10 +123,10 @@ export default function EditPage({ params }: { params: Promise<{ id: string }> }
             />
           </div>
 
-          <div className="space-y-2">
+          <div className="space-y-2" dir="rtl">
             <label className="text-sm font-bold text-slate-700 flex items-center gap-2">
               <Type size={16} className="text-slate-400" />
-              Submit Button Text
+              نص زر الإرسال
             </label>
             <input 
               required
@@ -138,14 +139,14 @@ export default function EditPage({ params }: { params: Promise<{ id: string }> }
 
           <FormBuilder initialConfig={initialData.formConfig} />
 
-          <div className="pt-6 border-t border-gray-100 flex justify-end">
+          <div className="pt-6 border-t border-gray-100 flex justify-start" dir="rtl">
             <button 
               type="submit"
               disabled={loading}
               className="bg-slate-900 hover:bg-slate-800 text-white px-6 py-2.5 rounded-md font-medium transition-colors flex items-center gap-2 disabled:opacity-50"
             >
               <Save size={18} />
-              {loading ? "Saving..." : "Save Changes"}
+              {loading ? "جاري الحفظ..." : "حفظ التغييرات"}
             </button>
           </div>
         </form>

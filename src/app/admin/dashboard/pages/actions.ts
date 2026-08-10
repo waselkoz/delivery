@@ -65,3 +65,12 @@ export async function updateLandingPage(id: string, formData: FormData) {
   revalidatePath(`/${slug}`);
   return { success: true };
 }
+
+export async function deleteLandingPage(id: string) {
+  const supabase = await createClient();
+  const { error } = await supabase.from('LandingPage').delete().eq('id', id);
+  if (error) {
+    throw new Error(error.message);
+  }
+  revalidatePath('/admin/dashboard/pages');
+}
