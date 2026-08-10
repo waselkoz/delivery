@@ -40,7 +40,7 @@ export async function updateDeliveryStatus(id: string, status: string) {
     }
   }
   
-  revalidatePath("/admin/deliveries");
+  revalidatePath("/admin/dashboard/deliveries");
 }
 
 export async function deleteDeliveryRequest(id: string) {
@@ -50,5 +50,5 @@ export async function deleteDeliveryRequest(id: string) {
 
   await supabase.from('DeliveryRequest').delete().eq('id', id);
   
-  revalidatePath("/admin/deliveries");
+  revalidatePath("/admin/dashboard/deliveries");
 }

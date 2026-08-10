@@ -56,7 +56,7 @@ export async function addGalleryImage(formData: FormData) {
     }
   }
 
-  revalidatePath("/admin/gallery");
+  revalidatePath("/admin/dashboard/gallery");
   revalidatePath("/");
 }
 
@@ -83,7 +83,7 @@ export async function deleteGalleryImage(id: string) {
     await supabase.from('GalleryImage').delete().eq('id', id);
   }
   
-  revalidatePath("/admin/gallery");
+  revalidatePath("/admin/dashboard/gallery");
   revalidatePath("/");
 }
 
@@ -109,7 +109,7 @@ export async function moveImageUp(id: string) {
     ]);
   }
   
-  revalidatePath("/admin/gallery");
+  revalidatePath("/admin/dashboard/gallery");
   revalidatePath("/");
 }
 
@@ -135,7 +135,7 @@ export async function moveImageDown(id: string) {
     ]);
   }
   
-  revalidatePath("/admin/gallery");
+  revalidatePath("/admin/dashboard/gallery");
   revalidatePath("/");
 }
 
@@ -181,7 +181,7 @@ export async function replaceGalleryImage(id: string, formData: FormData) {
 
   await supabase.from('GalleryImage').update({ imageUrl: newImageUrl }).eq('id', id);
 
-  revalidatePath("/admin/gallery");
+  revalidatePath("/admin/dashboard/gallery");
   revalidatePath("/");
   return { success: true };
 }
