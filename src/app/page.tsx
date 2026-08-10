@@ -8,7 +8,7 @@ const DeliveryRequestForm = nextDynamic(() => import('@/app/DeliveryRequestForm'
     <div className="h-[500px] w-full flex items-center justify-center bg-white/5 border border-gray-100 rounded-sm">
       <div className="animate-pulse flex flex-col items-center gap-4">
         <div className="w-8 h-8 border-2 border-indigo-500 border-t-transparent rounded-full animate-spin"></div>
-        <p className="text-gray-400 text-sm">Chargement du formulaire de commande...</p>
+        <p className="text-gray-400 text-sm">جاري تحميل نموذج الطلب...</p>
       </div>
     </div>
   )
@@ -55,7 +55,7 @@ export default async function Home() {
               className="block" 
             />
             {image.caption && (
-              <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/80 to-transparent p-6 md:p-12" dir="ltr">
+              <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/80 to-transparent p-6 md:p-12" dir="rtl">
                 <p className="text-white font-medium text-xl md:text-3xl max-w-4xl">{image.caption}</p>
               </div>
             )}
@@ -65,12 +65,12 @@ export default async function Home() {
 
       <section className="py-20 md:py-32 bg-gray-50 relative">
         <div className="max-w-4xl mx-auto px-6">
-          <div className="text-center mb-12" dir="ltr">
+          <div className="text-center mb-12" dir="rtl">
             <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-4 text-gray-900">
-              Livraison rapide et fiable
+              توصيل سريع وموثوق
             </h2>
             <p className="text-lg text-gray-600">
-              Remplissez le formulaire ci-dessous et nous livrerons votre commande dans les plus brefs délais.
+              املأ النموذج أدناه وسنقوم بتوصيل طلبك في أسرع وقت.
             </p>
           </div>
           <div className="animate-fade-in-up">
@@ -79,10 +79,10 @@ export default async function Home() {
         </div>
       </section>
 
-      <footer className="bg-white py-12 border-t border-gray-100" dir="ltr">
+      <footer className="bg-white py-12 border-t border-gray-100" dir="rtl">
         <div className="max-w-7xl mx-auto px-6 flex flex-col items-center">
           <p className="text-gray-500 text-sm">
-            © {new Date().getFullYear()} Tous droits réservés.
+            © {new Date().getFullYear()} جميع الحقوق محفوظة.
           </p>
         </div>
         

@@ -9,7 +9,7 @@ const DeliveryRequestForm = nextDynamic(() => import('@/app/DeliveryRequestForm'
     <div className="h-[500px] w-full flex items-center justify-center bg-white/5 border border-gray-100 rounded-sm">
       <div className="animate-pulse flex flex-col items-center gap-4">
         <div className="w-8 h-8 border-2 border-indigo-500 border-t-transparent rounded-full animate-spin"></div>
-        <p className="text-gray-400 text-sm">Chargement du formulaire de commande...</p>
+        <p className="text-gray-400 text-sm">جاري تحميل نموذج الطلب...</p>
       </div>
     </div>
   )
@@ -54,10 +54,10 @@ export default async function LandingPageDynamic({ params }: { params: Promise<{
     <div className="min-h-screen bg-white font-sans relative">
       <div className="flex flex-col w-full max-w-7xl mx-auto px-6 md:px-24">
         {gallery.length === 0 ? (
-          <div className="h-screen flex flex-col items-center justify-center text-white/50 bg-gray-900" dir="ltr">
+          <div className="h-screen flex flex-col items-center justify-center text-white/50 bg-gray-900" dir="rtl">
             <ImageIcon className="w-16 h-16 mb-4 opacity-50" />
-            <p className="text-xl">Aucune image n'a encore été téléchargée.</p>
-            <p className="text-sm mt-2 text-white/30">Accédez au portail d'administration pour télécharger les images de vos affiches.</p>
+            <p className="text-xl">لم يتم رفع أي صور بعد.</p>
+            <p className="text-sm mt-2 text-white/30">انتقل إلى بوابة المسؤول لرفع صور الملصقات الخاصة بك.</p>
           </div>
         ) : (
           gallery.map((image: GalleryImage, index: number) => (
@@ -100,10 +100,10 @@ export default async function LandingPageDynamic({ params }: { params: Promise<{
         </div>
       </section>
 
-      <footer className="bg-white py-12 border-t border-gray-100" dir="ltr">
+      <footer className="bg-white py-12 border-t border-gray-100" dir="rtl">
         <div className="max-w-7xl mx-auto px-6 flex flex-col items-center">
           <p className="text-gray-500 text-sm">
-            © {new Date().getFullYear()} Tous droits réservés.
+            © {new Date().getFullYear()} جميع الحقوق محفوظة.
           </p>
         </div>
       </footer>

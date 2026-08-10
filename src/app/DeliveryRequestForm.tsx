@@ -65,14 +65,14 @@ export default function DeliveryRequestForm({ page }: { page?: LandingPage }) {
     >
       <div className="relative z-10">
         {success ? (
-          <div className="flex flex-col items-center justify-center py-12 text-center animate-in fade-in zoom-in duration-500" dir="ltr">
+          <div className="flex flex-col items-center justify-center py-12 text-center animate-in fade-in zoom-in duration-500" dir="rtl">
             <div 
               className="w-20 h-20 rounded-full flex items-center justify-center mb-6 shadow-lg transform transition-transform hover:scale-110 duration-300 bg-green-50 text-green-500 border-2 border-green-500"
             >
               <CheckCircle className="w-10 h-10" />
             </div>
-            <h4 className="text-2xl font-bold tracking-tight mb-2 text-gray-900">Commande envoyée avec succès !</h4>
-            <p className="text-base font-medium text-gray-500">Nous vous contacterons bientôt.</p>
+            <h4 className="text-2xl font-bold tracking-tight mb-2 text-gray-900">تم إرسال الطلب بنجاح!</h4>
+            <p className="text-base font-medium text-gray-500">سنتصل بك قريباً.</p>
           </div>
         ) : (
           <form ref={formRef} onSubmit={handleAction} className="space-y-6">
@@ -82,26 +82,26 @@ export default function DeliveryRequestForm({ page }: { page?: LandingPage }) {
               {page && <input type="hidden" name="landingPageId" value={page.id} />}
             </div>
 
-            <div className="text-center mb-6 relative" dir="ltr">
+            <div className="text-center mb-6 relative" dir="rtl">
               <div className="absolute inset-0 flex items-center" aria-hidden="true">
                 <div className="w-full border-t border-gray-300"></div>
               </div>
               <div className="relative flex justify-center">
                 <span className="bg-white px-4 text-sm font-bold text-gray-900">
-                  Veuillez remplir le formulaire ci-dessous :
+                  يرجى ملء النموذج أدناه:
                 </span>
               </div>
             </div>
 
-            <div className="space-y-4" dir="ltr">
+            <div className="space-y-4" dir="rtl">
               <div className="group/input">
                 <input 
                   required 
                   type="tel" 
                   name="phone" 
                   id="phone" 
-                  className="block w-full bg-white border border-gray-300 rounded-md focus:bg-white transition-all duration-300 px-4 py-3 shadow-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent text-left" 
-                  placeholder={page?.formConfig?.phonePlaceholder || "Numéro de téléphone"} 
+                  className="block w-full bg-white border border-gray-300 rounded-md focus:bg-white transition-all duration-300 px-4 py-3 shadow-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent text-right" 
+                  placeholder={page?.formConfig?.phonePlaceholder || "رقم الهاتف"} 
                 />
               </div>
               
@@ -111,8 +111,8 @@ export default function DeliveryRequestForm({ page }: { page?: LandingPage }) {
                   type="text" 
                   name="fullName" 
                   id="fullName" 
-                  className="block w-full bg-white border border-gray-300 rounded-md focus:bg-white transition-all duration-300 px-4 py-3 shadow-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent text-left" 
-                  placeholder={page?.formConfig?.namePlaceholder || "Nom complet"}
+                  className="block w-full bg-white border border-gray-300 rounded-md focus:bg-white transition-all duration-300 px-4 py-3 shadow-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent text-right" 
+                  placeholder={page?.formConfig?.namePlaceholder || "الاسم الكامل"}
                 />
               </div>
               
@@ -122,14 +122,14 @@ export default function DeliveryRequestForm({ page }: { page?: LandingPage }) {
                   name="wilaya" 
                   id="wilaya" 
                   defaultValue=""
-                  className="block w-full bg-white border border-gray-300 rounded-md focus:bg-white transition-all duration-300 px-4 py-3 shadow-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent appearance-none text-left" 
-                  dir="ltr"
+                  className="block w-full bg-white border border-gray-300 rounded-md focus:bg-white transition-all duration-300 px-4 py-3 shadow-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent appearance-none text-right" 
+                  dir="rtl"
                 >
-                  <option value="" disabled>Wilaya (Choisissez votre wilaya)</option>
-                  <option value="Alger">Alger</option>
-                  <option value="Blida">Blida</option>
-                  <option value="Boumerdas">Boumerdas</option>
-                  <option value="Tipaza">Tipaza</option>
+                  <option value="" disabled>الولاية (اختر ولايتك)</option>
+                  <option value="الجزائر (Alger)">الجزائر (Alger)</option>
+                  <option value="البليدة (Blida)">البليدة (Blida)</option>
+                  <option value="بومرداس (Boumerdas)">بومرداس (Boumerdas)</option>
+                  <option value="تيبازة (Tipaza)">تيبازة (Tipaza)</option>
                 </select>
               </div>
 
@@ -139,9 +139,9 @@ export default function DeliveryRequestForm({ page }: { page?: LandingPage }) {
                   type="text"
                   name="address" 
                   id="address" 
-                  className="block w-full bg-white border border-gray-300 rounded-md focus:bg-white transition-all duration-300 px-4 py-3 shadow-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent text-left" 
-                  placeholder={page?.formConfig?.destinationPlaceholder || "Adresse détaillée (Commune, rue, repère...)"} 
-                  dir="ltr"
+                  className="block w-full bg-white border border-gray-300 rounded-md focus:bg-white transition-all duration-300 px-4 py-3 shadow-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent text-right" 
+                  placeholder={page?.formConfig?.destinationPlaceholder || "العنوان بالتفصيل (البلدية، الشارع، المعلم...)"} 
+                  dir="rtl"
                 />
               </div>
 
@@ -153,9 +153,9 @@ export default function DeliveryRequestForm({ page }: { page?: LandingPage }) {
                       name={`field_${field.label}`} 
                       id={field.id} 
                       rows={3}
-                      className="block w-full bg-white border border-gray-300 rounded-md focus:bg-white transition-all duration-300 px-4 py-3 shadow-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent text-left" 
+                      className="block w-full bg-white border border-gray-300 rounded-md focus:bg-white transition-all duration-300 px-4 py-3 shadow-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent text-right" 
                       placeholder={field.label} 
-                      dir="ltr"
+                      dir="rtl"
                     />
                   ) : field.type === "select" ? (
                     <select 
@@ -163,8 +163,8 @@ export default function DeliveryRequestForm({ page }: { page?: LandingPage }) {
                       name={`field_${field.label}`} 
                       id={field.id} 
                       defaultValue=""
-                      className="block w-full bg-white border border-gray-300 rounded-md focus:bg-white transition-all duration-300 px-4 py-3 shadow-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent appearance-none text-left" 
-                      dir="ltr"
+                      className="block w-full bg-white border border-gray-300 rounded-md focus:bg-white transition-all duration-300 px-4 py-3 shadow-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent appearance-none text-right" 
+                      dir="rtl"
                     >
                       <option value="" disabled>{field.label}</option>
                       {Array.isArray(field.options) ? field.options.map((opt, i) => (
@@ -179,9 +179,9 @@ export default function DeliveryRequestForm({ page }: { page?: LandingPage }) {
                       type="text" 
                       name={`field_${field.label}`} 
                       id={field.id} 
-                      className="block w-full bg-white border border-gray-300 rounded-md focus:bg-white transition-all duration-300 px-4 py-3 shadow-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent text-left" 
+                      className="block w-full bg-white border border-gray-300 rounded-md focus:bg-white transition-all duration-300 px-4 py-3 shadow-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent text-right" 
                       placeholder={field.label} 
-                      dir="ltr"
+                      dir="rtl"
                     />
                   )}
                 </div>
@@ -198,19 +198,19 @@ export default function DeliveryRequestForm({ page }: { page?: LandingPage }) {
               }}
             >
               <span className="relative z-10 flex items-center gap-3">
-                {loading ? "Envoi en cours..." : (page?.buttonText || "Envoyer la commande")}
-                {!loading && <Send className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" />}
+                {loading ? "جاري الإرسال..." : (page?.buttonText || "إرسال الطلب")}
+                {!loading && <Send className="w-5 h-5 transition-transform duration-300 group-hover:-translate-x-1 rotate-180" />}
               </span>
             </button>
 
-            <div className="flex items-center justify-center gap-16 pt-6 mt-6 border-t border-gray-100" dir="ltr">
+            <div className="flex flex-row-reverse items-center justify-center gap-16 pt-6 mt-6 border-t border-gray-100" dir="rtl">
               <div className="flex flex-col items-center">
                 <ShieldCheck className="w-6 h-6 text-gray-800 mb-2" strokeWidth={1.5} />
-                <span className="text-xs font-bold text-gray-900 whitespace-nowrap">100% Sécurisé</span>
+                <span className="text-xs font-bold text-gray-900 whitespace-nowrap">آمن 100%</span>
               </div>
               <div className="flex flex-col items-center">
-                <Truck className="w-6 h-6 text-gray-800 mb-2 transform" strokeWidth={1.5} />
-                <span className="text-xs font-bold text-gray-900 whitespace-nowrap">Livraison rapide</span>
+                <Truck className="w-6 h-6 text-gray-800 mb-2 transform -scale-x-100" strokeWidth={1.5} />
+                <span className="text-xs font-bold text-gray-900 whitespace-nowrap">توصيل سريع</span>
               </div>
             </div>
           </form>
