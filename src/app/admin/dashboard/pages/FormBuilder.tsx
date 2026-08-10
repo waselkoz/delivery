@@ -63,13 +63,13 @@ export default function FormBuilder({ initialConfig }: { initialConfig?: FormCon
       <input type="hidden" name="formConfig" value={JSON.stringify(config)} />
       
       <div>
-        <h3 className="text-lg font-bold text-slate-900 mb-4 flex items-center gap-2">
+        <h3 className="text-lg font-bold text-slate-900 mb-4 flex items-center gap-2" dir="rtl">
           <Settings size={20} className="text-slate-500" />
-          Default Fields Customization
+          تخصيص الحقول الافتراضية
         </h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4" dir="rtl">
           <div className="space-y-1">
-            <label className="text-xs font-bold text-slate-500 uppercase tracking-widest">Phone Placeholder</label>
+            <label className="text-xs font-bold text-slate-500 uppercase tracking-widest">نص عنصر نائب للهاتف</label>
             <input 
               type="text" 
               value={config.phonePlaceholder}
@@ -78,7 +78,7 @@ export default function FormBuilder({ initialConfig }: { initialConfig?: FormCon
             />
           </div>
           <div className="space-y-1">
-            <label className="text-xs font-bold text-slate-500 uppercase tracking-widest">Name Placeholder</label>
+            <label className="text-xs font-bold text-slate-500 uppercase tracking-widest">نص عنصر نائب للاسم</label>
             <input 
               type="text" 
               value={config.namePlaceholder}
@@ -89,24 +89,24 @@ export default function FormBuilder({ initialConfig }: { initialConfig?: FormCon
         </div>
       </div>
 
-      <div>
+      <div dir="rtl">
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-lg font-bold text-slate-900 flex items-center gap-2">
             <List size={20} className="text-slate-500" />
-            Custom Fields
+            حقول مخصصة
           </h3>
           <button 
             type="button" 
             onClick={addCustomField}
             className="text-sm font-bold bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-1.5 rounded flex items-center gap-1 transition-colors"
           >
-            <Plus size={16} /> Add Field
+            <Plus size={16} /> إضافة حقل
           </button>
         </div>
 
         {config.customFields.length === 0 ? (
           <div className="text-center py-8 bg-slate-50 border border-gray-200 border-dashed rounded-md">
-            <p className="text-slate-500 text-sm">No custom fields added yet.</p>
+            <p className="text-slate-500 text-sm">لم يتم إضافة أي حقول مخصصة بعد.</p>
           </div>
         ) : (
           <div className="space-y-4">
@@ -117,7 +117,7 @@ export default function FormBuilder({ initialConfig }: { initialConfig?: FormCon
                 </div>
                 
                 <div className="flex-1 space-y-1 w-full">
-                  <label className="text-xs font-bold text-slate-500 uppercase tracking-widest">Field Label</label>
+                  <label className="text-xs font-bold text-slate-500 uppercase tracking-widest">تسمية الحقل</label>
                   <input 
                     type="text" 
                     value={field.label}
@@ -127,27 +127,27 @@ export default function FormBuilder({ initialConfig }: { initialConfig?: FormCon
                 </div>
                 
                 <div className="w-full md:w-48 space-y-1">
-                  <label className="text-xs font-bold text-slate-500 uppercase tracking-widest">Type</label>
+                  <label className="text-xs font-bold text-slate-500 uppercase tracking-widest">النوع</label>
                   <select 
                     value={field.type}
                     onChange={(e) => updateCustomField(field.id, { type: e.target.value as any })}
                     className="w-full bg-slate-50 border border-gray-200 px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-slate-900 text-sm"
                   >
-                    <option value="text">Text Input</option>
-                    <option value="textarea">Description (Textarea)</option>
-                    <option value="select">Dropdown (Select)</option>
+                    <option value="text">إدخال نص</option>
+                    <option value="textarea">وصف (مربع نص)</option>
+                    <option value="select">قائمة منسدلة</option>
                   </select>
                 </div>
 
                 {field.type === "select" && (
                   <div className="w-full space-y-2 mt-4 border-t border-gray-100 pt-4">
-                    <label className="text-xs font-bold text-slate-500 uppercase tracking-widest">Dropdown Options</label>
+                    <label className="text-xs font-bold text-slate-500 uppercase tracking-widest">خيارات القائمة المنسدلة</label>
                     <div className="space-y-2 max-w-sm">
                       {Array.isArray(field.options) && field.options.map((opt, optIndex) => (
                         <div key={optIndex} className="flex items-center gap-2">
                           <input 
                             type="text" 
-                            placeholder={`Option ${optIndex + 1}`}
+                            placeholder={`خيار ${optIndex + 1}`}
                             value={opt}
                             onChange={(e) => {
                               const newOptions = [...field.options];
@@ -176,7 +176,7 @@ export default function FormBuilder({ initialConfig }: { initialConfig?: FormCon
                         }}
                         className="text-xs font-bold text-slate-600 bg-slate-100 hover:bg-slate-200 px-3 py-1.5 rounded-md flex items-center gap-1 transition-colors"
                       >
-                        <Plus size={14} /> Add Option
+                        <Plus size={14} /> إضافة خيار
                       </button>
                     </div>
                   </div>
@@ -190,7 +190,7 @@ export default function FormBuilder({ initialConfig }: { initialConfig?: FormCon
                     onChange={(e) => updateCustomField(field.id, { required: e.target.checked })}
                     className="rounded text-slate-900 focus:ring-slate-900"
                   />
-                  <label htmlFor={`req_${field.id}`} className="text-sm font-medium text-slate-700 cursor-pointer">Required</label>
+                  <label htmlFor={`req_${field.id}`} className="text-sm font-medium text-slate-700 cursor-pointer pr-2">مطلوب</label>
                 </div>
 
                 <div className="md:mt-6">
