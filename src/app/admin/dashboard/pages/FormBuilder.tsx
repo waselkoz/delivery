@@ -134,7 +134,6 @@ export default function FormBuilder({ initialConfig }: { initialConfig?: FormCon
                     className="w-full bg-slate-50 border border-gray-200 px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-slate-900 text-sm"
                   >
                     <option value="text">Saisie de texte</option>
-                    <option value="textarea">Description (Zone de texte)</option>
                     <option value="select">Menu déroulant</option>
                   </select>
                 </div>
@@ -182,16 +181,7 @@ export default function FormBuilder({ initialConfig }: { initialConfig?: FormCon
                   </div>
                 )}
 
-                <div className="w-full md:w-32 flex items-center gap-2 md:mt-6">
-                  <input 
-                    type="checkbox" 
-                    id={`req_${field.id}`}
-                    checked={field.required}
-                    onChange={(e) => updateCustomField(field.id, { required: e.target.checked })}
-                    className="rounded text-slate-900 focus:ring-slate-900"
-                  />
-                  <label htmlFor={`req_${field.id}`} className="text-sm font-medium text-slate-700 cursor-pointer pl-2">Requis</label>
-                </div>
+
 
                 <div className="md:mt-6">
                   <button 
