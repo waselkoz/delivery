@@ -6,7 +6,7 @@ import { revalidatePath } from "next/cache";
 export async function addGalleryImage(formData: FormData) {
   const supabase = await createClient();
   const { data: { session } } = await supabase.auth.getSession();
-  if (!session) throw new Error("Unauthorized");
+  if (!session) return { success: false, error: "Unauthorized" };
 
   const file = formData.get("imageFile") as File | null;
 
@@ -23,7 +23,7 @@ export async function addGalleryImage(formData: FormData) {
 
     if (uploadError) {
       console.error("Supabase Storage Error:", uploadError);
-      throw new Error(`Failed to upload image: ${uploadError.message}`);
+      return { success: false, error: `Failed to upload image: ${uploadError.message}` };
     }
 
     const { data: { publicUrl } } = supabase.storage.from('gallery').getPublicUrl(filename);
@@ -46,12 +46,13 @@ export async function addGalleryImage(formData: FormData) {
 
     if (error) {
       console.error("Supabase DB Error:", error);
-      throw new Error(`Failed to save image to database: ${error.message}`);
+      return { success: false, error: `Failed to save image to database: ${error.message}` };
     }
   }
 
   revalidatePath("/admin/dashboard/gallery");
   revalidatePath("/");
+  return { success: true };
 }
 
 export async function deleteGalleryImage(id: string) {

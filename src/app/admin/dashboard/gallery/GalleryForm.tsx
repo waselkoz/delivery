@@ -10,8 +10,16 @@ export default function GalleryForm() {
 
   async function handleAction(formData: FormData) {
     setLoading(true);
-    await addGalleryImage(formData);
-    formRef.current?.reset();
+    try {
+      const result = await addGalleryImage(formData);
+      if (result && result.error) {
+        alert(result.error);
+      } else {
+        formRef.current?.reset();
+      }
+    } catch (err: any) {
+      alert("Network or unknown error occurred: " + err.message);
+    }
     setLoading(false);
   }
 
