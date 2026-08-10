@@ -88,7 +88,7 @@ export default function DeliveryRequestForm({ page }: { page?: LandingPage }) {
               </div>
               <div className="relative flex justify-center">
                 <span className="bg-white px-4 text-sm font-bold text-gray-900">
-                  يرجى ملء النموذج أدناه:
+                المرجو إدخال المعلومات الخاصة بك
                 </span>
               </div>
             </div>
@@ -132,19 +132,6 @@ export default function DeliveryRequestForm({ page }: { page?: LandingPage }) {
                   <option value="تيبازة (Tipaza)">تيبازة (Tipaza)</option>
                 </select>
               </div>
-
-              <div className="group/input">
-                <input 
-                  required 
-                  type="text"
-                  name="address" 
-                  id="address" 
-                  className="block w-full bg-white border border-gray-300 rounded-md focus:bg-white transition-all duration-300 px-4 py-3 shadow-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent text-right" 
-                  placeholder={page?.formConfig?.destinationPlaceholder || "العنوان بالتفصيل (البلدية، الشارع، المعلم...)"} 
-                  dir="rtl"
-                />
-              </div>
-
               {page?.formConfig?.customFields?.map((field) => (
                 <div key={field.id} className="group/input relative">
                   {field.type === "textarea" ? (
