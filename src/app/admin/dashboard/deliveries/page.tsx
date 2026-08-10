@@ -28,29 +28,24 @@ export default async function DeliveriesPage({ searchParams }: { searchParams: P
 
   let deliveriesQuery = supabase.from('DeliveryRequest').select('*, LandingPage(slug, title)').order('createdAt', { ascending: false });
   let completedQuery = supabase.from('CompletedDelivery').select('*, LandingPage(slug, title)').order('completedAt', { ascending: false });
-  let cancelledQuery = supabase.from('CancelledDelivery').select('*, LandingPage(slug, title)').order('cancelledAt', { ascending: false });
 
   if (pageId) {
     deliveriesQuery = deliveriesQuery.eq('landingPageId', pageId);
     completedQuery = completedQuery.eq('landingPageId', pageId);
-    cancelledQuery = cancelledQuery.eq('landingPageId', pageId);
   }
 
   const [
     { data: deliveriesData },
     { data: completedDeliveriesData },
-    { data: cancelledDeliveriesData },
     { data: pagesData }
   ] = await Promise.all([
     deliveriesQuery,
     completedQuery,
-    cancelledQuery,
     supabase.from('LandingPage').select('id, title, slug').order('createdAt', { ascending: false })
   ]);
 
   const deliveries = deliveriesData || [];
   const completedDeliveries = completedDeliveriesData || [];
-  const cancelledDeliveries = cancelledDeliveriesData || [];
   const pages = pagesData || [];
 
   return (
@@ -238,74 +233,7 @@ export default async function DeliveriesPage({ searchParams }: { searchParams: P
         )}
       </div>
 
-      <div className="bg-white border border-gray-200 shadow-sm rounded-none mb-12 overflow-hidden" dir="rtl">
-        <div className="px-8 py-6 bg-slate-50 border-b border-gray-200 flex items-center justify-between flex-row-reverse">
-          <h3 className="text-lg font-bold tracking-wide text-slate-900">الطلبيات الملغاة</h3>
-          <span className="text-red-700 bg-red-100 border border-red-200 px-3 py-1 text-xs font-bold uppercase tracking-widest">{cancelledDeliveries.length} سجلات</span>
-        </div>
-        
-        {cancelledDeliveries.length === 0 ? (
-          <div className="p-6 text-center text-gray-500 dark:text-gray-400">
-            لا توجد طلبيات ملغاة بعد.
-          </div>
-        ) : (
-          <div className="overflow-x-auto">
-            <table className="min-w-full border-separate border-spacing-y-3 px-4 text-right">
-              <thead className="bg-slate-100/50 border-b border-gray-200">
-                <tr>
-                  <th className="px-6 py-5 font-bold text-slate-700 uppercase tracking-widest text-xs">تاريخ الإلغاء</th>
-                  <th className="px-6 py-5 font-bold text-slate-700 uppercase tracking-widest text-xs">اسم العميل</th>
-                  <th className="px-6 py-5 font-bold text-slate-700 uppercase tracking-widest text-xs">رقم الهاتف</th>
-                  <th className="px-6 py-5 font-bold text-slate-700 uppercase tracking-widest text-xs">الوجهة</th>
-                  <th className="px-6 py-5 font-bold text-slate-700 uppercase tracking-widest text-xs">إضافات</th>
-                  <th className="px-6 py-5 font-bold text-slate-700 uppercase tracking-widest text-xs">المصدر</th>
-                </tr>
-              </thead>
-              <tbody className="bg-white">
-                {cancelledDeliveries.map((delivery) => (
-                  <tr key={delivery.id} className="hover:bg-slate-50 transition-colors border-b border-gray-100 last:border-0">
-                    <td className="px-6 py-5 text-sm text-red-600 font-bold">
-                      {new Intl.DateTimeFormat('en-US', { dateStyle: 'medium', timeStyle: 'short' }).format(new Date(delivery.cancelledAt))}
-                    </td>
-                    <td className="px-6 py-5 text-base font-bold text-slate-900">
-                      {delivery.firstName} {delivery.lastName}
-                    </td>
-                    <td className="px-6 py-5 text-sm text-slate-600">
-                      {delivery.phone}
-                    </td>
-                    <td className="px-6 py-5 text-sm text-slate-600 max-w-xs truncate" title={delivery.destination}>
-                      {delivery.destination}
-                    </td>
-                    <td className="px-6 py-5 text-sm text-slate-600 min-w-[150px]">
-                      {delivery.customData && Object.keys(delivery.customData).length > 0 ? (
-                        <div className="space-y-1">
-                          {Object.entries(delivery.customData).map(([key, val]) => (
-                            <div key={key} className="text-xs text-slate-500 bg-slate-50 px-2 py-1 rounded border border-gray-200">
-                              <span className="font-bold mr-1">{key}:</span>
-                              {String(val)}
-                            </div>
-                          ))}
-                        </div>
-                      ) : (
-                        <span className="text-gray-400 text-xs italic">None</span>
-                      )}
-                    </td>
-                    <td className="px-6 py-5 text-sm text-slate-600">
-                      {delivery.LandingPage ? (
-                        <span className="bg-blue-50 text-blue-700 border border-blue-200 px-2 py-1 text-xs rounded-sm font-medium">
-                          {delivery.LandingPage.title}
-                        </span>
-                      ) : (
-                        <span className="text-gray-400 text-xs italic">Default</span>
-                      )}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
-      </div>
+    </div>
     </div>
   );
 }
