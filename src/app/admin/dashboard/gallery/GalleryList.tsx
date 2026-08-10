@@ -4,6 +4,7 @@ import { useOptimistic, useRef } from "react";
 import GalleryItemControls from "./GalleryItemControls";
 import { Plus } from "lucide-react";
 import { addGalleryImage } from "./actions";
+import toast from "react-hot-toast";
 
 export type GalleryImage = {
   id: string;
@@ -12,7 +13,7 @@ export type GalleryImage = {
   displayOrder: number;
 };
 
-export default function GalleryList({ initialImages }: { initialImages: GalleryImage[] }) {
+export default function GalleryList({ initialImages, landingPageId }: { initialImages: GalleryImage[], landingPageId: string | null }) {
   const formRef = useRef<HTMLFormElement>(null);
   const isSubmitting = useRef(false);
 
@@ -70,14 +71,18 @@ export default function GalleryList({ initialImages }: { initialImages: GalleryI
       const compressedFile = await imageCompression(file, options);
       formData.set("imageFile", compressedFile);
       
+      if (landingPageId) {
+        formData.append("landingPageId", landingPageId);
+      }
+      
       const result = await addGalleryImage(formData);
       if (result && result.error) {
-        alert(result.error);
+        toast.error(result.error);
       } else {
         formRef.current?.reset();
       }
     } catch (err: any) {
-      alert("Network or unknown error occurred: " + err.message);
+      toast.error("Network or unknown error occurred: " + err.message);
     } finally {
       isSubmitting.current = false;
     }
@@ -89,14 +94,14 @@ export default function GalleryList({ initialImages }: { initialImages: GalleryI
         <div className="px-8 py-6 bg-slate-50 border-b border-gray-200 flex justify-between items-center">
           <h3 className="text-lg font-bold tracking-wide text-slate-900">Sequence</h3>
           <span className="bg-white text-slate-900 text-xs font-bold px-3 py-1 border border-gray-300">
-            {optimisticImages.length} PHOTOS
+            {optimisticImages.length} images
           </span>
         </div>
         
         {optimisticImages.length === 0 ? (
           <div className="p-12 text-center text-gray-500 dark:text-gray-400">
-            <p className="mb-4 text-lg">Your landing page is currently empty.</p>
-            <p className="text-sm">Add your first photo using the form below to start building your poster sequence.</p>
+            <p className="mb-4 text-lg">Landing page is currently empty.</p>
+            <p className="text-sm">Add your first image using the form below to get started.</p>
           </div>
         ) : (
           <ul className="space-y-4 p-4 bg-slate-50">
@@ -145,13 +150,13 @@ export default function GalleryList({ initialImages }: { initialImages: GalleryI
             <form ref={formRef} action={handleAction} className="space-y-4">
               <div>
                 <label htmlFor="imageFile" className="block text-sm font-bold tracking-wide text-slate-700">Image File</label>
-                <input required type="file" accept="image/*" name="imageFile" id="imageFile" className="mt-2 block w-full text-sm text-slate-700 border border-gray-200 cursor-pointer bg-slate-50 focus:outline-none file:mr-4 file:py-2 file:px-4 file:border-0 file:text-sm file:font-bold file:bg-gray-200 file:text-slate-900 hover:file:bg-gray-300 file:transition-all rounded-none" />
+                <input required type="file" accept="image/*" name="imageFile" id="imageFile" className="mt-2 block w-full text-sm text-slate-700 border border-gray-200 cursor-pointer bg-slate-50 focus:outline-none file:mr-4 file:ml-4 file:py-2 file:px-4 file:border-0 file:text-sm file:font-bold file:bg-gray-200 file:text-slate-900 hover:file:bg-gray-300 file:transition-all rounded-none" />
               </div>
 
               <div className="pt-4 flex justify-end">
                 <button type="submit" className="inline-flex items-center px-6 py-3 font-bold tracking-wide text-white bg-slate-900 hover:bg-black focus:outline-none transition-all shadow-sm hover:shadow-md disabled:opacity-50 rounded-none uppercase">
                   <Plus className="-ml-1 mr-2 h-5 w-5" strokeWidth={2} />
-                  Add Photo
+                  Add Image
                 </button>
               </div>
             </form>

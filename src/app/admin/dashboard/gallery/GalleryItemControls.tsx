@@ -3,6 +3,7 @@
 import { useState, useRef } from "react";
 import { ArrowUp, ArrowDown, Trash2, Upload } from "lucide-react";
 import { moveImageUp, moveImageDown, deleteGalleryImage, replaceGalleryImage } from "./actions";
+import toast from "react-hot-toast";
 
 export default function GalleryItemControls({ 
   id, 
@@ -30,7 +31,7 @@ export default function GalleryItemControls({
   }
 
   async function handleDelete() {
-    if (confirm("Are you sure you want to delete this photo?")) {
+    if (confirm("Are you sure you want to delete this image?")) {
       setIsDeleting(true);
       onOptimisticUpdate?.('delete');
       await deleteGalleryImage(id);
@@ -55,7 +56,9 @@ export default function GalleryItemControls({
       
       const result = await replaceGalleryImage(id, formData);
       if (result && result.error) {
-        alert(result.error);
+        setIsReplacing(false);
+        toast.error(result.error);
+        return;
       }
       setIsReplacing(false);
       if (fileInputRef.current) {
@@ -97,7 +100,7 @@ export default function GalleryItemControls({
         onClick={() => fileInputRef.current?.click()}
         disabled={isReplacing}
         className="flex items-center px-4 py-3 bg-white text-slate-900 border border-gray-300 hover:bg-gray-50 transition-all disabled:opacity-30 rounded-none shadow-sm uppercase"
-        title="Replace Photo"
+        title="Replace Image"
       >
         <Upload className="w-4 h-4 mr-2" strokeWidth={2} />
         <span className="text-xs font-bold tracking-widest">{isReplacing ? "Uploading..." : "Replace"}</span>
@@ -109,7 +112,7 @@ export default function GalleryItemControls({
         onClick={handleDelete}
         disabled={isDeleting}
         className="p-3 bg-red-50 text-red-600 hover:bg-red-100 border border-red-200 transition-all disabled:opacity-30 shadow-sm rounded-none"
-        title="Delete Photo"
+        title="Delete Image"
       >
         <Trash2 className="w-5 h-5" strokeWidth={2} />
       </button>

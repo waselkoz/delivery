@@ -5,10 +5,20 @@ import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 
 export async function submitDeliveryRequest(formData: FormData) {
-  const firstName = (formData.get("firstName") as string || "").trim().slice(0, 100);
-  const lastName = (formData.get("lastName") as string || "").trim().slice(0, 100);
+  const fullName = (formData.get("fullName") as string || "").trim().slice(0, 100);
+  const nameParts = fullName.split(" ");
+  const firstName = nameParts[0] || "";
+  const lastName = nameParts.slice(1).join(" ") || "-";
   const phone = (formData.get("phone") as string || "").trim().slice(0, 20);
   const destination = (formData.get("destination") as string || "").trim().slice(0, 500);
+  const landingPageId = formData.get("landingPageId") as string | null;
+
+  const customData: Record<string, string> = {};
+  formData.forEach((value, key) => {
+    if (key.startsWith("field_")) {
+      customData[key.replace("field_", "")] = value.toString();
+    }
+  });
 
   const cookieStore = await cookies();
   const lastSubmit = cookieStore.get("last_delivery_submit")?.value;
@@ -39,6 +49,8 @@ export async function submitDeliveryRequest(formData: FormData) {
             lastName,
             phone,
             destination,
+            landingPageId,
+            customData,
             createdAt: now,
             updatedAt: now,
           }
@@ -53,6 +65,7 @@ export async function submitDeliveryRequest(formData: FormData) {
       });
       
       revalidatePath("/admin/dashboard/deliveries");
+      revalidatePath("/admin/dashboard");
       return { success: true };
     } catch (error: unknown) {
       console.error("Failed to create delivery request:", error);

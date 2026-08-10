@@ -1,28 +1,7 @@
 import { createClient as createSupabaseClient } from "@supabase/supabase-js";
-import Link from "next/link";
-import Image from "next/image";
-import nextDynamic from "next/dynamic";
-import { Image as ImageIcon } from "lucide-react";
+import { redirect } from "next/navigation";
 
-const DeliveryRequestForm = nextDynamic(() => import('./DeliveryRequestForm'), {
-  loading: () => (
-    <div className="h-[500px] w-full flex items-center justify-center bg-white/5 border border-gray-100 rounded-sm">
-      <div className="animate-pulse flex flex-col items-center gap-4">
-        <div className="w-8 h-8 border-2 border-indigo-500 border-t-transparent rounded-full animate-spin"></div>
-        <p className="text-gray-400 text-sm">Loading request form...</p>
-      </div>
-    </div>
-  )
-});
-
-export const dynamic = 'force-static';
-
-type GalleryImage = {
-  id: string;
-  imageUrl: string;
-  caption: string | null;
-  displayOrder: number;
-};
+export const revalidate = 60;
 
 export default async function Home() {
   const supabase = createSupabaseClient(
@@ -30,75 +9,24 @@ export default async function Home() {
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
   );
   
-  const [
-    { data: config },
-    { data: galleryData }
-  ] = await Promise.all([
-    supabase.from('LandingPageConfig').select('*').limit(1).maybeSingle(),
-    supabase.from('GalleryImage').select('*').order('displayOrder', { ascending: true })
-  ]);
-  
-  const gallery = galleryData || [];
+  const { data: landingPage } = await supabase
+    .from('LandingPage')
+    .select('slug')
+    .order('createdAt', { ascending: false })
+    .limit(1)
+    .maybeSingle();
+
+  if (landingPage) {
+    redirect(`/${landingPage.slug}`);
+  }
 
   return (
-    <div className="min-h-screen bg-white font-sans relative">
-
-
-      <div className="flex flex-col w-full max-w-7xl mx-auto px-6 md:px-24">
-        {gallery.length === 0 ? (
-          <div className="h-screen flex flex-col items-center justify-center text-white/50 bg-gray-900">
-            <ImageIcon className="w-16 h-16 mb-4 opacity-50" />
-            <p className="text-xl">No photos uploaded yet.</p>
-            <p className="text-sm mt-2 text-white/30">Go to the admin portal to upload your poster images.</p>
-          </div>
-        ) : (
-          gallery.map((image: GalleryImage, index: number) => (
-            <div key={image.id} className="w-full relative flex justify-center bg-white">
-              <Image 
-                src={image.imageUrl} 
-                alt={image.caption || "Delivery Poster"}
-                width={1920}
-                height={1080}
-                sizes="(max-width: 1280px) 100vw, 1280px"
-                style={{ width: '100%', height: 'auto' }}
-                priority={index === 0}
-                fetchPriority={index === 0 ? 'high' : 'auto'}
-                quality={90}
-                className="block" 
-              />
-              {image.caption && (
-                <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/80 to-transparent p-6 md:p-12">
-                  <p className="text-white font-medium text-xl md:text-3xl max-w-4xl">{image.caption}</p>
-                </div>
-              )}
-            </div>
-          ))
-        )}
-      </div>
-
-      <section className="py-20 md:py-32 bg-gray-50 border-t border-gray-100 relative">
-        <div className="max-w-4xl mx-auto px-6">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-4" style={{ color: config?.formTextColor || "#111827" }}>
-              {config?.formTitle || "Ready to Deliver?"}
-            </h2>
-            <p className="text-lg" style={{ color: config?.formTextColor || "#111827", opacity: 0.8 }}>
-              {config?.formSubtitle || "Fill out the form below and we'll handle the rest."}
-            </p>
-          </div>
-          <div className="animate-fade-in-up">
-            <DeliveryRequestForm config={config} />
-          </div>
-        </div>
-      </section>
-
-      <footer className="bg-white py-12 border-t border-gray-100">
-        <div className="max-w-7xl mx-auto px-6 flex flex-col items-center">
-          <p className="text-gray-500 text-sm">
-            © {new Date().getFullYear()} All rights reserved.
-          </p>
-        </div>
-      </footer>
+    <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-center font-sans text-center px-4">
+      <h1 className="text-3xl font-bold text-gray-900 mb-4">لا توجد صفحات نشطة</h1>
+      <p className="text-gray-500 mb-8 max-w-md">يرجى تسجيل الدخول إلى لوحة القيادة لإنشاء صفحتك الأولى.</p>
+      <a href="/admin" className="bg-slate-900 text-white px-6 py-3 rounded-md font-bold hover:bg-slate-800 transition-colors" dir="rtl">
+        الذهاب إلى لوحة الإدارة
+      </a>
     </div>
   );
 }

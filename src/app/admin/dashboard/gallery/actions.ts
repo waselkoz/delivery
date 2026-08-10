@@ -29,6 +29,8 @@ export async function addGalleryImage(formData: FormData) {
     const { data: { publicUrl } } = supabase.storage.from('gallery').getPublicUrl(filename);
     const imageUrl = publicUrl;
 
+    const landingPageId = formData.get("landingPageId") as string | null;
+
     const { data: maxOrderData } = await supabase.from('GalleryImage').select('displayOrder').order('displayOrder', { ascending: false }).limit(1).maybeSingle();
     const displayOrder = maxOrderData ? (maxOrderData.displayOrder + 1) : 0;
 
@@ -39,6 +41,7 @@ export async function addGalleryImage(formData: FormData) {
         imageUrl,
         caption: null,
         displayOrder,
+        landingPageId,
         createdAt: now,
         updatedAt: now,
       },

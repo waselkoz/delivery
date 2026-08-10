@@ -18,17 +18,20 @@ export async function updateDeliveryStatus(id: string, status: string) {
     if (status === "Completed") {
       const { error: insertError } = await supabase.from('CompletedDelivery').insert([
         {
-          firstName: delivery.firstName,
-          lastName: delivery.lastName,
-          phone: delivery.phone,
-          destination: delivery.destination,
-          createdAt: delivery.createdAt,
+          id: delivery.id,
+          firstName: delivery.firstName || "-",
+          lastName: delivery.lastName || "-",
+          phone: delivery.phone || "-",
+          destination: delivery.destination || "-",
+          landingPageId: delivery.landingPageId || null,
+          customData: delivery.customData || null,
+          createdAt: delivery.createdAt || new Date().toISOString(),
         },
       ]);
       
       if (insertError) {
         console.error("Failed to insert completed delivery:", insertError);
-        throw insertError;
+        throw new Error("DB_ERROR: " + insertError.message + " | Details: " + (insertError.details || "none"));
       }
       
       await supabase.from('DeliveryRequest').delete().eq('id', id);
@@ -41,17 +44,20 @@ export async function updateDeliveryStatus(id: string, status: string) {
     } else if (status === "Cancelled") {
       const { error: insertError } = await supabase.from('CancelledDelivery').insert([
         {
-          firstName: delivery.firstName,
-          lastName: delivery.lastName,
-          phone: delivery.phone,
-          destination: delivery.destination,
-          createdAt: delivery.createdAt,
+          id: delivery.id,
+          firstName: delivery.firstName || "-",
+          lastName: delivery.lastName || "-",
+          phone: delivery.phone || "-",
+          destination: delivery.destination || "-",
+          landingPageId: delivery.landingPageId || null,
+          customData: delivery.customData || null,
+          createdAt: delivery.createdAt || new Date().toISOString(),
         },
       ]);
       
       if (insertError) {
         console.error("Failed to insert cancelled delivery:", insertError);
-        throw insertError;
+        throw new Error("DB_ERROR: " + insertError.message + " | Details: " + (insertError.details || "none"));
       }
       
       await supabase.from('DeliveryRequest').delete().eq('id', id);
@@ -62,8 +68,8 @@ export async function updateDeliveryStatus(id: string, status: string) {
       await supabase.from('CancelledDelivery').delete().lt('cancelledAt', sevenDaysAgo.toISOString());
     }
   }
-  
   revalidatePath("/admin/dashboard/deliveries");
+  revalidatePath("/admin/dashboard");
 }
 
 export async function deleteDeliveryRequest(id: string) {
@@ -72,6 +78,6 @@ export async function deleteDeliveryRequest(id: string) {
   if (!session) throw new Error("Unauthorized");
 
   await supabase.from('DeliveryRequest').delete().eq('id', id);
-  
   revalidatePath("/admin/dashboard/deliveries");
+  revalidatePath("/admin/dashboard");
 }
