@@ -117,13 +117,31 @@ export default function DeliveryRequestForm({ page }: { page?: LandingPage }) {
               </div>
               
               <div className="group/input">
+                <select 
+                  required 
+                  name="wilaya" 
+                  id="wilaya" 
+                  defaultValue=""
+                  className="block w-full bg-white border border-gray-300 rounded-md focus:bg-white transition-all duration-300 px-4 py-3 shadow-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent appearance-none text-right" 
+                  dir="rtl"
+                >
+                  <option value="" disabled>الولاية (اختر ولايتك)</option>
+                  <option value="الجزائر (Alger)">الجزائر (Alger)</option>
+                  <option value="البليدة (Blida)">البليدة (Blida)</option>
+                  <option value="بومرداس (Boumerdas)">بومرداس (Boumerdas)</option>
+                  <option value="تيبازة (Tipaza)">تيبازة (Tipaza)</option>
+                </select>
+              </div>
+
+              <div className="group/input">
                 <input 
                   required 
                   type="text"
-                  name="destination" 
-                  id="destination" 
+                  name="address" 
+                  id="address" 
                   className="block w-full bg-white border border-gray-300 rounded-md focus:bg-white transition-all duration-300 px-4 py-3 shadow-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent text-right" 
-                  placeholder={page?.formConfig?.destinationPlaceholder || "عنوان التوصيل (المدينة، الشارع، المعلم...)"} 
+                  placeholder={page?.formConfig?.destinationPlaceholder || "العنوان بالتفصيل (البلدية، الشارع، المعلم...)"} 
+                  dir="rtl"
                 />
               </div>
 

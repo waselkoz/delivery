@@ -10,7 +10,19 @@ export async function submitDeliveryRequest(formData: FormData) {
   const firstName = nameParts[0] || "";
   const lastName = nameParts.slice(1).join(" ") || "-";
   const phone = (formData.get("phone") as string || "").trim().slice(0, 20);
-  const destination = (formData.get("destination") as string || "").trim().slice(0, 500);
+  const wilaya = (formData.get("wilaya") as string || "").trim();
+  const address = (formData.get("address") as string || "").trim();
+  
+  let destinationStr = "";
+  if (wilaya && address) destinationStr = `${wilaya} - ${address}`;
+  else if (wilaya) destinationStr = wilaya;
+  else if (address) destinationStr = address;
+  
+  // Backwards compatibility if somehow the old form is cached
+  const oldDestination = (formData.get("destination") as string || "").trim();
+  if (oldDestination) destinationStr = oldDestination;
+  
+  const destination = destinationStr.slice(0, 500);
   const landingPageId = formData.get("landingPageId") as string | null;
 
   const customData: Record<string, string> = {};

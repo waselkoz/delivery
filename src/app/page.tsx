@@ -85,6 +85,7 @@ export default async function Home() {
             © {new Date().getFullYear()} جميع الحقوق محفوظة.
           </p>
         </div>
+        
       </footer>
     </div>
   );
