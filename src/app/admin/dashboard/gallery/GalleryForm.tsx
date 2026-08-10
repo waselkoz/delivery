@@ -3,7 +3,6 @@
 import { useRef, useState } from "react";
 import { addGalleryImage } from "./actions";
 import { Plus } from "lucide-react";
-import imageCompression from 'browser-image-compression';
 
 export default function GalleryForm() {
   const formRef = useRef<HTMLFormElement>(null);
@@ -18,6 +17,7 @@ export default function GalleryForm() {
       let file = formData.get("imageFile") as File;
       if (file && file.size > 0) {
         try {
+          const imageCompression = (await import('browser-image-compression')).default;
           const options = { maxSizeMB: 1, maxWidthOrHeight: 1920, useWebWorker: true };
           const compressedFile = await imageCompression(file, options);
           formData.set("imageFile", compressedFile);

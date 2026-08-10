@@ -3,7 +3,6 @@
 import { useState, useRef } from "react";
 import { ArrowUp, ArrowDown, Trash2, Upload } from "lucide-react";
 import { moveImageUp, moveImageDown, deleteGalleryImage, replaceGalleryImage } from "./actions";
-import imageCompression from 'browser-image-compression';
 
 export default function GalleryItemControls({ 
   id, 
@@ -44,6 +43,7 @@ export default function GalleryItemControls({
       setIsReplacing(true);
       
       try {
+        const imageCompression = (await import('browser-image-compression')).default;
         const options = { maxSizeMB: 1, maxWidthOrHeight: 1920, useWebWorker: true };
         file = await imageCompression(file, options);
       } catch (error) {
