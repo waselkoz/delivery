@@ -13,7 +13,7 @@ export default async function AdminDashboardLayout({
   const { data: { session } } = await supabase.auth.getSession();
 
   if (!session) {
-    redirect("/admin");
+    redirect("/login");
   }
 
   return (
@@ -25,19 +25,19 @@ export default async function AdminDashboardLayout({
           <span className="text-slate-900 font-bold tracking-widest uppercase">Admin</span>
         </div>
         <nav className="flex-1 p-4 space-y-2 font-medium text-sm">
-          <Link href="/admin/dashboard" className="flex items-center space-x-3 px-4 py-3 text-slate-700 hover:text-slate-900 hover:bg-gray-100 transition-all border border-transparent hover:border-gray-200 rounded-none">
+          <Link href="/admin" className="flex items-center space-x-3 px-4 py-3 text-slate-700 hover:text-slate-900 hover:bg-gray-100 transition-all border border-transparent hover:border-gray-200 rounded-none">
             <LayoutDashboard size={20} strokeWidth={2} />
             <span className="font-bold tracking-wide">Dashboard</span>
           </Link>
-          <Link href="/admin/dashboard/deliveries" className="flex items-center space-x-3 px-4 py-3 text-slate-700 hover:text-slate-900 hover:bg-gray-100 transition-all border border-transparent hover:border-gray-200 rounded-none">
+          <Link href="/admin/deliveries" className="flex items-center space-x-3 px-4 py-3 text-slate-700 hover:text-slate-900 hover:bg-gray-100 transition-all border border-transparent hover:border-gray-200 rounded-none">
             <Truck size={20} strokeWidth={2} />
             <span className="font-bold tracking-wide">Deliveries</span>
           </Link>
-          <Link href="/admin/dashboard/gallery" className="flex items-center space-x-3 px-4 py-3 text-slate-700 hover:text-slate-900 hover:bg-gray-100 transition-all border border-transparent hover:border-gray-200 rounded-none">
+          <Link href="/admin/gallery" className="flex items-center space-x-3 px-4 py-3 text-slate-700 hover:text-slate-900 hover:bg-gray-100 transition-all border border-transparent hover:border-gray-200 rounded-none">
             <ImageIcon size={20} strokeWidth={2} />
             <span className="font-bold tracking-wide">Gallery</span>
           </Link>
-          <Link href="/admin/dashboard/settings" className="flex items-center space-x-3 px-4 py-3 text-slate-700 hover:text-slate-900 hover:bg-gray-100 transition-all border border-transparent hover:border-gray-200 rounded-none">
+          <Link href="/admin/settings" className="flex items-center space-x-3 px-4 py-3 text-slate-700 hover:text-slate-900 hover:bg-gray-100 transition-all border border-transparent hover:border-gray-200 rounded-none">
             <Settings size={20} strokeWidth={2} />
             <span className="font-bold tracking-wide">Settings</span>
           </Link>

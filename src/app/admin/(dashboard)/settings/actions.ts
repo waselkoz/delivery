@@ -49,5 +49,5 @@ export async function updateLandingPageConfig(formData: FormData) {
   }
 
   revalidatePath("/");
-  revalidatePath("/admin/dashboard/settings");
+  revalidatePath("/admin/settings");
 }
