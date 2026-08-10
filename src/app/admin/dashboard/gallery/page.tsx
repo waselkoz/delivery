@@ -24,19 +24,19 @@ export default async function GalleryPage({ searchParams }: { searchParams: Prom
 
   return (
     <div>
-      <div className="flex justify-between items-center mb-10" dir="rtl">
-        <h1 className="text-3xl font-light tracking-wide text-slate-900">المعرض</h1>
+      <div className="flex justify-between items-center mb-10" dir="ltr">
+        <h1 className="text-3xl font-light tracking-wide text-slate-900">Galerie</h1>
       </div>
 
-      <div className="bg-white border border-gray-200 shadow-sm p-4 mb-8 flex items-center gap-4 flex-row-reverse" dir="rtl">
+      <div className="bg-white border border-gray-200 shadow-sm p-4 mb-8 flex items-center gap-4" dir="ltr">
         <Filter className="text-slate-400" size={20} />
-        <span className="font-bold text-slate-700">تصفية حسب الصفحة:</span>
-        <div className="flex flex-wrap gap-2 flex-row-reverse">
+        <span className="font-bold text-slate-700">Filtrer par page:</span>
+        <div className="flex flex-wrap gap-2">
           <Link 
             href="/admin/dashboard/gallery"
             className={`px-4 py-2 text-sm font-medium border ${!pageId ? 'bg-slate-900 text-white border-slate-900' : 'bg-white text-slate-600 border-gray-200 hover:bg-slate-50'}`}
           >
-            الافتراضي (بدون صفحة)
+            Par défaut (Sans page)
           </Link>
           {pages.map(p => (
             <Link 
