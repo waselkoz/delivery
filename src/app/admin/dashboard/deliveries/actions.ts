@@ -16,7 +16,7 @@ export async function updateDeliveryStatus(id: string, status: string) {
   
   if (delivery) {
     if (status === "Completed") {
-      await supabase.from('CompletedDelivery').insert([
+      const { error: insertError } = await supabase.from('CompletedDelivery').insert([
         {
           firstName: delivery.firstName,
           lastName: delivery.lastName,
@@ -25,9 +25,21 @@ export async function updateDeliveryStatus(id: string, status: string) {
           createdAt: delivery.createdAt,
         },
       ]);
+      
+      if (insertError) {
+        console.error("Failed to insert completed delivery:", insertError);
+        throw insertError;
+      }
+      
       await supabase.from('DeliveryRequest').delete().eq('id', id);
+      
+      // Lazy Garbage Collection: Delete records older than 7 days
+      const sevenDaysAgo = new Date();
+      sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+      await supabase.from('CompletedDelivery').delete().lt('completedAt', sevenDaysAgo.toISOString());
+      
     } else if (status === "Cancelled") {
-      await supabase.from('CancelledDelivery').insert([
+      const { error: insertError } = await supabase.from('CancelledDelivery').insert([
         {
           firstName: delivery.firstName,
           lastName: delivery.lastName,
@@ -36,7 +48,18 @@ export async function updateDeliveryStatus(id: string, status: string) {
           createdAt: delivery.createdAt,
         },
       ]);
+      
+      if (insertError) {
+        console.error("Failed to insert cancelled delivery:", insertError);
+        throw insertError;
+      }
+      
       await supabase.from('DeliveryRequest').delete().eq('id', id);
+      
+      // Lazy Garbage Collection: Delete records older than 7 days
+      const sevenDaysAgo = new Date();
+      sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+      await supabase.from('CancelledDelivery').delete().lt('cancelledAt', sevenDaysAgo.toISOString());
     }
   }
   
