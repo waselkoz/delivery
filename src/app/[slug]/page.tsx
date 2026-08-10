@@ -15,7 +15,7 @@ const DeliveryRequestForm = nextDynamic(() => import('@/app/DeliveryRequestForm'
   )
 });
 
-export const revalidate = 60; // Revalidate every minute
+export const dynamic = 'force-dynamic';
 
 type GalleryImage = {
   id: string;
