@@ -2,8 +2,6 @@
 
 import { createClient } from "@/lib/supabase/server";
 import { revalidatePath } from "next/cache";
-import fs from "fs";
-import path from "path";
 
 export async function addGalleryImage(formData: FormData) {
   const supabase = await createClient();
@@ -13,23 +11,23 @@ export async function addGalleryImage(formData: FormData) {
   const file = formData.get("imageFile") as File | null;
 
   if (file && file.size > 0) {
-    const arrayBuffer = await file.arrayBuffer();
-    const buffer = new Uint8Array(arrayBuffer);
-    
     const sanitizedName = file.name.replace(/[^a-zA-Z0-9.\-_]/g, '_');
     const filename = `${Date.now()}-${sanitizedName}`;
-    const uploadDir = path.join(process.cwd(), "public", "uploads");
-    
-    if (!fs.existsSync(uploadDir)) {
-      fs.mkdirSync(uploadDir, { recursive: true });
+
+    const { error: uploadError } = await supabase.storage
+      .from('gallery')
+      .upload(filename, file, {
+        cacheControl: '3600',
+        upsert: false
+      });
+
+    if (uploadError) {
+      console.error("Supabase Storage Error:", uploadError);
+      throw new Error(`Failed to upload image: ${uploadError.message}`);
     }
 
-    const filepath = path.join(uploadDir, filename);
-
-    fs.writeFileSync(filepath, buffer);
-
-    const imageUrl = `/uploads/${encodeURIComponent(filename)}`;
-
+    const { data: { publicUrl } } = supabase.storage.from('gallery').getPublicUrl(filename);
+    const imageUrl = publicUrl;
 
     const { data: maxOrderData } = await supabase.from('GalleryImage').select('displayOrder').order('displayOrder', { ascending: false }).limit(1).maybeSingle();
     const displayOrder = maxOrderData ? (maxOrderData.displayOrder + 1) : 0;
@@ -47,7 +45,7 @@ export async function addGalleryImage(formData: FormData) {
     ]);
 
     if (error) {
-      console.error("Supabase Error:", error);
+      console.error("Supabase DB Error:", error);
       throw new Error(`Failed to save image to database: ${error.message}`);
     }
   }
@@ -64,15 +62,14 @@ export async function deleteGalleryImage(id: string) {
   const { data: image } = await supabase.from('GalleryImage').select('*').eq('id', id).single();
   
   if (image) {
-    if (image.imageUrl.startsWith("/uploads/")) {
-      const filepath = path.join(process.cwd(), "public", image.imageUrl);
-      try {
-        if (fs.existsSync(filepath)) {
-          fs.unlinkSync(filepath);
-        }
-      } catch (err) {
-        console.error("Failed to delete local file", err);
+    try {
+      const urlParts = image.imageUrl.split('/');
+      const filename = urlParts[urlParts.length - 1];
+      if (filename) {
+        await supabase.storage.from('gallery').remove([filename]);
       }
+    } catch (err) {
+      console.error("Failed to delete file from storage", err);
     }
 
     await supabase.from('GalleryImage').delete().eq('id', id);
@@ -145,34 +142,34 @@ export async function replaceGalleryImage(id: string, formData: FormData) {
   const { data: image } = await supabase.from('GalleryImage').select('*').eq('id', id).single();
   if (!image) return { success: false };
 
-  if (image.imageUrl.startsWith("/uploads/")) {
-    const oldFilepath = path.join(process.cwd(), "public", image.imageUrl);
-    try {
-      if (fs.existsSync(oldFilepath)) {
-        fs.unlinkSync(oldFilepath);
-      }
-    } catch (err) {
-      console.error("Failed to delete local file during replace", err);
+  try {
+    const urlParts = image.imageUrl.split('/');
+    const oldFilename = urlParts[urlParts.length - 1];
+    if (oldFilename) {
+      await supabase.storage.from('gallery').remove([oldFilename]);
     }
+  } catch (err) {
+    console.error("Failed to delete old file from storage during replace", err);
   }
 
-  const arrayBuffer = await file.arrayBuffer();
-  const buffer = new Uint8Array(arrayBuffer);
-  
   const sanitizedName = file.name.replace(/[^a-zA-Z0-9.\-_]/g, '_');
   const filename = `${Date.now()}-${sanitizedName}`;
-  const uploadDir = path.join(process.cwd(), "public", "uploads");
   
-  if (!fs.existsSync(uploadDir)) {
-    fs.mkdirSync(uploadDir, { recursive: true });
+  const { error: uploadError } = await supabase.storage
+    .from('gallery')
+    .upload(filename, file, {
+      cacheControl: '3600',
+      upsert: false
+    });
+
+  if (uploadError) {
+    console.error("Failed to upload new image during replace:", uploadError);
+    return { success: false };
   }
 
-  const filepath = path.join(uploadDir, filename);
-
-  fs.writeFileSync(filepath, buffer);
-  const newImageUrl = `/uploads/${encodeURIComponent(filename)}`;
-
-  await supabase.from('GalleryImage').update({ imageUrl: newImageUrl }).eq('id', id);
+  const { data: { publicUrl } } = supabase.storage.from('gallery').getPublicUrl(filename);
+  
+  await supabase.from('GalleryImage').update({ imageUrl: publicUrl }).eq('id', id);
 
   revalidatePath("/admin/dashboard/gallery");
   revalidatePath("/");
