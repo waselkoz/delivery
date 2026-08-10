@@ -16,7 +16,15 @@ export default async function DashboardOverview() {
   ]);
 
   const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-  const weeklyChartData = [];
+  
+  type ChartData = {
+    dateStr: string;
+    name: string;
+    Requests: number;
+    Completed: number;
+  };
+
+  const weeklyChartData: ChartData[] = [];
   for (let i = 6; i >= 0; i--) {
     const d = new Date(now.getTime() - i * 24 * 60 * 60 * 1000);
     weeklyChartData.push({
@@ -27,7 +35,7 @@ export default async function DashboardOverview() {
     });
   }
 
-  const monthlyChartData = [];
+  const monthlyChartData: ChartData[] = [];
   for (let i = 29; i >= 0; i--) {
     const d = new Date(now.getTime() - i * 24 * 60 * 60 * 1000);
     monthlyChartData.push({
