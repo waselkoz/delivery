@@ -83,8 +83,8 @@ export default async function Home() {
         <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-12">
           {/* Description */}
           <div className="space-y-4">
-            <div className="bg-white p-4 rounded-xl inline-block mb-2">
-              <Image src="/logo.png" alt="King Delivery Logo" width={160} height={160} className="w-auto h-24 object-contain" />
+            <div className="bg-white p-2 rounded-xl inline-block mb-2">
+              <Image src="/logo.png" alt="King Delivery Logo" width={160} height={160} className="w-auto h-24 object-contain [clip-path:inset(4%)]" />
             </div>
             <h3 className="text-xl font-bold text-white mb-4">عن الشركة</h3>
             <p className="text-sm leading-relaxed text-gray-400">
