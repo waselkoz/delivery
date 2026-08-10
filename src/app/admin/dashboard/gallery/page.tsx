@@ -52,17 +52,7 @@ export default async function GalleryPage() {
                   />
                 </div>
 
-                {/* Info */}
-                <div className="flex-grow min-w-0">
-                  <p className="text-xs font-bold tracking-widest text-slate-600 mb-2 uppercase">
-                    System Order: {image.displayOrder}
-                  </p>
-                  {image.caption ? (
-                    <p className="text-xl font-bold text-slate-900 truncate mt-1">{image.caption}</p>
-                  ) : (
-                    <p className="text-lg font-medium text-slate-500 italic mt-1">No caption provided</p>
-                  )}
-                </div>
+                <div className="flex-grow"></div>
 
                 {/* Controls */}
                 <div className="flex-shrink-0 mt-4 md:mt-0">

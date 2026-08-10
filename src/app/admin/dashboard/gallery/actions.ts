@@ -11,8 +11,6 @@ export async function addGalleryImage(formData: FormData) {
   if (!session) throw new Error("Unauthorized");
 
   const file = formData.get("imageFile") as File | null;
-  const caption = formData.get("caption") as string | null;
-  const displayOrder = parseInt(formData.get("displayOrder") as string) || 0;
 
   if (file && file.size > 0) {
     const arrayBuffer = await file.arrayBuffer();
@@ -36,12 +34,16 @@ export async function addGalleryImage(formData: FormData) {
     const imageUrl = `/uploads/${encodeURIComponent(filename)}`;
 
 
+    // Calculate highest display order
+    const { data: maxOrderData } = await supabase.from('GalleryImage').select('displayOrder').order('displayOrder', { ascending: false }).limit(1).maybeSingle();
+    const displayOrder = maxOrderData ? (maxOrderData.displayOrder + 1) : 0;
+
     const now = new Date().toISOString();
     const { error } = await supabase.from('GalleryImage').insert([
       {
         id: crypto.randomUUID(),
         imageUrl,
-        caption,
+        caption: null,
         displayOrder,
         createdAt: now,
         updatedAt: now,
