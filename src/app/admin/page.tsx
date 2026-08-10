@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { Lock } from "lucide-react";
 
 export default function AdminLogin() {
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -18,13 +18,23 @@ export default function AdminLogin() {
     setError("");
 
     const supabase = createClient();
+    
+    let loginEmail = "";
+    if (username === "King-delivery") {
+      loginEmail = "admin@delv.com";
+    } else {
+      setError("Nom d'utilisateur incorrect");
+      setLoading(false);
+      return;
+    }
+
     const { error: signInError } = await supabase.auth.signInWithPassword({
-      email,
+      email: loginEmail,
       password,
     });
 
     if (signInError) {
-      setError("Email ou mot de passe incorrect");
+      setError("Nom d'utilisateur ou mot de passe incorrect");
       setLoading(false);
     } else {
       router.push("/admin/dashboard");
@@ -52,17 +62,17 @@ export default function AdminLogin() {
           )}
           <div className="shadow-sm space-y-4" dir="ltr">
             <div>
-              <label htmlFor="email-address" className="sr-only">Email</label>
+              <label htmlFor="username" className="sr-only">Nom d'utilisateur</label>
               <input
-                id="email-address"
-                name="email"
-                type="email"
-                autoComplete="email"
+                id="username"
+                name="username"
+                type="text"
+                autoComplete="username"
                 required
                 className="appearance-none relative block w-full px-3 py-2 border border-gray-300 dark:border-gray-700 placeholder-gray-500 dark:bg-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm text-left"
-                placeholder="Email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Nom d'utilisateur"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
                 dir="ltr"
               />
             </div>
