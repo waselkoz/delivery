@@ -31,9 +31,15 @@ export default async function DeliveriesPage({ searchParams }: { searchParams: P
   let cancelledQuery = supabase.from('CancelledDelivery').select('*, LandingPage(slug, title)').order('cancelledAt', { ascending: false });
 
   if (pageId) {
-    deliveriesQuery = deliveriesQuery.eq('landingPageId', pageId);
-    completedQuery = completedQuery.eq('landingPageId', pageId);
-    cancelledQuery = cancelledQuery.eq('landingPageId', pageId);
+    if (pageId === 'null') {
+      deliveriesQuery = deliveriesQuery.is('landingPageId', null);
+      completedQuery = completedQuery.is('landingPageId', null);
+      cancelledQuery = cancelledQuery.is('landingPageId', null);
+    } else {
+      deliveriesQuery = deliveriesQuery.eq('landingPageId', pageId);
+      completedQuery = completedQuery.eq('landingPageId', pageId);
+      cancelledQuery = cancelledQuery.eq('landingPageId', pageId);
+    }
   }
 
   const [
