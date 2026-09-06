@@ -39,20 +39,19 @@ export default async function Home() {
 
   return (
     <div className="min-h-screen bg-white font-sans relative">
-      <div className="flex flex-col w-full max-w-7xl mx-auto px-6 md:px-24">
+      <div className="flex flex-col w-full">
         {gallery.map((image: GalleryImage, index: number) => (
-          <div key={image.id} className="w-full relative flex justify-center bg-white">
+          <div key={image.id} className="w-full relative">
             <Image 
               src={image.imageUrl} 
               alt={image.caption || "Delivery Poster"}
               width={1920}
               height={1080}
-              sizes="(max-width: 1280px) 100vw, 1280px"
-              style={{ width: '100%', height: 'auto' }}
+              sizes="100vw"
+              style={{ width: '100%', height: 'auto', display: 'block' }}
               priority={index === 0}
               fetchPriority={index === 0 ? 'high' : 'auto'}
               quality={90}
-              className="block" 
             />
             {image.caption && (
               <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/80 to-transparent p-6 md:p-12" dir="rtl">
@@ -70,7 +69,7 @@ export default async function Home() {
               توصيل سريع وموثوق
             </h2>
             <p className="text-lg text-gray-600">
-              املأ النموذج أدناه وسنقوم بتوصيل طلبك في أسرع وقت.
+              املأ النموذج أدناه وسنتصل بك في أسرع وقت.
             </p>
           </div>
           <div className="animate-fade-in-up">
