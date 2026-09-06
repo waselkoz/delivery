@@ -5,6 +5,41 @@ import { submitDeliveryRequest } from "./actions";
 import { Send, CheckCircle, ShieldCheck, Truck } from "lucide-react";
 import toast from "react-hot-toast";
 
+const WILAYA_COMMUNES: Record<string, string[]> = {
+  "الجزائر (Alger)": [
+    "الجزائر الوسطى", "سيدي امحمد", "الحامة", "بلوزداد", "المدنية",
+    "باب الوادي", "القبة", "الأبيار", "حيدرة", "بن عكنون",
+    "دالي إبراهيم", "شراقة", "أولاد فايت", "بوزريعة", "بني مسوس",
+    "حسين داي", "الحراش", "باب الزوار", "المحمدية", "برج الكيفان",
+    "الدار البيضاء", "رويبة", "رغاية", "سيدي موسى", "وادي السمار",
+    "براقي", "بئر مراد رايس", "بئر خادم", "الدويرة", "العاشور",
+    "زرالدة", "سطاوالي", "عين البنيان", "برج البحري", "المرسى",
+    "حمامات الدلعة", "القليعة"
+  ],
+  "البليدة (Blida)": [
+    "البليدة", "بوفاريك", "الأرباع", "مفتاح", "بوقرة",
+    "شريعة", "موزاية", "القليعة", "أولاد يعيش", "واد العلايق",
+    "بني تامو", "الصومعة", "بن خليل", "سوهان", "حمام ملوان",
+    "مزارية", "بوعرفة", "الشفة", "أولاد سلامة", "عين الرمانة",
+    "بشار بن ناصر", "بئر بن عبيد", "أولاد الأبطال", "الشريعة", "دراق النور"
+  ],
+  "بومرداس (Boumerdas)": [
+    "بومرداس", "برج منايل", "خميس الخشنة", "ثنية الحد", "دلس",
+    "لقاطة", "إسحاول", "أفير", "تيمزريت", "زموري البحري",
+    "قورصو", "يسر", "الناصرية", "حمادي", "أرباتاش",
+    "سي مصطفى", "بودواو", "عمروش", "أمال", "بن شود",
+    "زموري", "أوليد عبد الله", "تيجلابين", "القدارة"
+  ],
+  "تيبازة (Tipaza)": [
+    "تيبازة", "خميستي", "حجوط", "بوهارون", "بواسماعيل",
+    "حطاطبة", "سيدي راشد", "سيدي سميان", "أحمر العين", "القيطنة",
+    "شرشل", "العقيبة", "مرواح", "منصورية", "سيدي غيلاس",
+    "ساحل أبيض", "حمام ريغة", "فوكة", "ضواية", "قوراية",
+    "أولاد ميمون", "بوركيكة", "قوالة", "مسغونة", "عين تاقبالت",
+    "دواودة", "سيدي عمر", "الأصنام"
+  ],
+};
+
 export type CustomField = {
   id: string;
   type: "text" | "textarea" | "select";
@@ -32,6 +67,7 @@ export default function DeliveryRequestForm({ page }: { page?: LandingPage }) {
   const formRef = useRef<HTMLFormElement>(null);
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [selectedWilaya, setSelectedWilaya] = useState("");
   const isSubmitting = useRef(false);
 
   async function handleAction(e: React.FormEvent<HTMLFormElement>) {
@@ -45,6 +81,7 @@ export default function DeliveryRequestForm({ page }: { page?: LandingPage }) {
       const result = await submitDeliveryRequest(formData);
       if (result.success) {
         setSuccess(true);
+        setSelectedWilaya("");
         formRef.current?.reset();
         setTimeout(() => setSuccess(false), 5000);
       } else {
@@ -121,7 +158,8 @@ export default function DeliveryRequestForm({ page }: { page?: LandingPage }) {
                   required 
                   name="wilaya" 
                   id="wilaya" 
-                  defaultValue=""
+                  value={selectedWilaya}
+                  onChange={(e) => setSelectedWilaya(e.target.value)}
                   className="block w-full bg-white border border-gray-300 rounded-md focus:bg-white transition-all duration-300 px-4 py-3 shadow-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent appearance-none text-right" 
                   dir="rtl"
                 >
@@ -132,6 +170,25 @@ export default function DeliveryRequestForm({ page }: { page?: LandingPage }) {
                   <option value="تيبازة (Tipaza)">تيبازة (Tipaza)</option>
                 </select>
               </div>
+
+              {selectedWilaya && (
+                <div className="group/input animate-fade-in-up">
+                  <select
+                    required
+                    name="address"
+                    id="address"
+                    defaultValue=""
+                    key={selectedWilaya}
+                    className="block w-full bg-white border border-gray-300 rounded-md focus:bg-white transition-all duration-300 px-4 py-3 shadow-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent appearance-none text-right"
+                    dir="rtl"
+                  >
+                    <option value="" disabled>البلدية (اختر بلديتك)</option>
+                    {WILAYA_COMMUNES[selectedWilaya]?.map((commune) => (
+                      <option key={commune} value={commune}>{commune}</option>
+                    ))}
+                  </select>
+                </div>
+              )}
               {page?.formConfig?.customFields?.map((field) => (
                 <div key={field.id} className="group/input relative">
                   {field.type === "textarea" ? (
